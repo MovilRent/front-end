@@ -3,32 +3,48 @@
     {
       "id": 1,
       "name": "ronaldo",
-      "last-name": "leon huanquiri",
+      "lastname": "leon huanquiri",
       "age": 20,
+      "email": "jack@gmail.com",
+      "workplace": "Hospital del niño",
+      "recommendation": 5,
       "password": "123",
+      "specialist": "Oftalmólogo",
       "biography": "Los templos egipcios fueron construidos para el culto oficial de los dioses y la conmemoración"
     },
     {
       "id": 2,
       "name": "jack",
-      "last-name": "quispe mamani",
+      "lastname": "quispe mamani",
       "age": 21,
+      "email": "jack@gmail.com",
+      "specialist": "Oftalmólogo",
+      "recommendation": 5,
+      "workplace": "Hospital del niño",
       "password": "123",
       "biography": "Los templos egipcios fueron construidos para el culto oficial de los dioses y la conmemoración"
     },
     {
       "id": 3,
       "name": "pedro",
-      "last-name": "ronaldinho santos",
+      "lastname": "ronaldinho santos",
       "age": 10,
+      "email": "jack@gmail.com",
+      "specialist": "Oftalmólogo",
+      "recommendation": 5,
+      "workplace": "Hospital del niño",
       "password": "123",
       "biography": "Los templos egipcios fueron construidos para el culto oficial de los dioses y la conmemoración"
     },
     {
       "id": 4,
       "name": "jhony",
-      "last-name": "casillas quispe ",
+      "lastname": "casillas quispe ",
       "age": 24,
+      "email": "jack@gmail.com",
+      "workplace": "Hospital del niño",
+      "recommendation": 5,
+      "specialist": "Oftalmólogo",
       "password": "123",
       "biography": "Los templos egipcios fueron construidos para el culto oficial de los dioses y la conmemoración"
     }
@@ -67,6 +83,7 @@
     {
       "id": 1,
       "userId": 1,
+      "rating": 3.6,
       "title": "Premio Grammy al mejor álbum de pop vocal tradicional",
       "content": "El premio Grammy al mejor álbum de pop vocal tradicional es un galardón otorgado a los artistas en el contexto de los premios Grammy, una ceremonia establecida en 1958 y llamada originalmente los premios Gramophone. Los reconocimientos en cada categoría son entregados en una ceremonia anual por The Recording Academy de los Estados Unidos con la intención de «distinguir los logros artísticos, la pericia técnica y la excelencia en general en la industria de la grabación, sin tener en cuenta la cantidad de ventas del álbum o su posición en las listas».",
       "date": "05-11-21"
@@ -74,6 +91,7 @@
     {
       "id": 2,
       "userId": 2,
+      "rating": 4.5,
       "title": "Medico álbum de pop vocal tradicional",
       "content": "El premio Grammy al mejor álbum de pop vocal tradicional es un galardón otorgado a los artistas en el contexto de los premios Grammy, una ceremonia establecida en 1958 y llamada originalmente los premios Gramophone. Los reconocimientos en cada categoría son entregados en una ceremonia anual por The Recording Academy de los Estados Unidos con la intención de «distinguir los logros artísticos, la pericia técnica y la excelencia en general en la industria de la grabación, sin tener en cuenta la cantidad de ventas del álbum o su posición en las listas».",
       "date": "05-12-21"
