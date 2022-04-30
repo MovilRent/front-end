@@ -1,12 +1,381 @@
 <template>
   <div>
-    <h1>ENTRANCES</h1>
+    <div class="card">
+      <pv-toolbar class="mb-4">
+        <template #start>
+          <pv-button
+            label="New"
+            icon="pi pi-plus"
+            class="p-button-success mr-2"
+            @click="openNew"
+          />
+          <pv-button
+            label="Delete"
+            icon="pi pi-trash"
+            class="p-button-danger"
+            @click="confirmDeleteSelected"
+            :disabled="!selectedForums || !selectedForums.length"
+          />
+        </template>
+        <template #end>
+          <pv-button
+            label="Export"
+            icon="pi pi-upload"
+            class="p-button-help"
+            @click="exportToCSV($event)"
+          />
+        </template>
+      </pv-toolbar>
+      <pv-data-table
+        ref="dt"
+        :value="forums"
+        v-model:selection="selectedForums"
+        dataKey="id"
+        :paginator="true"
+        :rows="10"
+        :filters="filters"
+        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+        :rowsPerPageOptions="[5, 10, 15]"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} tutorials"
+        responsiveLayout="scroll"
+      >
+        <template #header>
+          <div
+            class="table-header flex flex-column md:flex-row md:justify-content-between"
+          >
+            <h5 class="mb-2 md:m-0 p-as-md-center text-xl">Manage Forums</h5>
+            <span class="p-input-icon-left"
+              ><i class="pi pi-search" /><pv-input-text
+                v-model="filters['global'].value"
+                placeholder="Search..."
+              />
+            </span>
+          </div>
+        </template>
+        <pv-column
+          selectionMode="multiple"
+          style="width: 3rem"
+          :exportable="false"
+        ></pv-column>
+        <pv-column
+          field="id"
+          header="Id"
+          :sortable="true"
+          style="min-width: 12rem"
+        ></pv-column>
+        <pv-column
+          field="title"
+          header="Title"
+          :sortable="true"
+          style="min-width: 16rem"
+        ></pv-column>
+        <pv-column
+          field="content"
+          header="Content"
+          :sortable="true"
+          style="min-width: 16rem"
+        ></pv-column>
+        <pv-column
+          field="status"
+          header="Status"
+          :sortable="true"
+          style="min-width: 12rem"
+        >
+          <template #body="slotProps">
+            <pv-tag
+              v-if="slotProps.data.status === 'Published'"
+              severity="success"
+              >{{ slotProps.data.status }}</pv-tag
+            >
+            <pv-tag v-else severity="info">{{ slotProps.data.status }}</pv-tag>
+          </template>
+        </pv-column>
+        <pv-column :exportable="false" style="min-width: 8rem">
+          <template #body="slotProps">
+            <pv-button
+              icon="pi pi-pencil"
+              class="p-button-text p-button-rounded"
+              @click="editForum(slotProps.data)"
+            />
+            <pv-button
+              icon="pi pi-trash"
+              class="p-button-text p-button-rounded"
+              @click="confirmDeleteForum(slotProps.data)"
+            />
+          </template>
+        </pv-column>
+      </pv-data-table>
+    </div>
+    <pv-dialog
+      v-model:visible="forumDialog"
+      :style="{ width: '450px' }"
+      header="Forum Information"
+      :modal="true"
+      class="p-fluid"
+    >
+      <div class="field">
+        <span class="p-float-label">
+          <pv-input-text
+            type="text"
+            id="title"
+            v-model.trim="forum.title"
+            required="true"
+            autofocus
+            :class="{ 'p-invalid': submitted && !forum.title }"
+          />
+          <label for="title">Title</label>
+          <small class="p-error" v-if="submitted && !forum.title"
+            >Title is required.</small
+          >
+        </span>
+      </div>
+      <div class="field">
+        <span class="p-float-label">
+          <pv-textarea
+            id="content"
+            v-model="forum.content"
+            required="false"
+            rows="2"
+            cols="2"
+          />
+          <label for="content">Content</label>
+        </span>
+      </div>
+      <div class="field">
+        <pv-dropdown
+          id="published"
+          v-model="forum.status"
+          :options="statuses"
+          optionLabel="label"
+          placeholder="Select an Status"
+        >
+          <template #value="slotProps">
+            <div v-if="slotProps.value && slotProps.value.value">
+              <span>{{ slotProps.value.label }}</span>
+            </div>
+            <div v-else-if="slotProps.value && !slotProps.value.value">
+              <span>{{ slotProps.value }}</span>
+            </div>
+            <span v-else>{{ slotProps.placeholder }}</span>
+          </template>
+        </pv-dropdown>
+      </div>
+      <template #footer>
+        <pv-button
+          label="Cancel"
+          icon="pi pi-times"
+          class="p-button-text"
+          @click="hideDialog"
+        />
+        <pv-button
+          label="Save"
+          icon="pi pi-check"
+          class="p-button-text"
+          @click="saveForum"
+        />
+      </template>
+    </pv-dialog>
+    <pv-dialog
+      v-model:visible="deleteForumDialog"
+      :style="{ width: '450px' }"
+      header="Confirm"
+      :modal="true"
+    >
+      <div class="confirmation-content">
+        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
+        <span v-if="forum"
+          >Are you sure you want to delete <b>{{ forum.title }}</b></span
+        >
+      </div>
+      <template #footer>
+        <pv-button
+          label="No"
+          icon="pi pi-times"
+          class="p-button-text"
+          @click="deleteForumDialog = false"
+        />
+        <pv-button
+          label="Yes"
+          icon="pi pi-check"
+          class="p-button-text"
+          @click="deleteForum"
+        />
+      </template>
+    </pv-dialog>
+    <pv-dialog
+      v-model:visible="deleteForumsDialog"
+      :style="{ width: '450px' }"
+      header="Confirm"
+      :modal="true"
+    >
+      <div class="confirmation-content">
+        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
+        <span v-if="selectedForums"
+          >Are you sure you want to delete the selected tutorials?</span
+        >
+      </div>
+      <template #footer>
+        <pv-button
+          label="No"
+          icon="pi pi-times"
+          class="p-button-text"
+          @click="deleteForumsDialog = false"
+        />
+        <pv-button
+          label="Yes"
+          icon="pi pi-check"
+          class="p-button-text"
+          @click="deleteSelectedForums"
+        />
+      </template>
+    </pv-dialog>
   </div>
 </template>
 
 <script>
+import { FilterMatchMode } from "primevue/api";
+import { ForumApiService } from "../../services/forum.service";
 export default {
   name: "entrances-new.component",
+  data() {
+    return {
+      forums: [],
+      forumDialog: false,
+      deleteForumsDialog: false,
+      deleteForumDialog: false,
+      forum: {},
+      selectedForums: null,
+      filters: {},
+      submitted: false,
+      statuses: [
+        { label: "Published", value: "published" },
+        { label: "Unpublished", value: "unpublished" },
+      ],
+      forumsService: null,
+    };
+  },
+  created() {
+    this.forumsService = new ForumApiService();
+    this.forumsService.getAll().then((response) => {
+      this.forums = response.data;
+      this.forums.forEach((forum) =>
+        this.getDisplayableForum(forum)
+      );
+      console.log(this.forums);
+    });
+    this.initFilters();
+  },
+  methods: {
+    getDisplayableForum(forum) {
+      forum.status = forum.published
+        ? this.statuses[0].label
+        : this.statuses[1].label;
+      return forum;
+    },
+    getStorableForum(displayableForum) {
+      return {
+        id: displayableForum.id,
+        title: displayableForum.title,
+        description: displayableForum.description,
+        published: displayableForum.status.label === "Published",
+      };
+    },
+    initFilters() {
+      this.filters = {
+        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+      };
+    },
+    findIndexById(id) {
+      return this.forums.findIndex((forum) => forum.id === id);
+    },
+    openNew() {
+      this.forum = {};
+      this.submitted = false;
+      this.forumDialog = true;
+    },
+    hideDialog() {
+      this.forumDialog = false;
+      this.submitted = false;
+    },
+    saveForum() {
+      this.submitted = true;
+      if (this.forum.title.trim()) {
+        if (this.forum.id) {
+          this.forum = this.getStorableForum(this.forum);
+          this.forumsService
+            .update(this.forum.id, this.forum)
+            .then((response) => {
+              this.forums[this.findIndexById(response.data.id)] =
+                this.getDisplayableForum(response.data);
+              this.$toast.add({
+                severity: "success",
+                summary: "Successful",
+                detail: "Tutorial Updated",
+                life: 3000,
+              });
+              console.log(response);
+            });
+        } else {
+          this.forum.id = 0;
+          this.forum = this.getStorableForum(this.forum);
+          this.forumsService.create(this.forum).then((response) => {
+            this.forum = this.getDisplayableForum(response.data);
+            this.forums.push(this.forum);
+            this.$toast.add({
+              severity: "success",
+              summary: "Successful",
+              detail: "Tutorial Created",
+              life: 3000,
+            });
+            console.log(response);
+          });
+        }
+      }
+      this.forumDialog = false;
+      this.forum = {};
+    },
+    editForum(forum) {
+      this.forum = { ...forum };
+      this.forumDialog = true;
+    },
+    confirmDeleteForum(forum) {
+      this.forum = forum;
+      this.deleteForumDialog = true;
+    },
+    deleteForum() {
+      this.forumsService.delete(this.forum.id).then((response) => {
+        this.forums = this.forums.filter(
+          (t) => t.id !== this.forum.id
+        );
+        this.deleteForumDialog = false;
+        this.forum = {};
+        this.$toast.add({
+          severity: "success",
+          summary: "Successful",
+          detail: "Tutorial Deleted",
+          life: 3000,
+        });
+        console.log(response);
+      });
+    },
+    exportToCSV() {
+      this.$refs.dt.exportCSV();
+    },
+    confirmDeleteSelected() {
+      this.deleteForumsDialog = true;
+    },
+    deleteSelectedForums() {
+      this.selectedForums.forEach((forum) => {
+        this.forumsService.delete(forum.id).then((response) => {
+          this.forums = this.forums.filter(
+            (t) => t.id !== this.forum.id
+          );
+          console.log(response);
+        });
+      });
+      this.deleteForumsDialog = false;
+    },
+  },
 };
 </script>
 
