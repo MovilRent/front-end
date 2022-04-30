@@ -25,7 +25,7 @@ export default {
           icon="pi pi-bars"
           @click="drawer = !drawer"
         ></pv-button>
-        <h3>ACME Learning Center</h3>
+        <h3>SocialMed</h3>
       </template>
       <template #end>
         <div class="flex-column">
