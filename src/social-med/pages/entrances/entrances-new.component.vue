@@ -108,8 +108,8 @@
     </div>
     <pv-dialog
       v-model:visible="forumDialog"
-      :style="{ width: '450px' }"
-      header="Forum Information"
+      :style="{ width: '600px' }"
+      header="Nuevo Foro"
       :modal="true"
       class="p-fluid"
     >
@@ -123,7 +123,7 @@
             autofocus
             :class="{ 'p-invalid': submitted && !forum.title }"
           />
-          <label for="title">Title</label>
+          <label for="title">Ingrese el Título</label>
           <small class="p-error" v-if="submitted && !forum.title"
             >Title is required.</small
           >
@@ -138,7 +138,7 @@
             rows="2"
             cols="2"
           />
-          <label for="content">Content</label>
+          <label for="content">Contenido</label>
         </span>
       </div>
       <div class="field">
@@ -147,7 +147,7 @@
           v-model="forum.status"
           :options="statuses"
           optionLabel="label"
-          placeholder="Select an Status"
+          placeholder="Seleccione estado"
         >
           <template #value="slotProps">
             <div v-if="slotProps.value && slotProps.value.value">
