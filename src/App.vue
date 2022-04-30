@@ -16,7 +16,7 @@ export default {
 </script>
 
 <template>
-  <pv-toast></pv-toast>
+  <pv-toast>t</pv-toast>
   <header>
     <pv-toolbar class="bg-primary">
       <template #start>
