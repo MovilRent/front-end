@@ -17,8 +17,7 @@
             :disabled="!selectedForums || !selectedForums.length"
           />
         </template>
-        <template #end>
-        </template>
+        <template #end> </template>
       </pv-toolbar>
       <pv-data-table
         ref="dt"
@@ -69,21 +68,6 @@
           :sortable="true"
           style="min-width: 16rem"
         ></pv-column>
-        <pv-column
-          field="status"
-          header="Status"
-          :sortable="true"
-          style="min-width: 8rem"
-        >
-          <template #body="slotProps">
-            <pv-tag
-              v-if="slotProps.data.status === 'Published'"
-              severity="success"
-              >{{ slotProps.data.status }}</pv-tag
-            >
-            <pv-tag v-else severity="info">{{ slotProps.data.status }}</pv-tag>
-          </template>
-        </pv-column>
         <pv-column :exportable="false" style="min-width: 5rem">
           <template #body="slotProps">
             <pv-button
@@ -241,10 +225,6 @@ export default {
       selectedForums: null,
       filters: {},
       submitted: false,
-      statuses: [
-        { label: "Published", value: "published" },
-        { label: "Unpublished", value: "unpublished" },
-      ],
       forumsService: null,
     };
   },
@@ -252,24 +232,16 @@ export default {
     this.forumsService = new ForumApiService();
     this.forumsService.getAll().then((response) => {
       this.forums = response.data;
-      this.forums.forEach((forum) => this.getDisplayableForum(forum));
       console.log(this.forums);
     });
     this.initFilters();
   },
   methods: {
-    getDisplayableForum(forum) {
-      forum.status = forum.published
-        ? this.statuses[0].label
-        : this.statuses[1].label;
-      return forum;
-    },
     getStorableForum(displayableForum) {
       return {
         id: displayableForum.id,
         title: displayableForum.title,
         content: displayableForum.content,
-        published: displayableForum.status.label === "Published",
         date: (displayableForum.date = "02-12-2020"),
         userId: (displayableForum.userId = 1),
       };
@@ -290,6 +262,9 @@ export default {
     hideDialog() {
       this.forumDialog = false;
       this.submitted = false;
+    },
+    getDisplayableForum(forum) {
+      return forum;
     },
     saveForum() {
       this.submitted = true;
