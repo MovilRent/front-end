@@ -1,10 +1,11 @@
 <template>
   <div>
-    <h1>LOG IN</h1>
+    <h1>hola</h1>
   </div>
 </template>
 
 <script>
+
 export default {
   name: "log-in.component",
 };

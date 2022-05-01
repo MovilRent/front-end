@@ -18,12 +18,6 @@
           />
         </template>
         <template #end>
-          <pv-button
-            label="Export"
-            icon="pi pi-upload"
-            class="p-button-help"
-            @click="exportToCSV($event)"
-          />
         </template>
       </pv-toolbar>
       <pv-data-table
@@ -61,13 +55,13 @@
           field="id"
           header="Id"
           :sortable="true"
-          style="min-width: 12rem"
+          style="min-width: 5rem"
         ></pv-column>
         <pv-column
           field="title"
           header="Title"
           :sortable="true"
-          style="min-width: 16rem"
+          style="min-width: 12rem"
         ></pv-column>
         <pv-column
           field="content"
@@ -79,7 +73,7 @@
           field="status"
           header="Status"
           :sortable="true"
-          style="min-width: 12rem"
+          style="min-width: 8rem"
         >
           <template #body="slotProps">
             <pv-tag
@@ -90,7 +84,7 @@
             <pv-tag v-else severity="info">{{ slotProps.data.status }}</pv-tag>
           </template>
         </pv-column>
-        <pv-column :exportable="false" style="min-width: 8rem">
+        <pv-column :exportable="false" style="min-width: 5rem">
           <template #body="slotProps">
             <pv-button
               icon="pi pi-pencil"
@@ -258,9 +252,7 @@ export default {
     this.forumsService = new ForumApiService();
     this.forumsService.getAll().then((response) => {
       this.forums = response.data;
-      this.forums.forEach((forum) =>
-        this.getDisplayableForum(forum)
-      );
+      this.forums.forEach((forum) => this.getDisplayableForum(forum));
       console.log(this.forums);
     });
     this.initFilters();
@@ -276,8 +268,10 @@ export default {
       return {
         id: displayableForum.id,
         title: displayableForum.title,
-        description: displayableForum.description,
+        content: displayableForum.content,
         published: displayableForum.status.label === "Published",
+        date: (displayableForum.date = "02-12-2020"),
+        userId: (displayableForum.userId = 1),
       };
     },
     initFilters() {
@@ -344,9 +338,7 @@ export default {
     },
     deleteForum() {
       this.forumsService.delete(this.forum.id).then((response) => {
-        this.forums = this.forums.filter(
-          (t) => t.id !== this.forum.id
-        );
+        this.forums = this.forums.filter((t) => t.id !== this.forum.id);
         this.deleteForumDialog = false;
         this.forum = {};
         this.$toast.add({
@@ -358,18 +350,13 @@ export default {
         console.log(response);
       });
     },
-    exportToCSV() {
-      this.$refs.dt.exportCSV();
-    },
     confirmDeleteSelected() {
       this.deleteForumsDialog = true;
     },
     deleteSelectedForums() {
       this.selectedForums.forEach((forum) => {
         this.forumsService.delete(forum.id).then((response) => {
-          this.forums = this.forums.filter(
-            (t) => t.id !== this.forum.id
-          );
+          this.forums = this.forums.filter((t) => t.id !== this.forum.id);
           console.log(response);
         });
       });
