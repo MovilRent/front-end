@@ -23,6 +23,8 @@ import Textarea from "primevue/textarea";
 import Divider from "primevue/divider";
 import Card from "primevue/card";
 import Rating from "primevue/rating";
+import Image from "primevue/image";
+import Carousel from "primevue/carousel";
 
 const app = createApp(App);
 
@@ -44,5 +46,7 @@ app.component("pv-textarea", Textarea);
 app.component("pv-divider", Divider);
 app.component("pv-card", Card)
 app.component("pv-rating", Rating);
+app.component("pv-image", Image);
+app.component("pv-carousel", Carousel)
 
 app.mount("#app");

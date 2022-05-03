@@ -15,8 +15,8 @@
       </template>
     </pv-column>
     <pv-column>
-      <template #body="slotprops">
-        <pv-button label="Ir" class="p-button-outlined" @click="goEntry(slotprops.data)"></pv-button>
+      <template #body="slotProps">
+        <pv-button label="Ir" class="p-button-outlined" @click="goEntry(slotProps.data)"></pv-button>
       </template>
 
     </pv-column>
@@ -26,24 +26,23 @@
   </pv-card>
 
   <pv-card class="card">
-  <template #title>
-    Recomended doctors for you
-  </template>
+    <template #title>
+      Recomended doctors for you
+    </template>
     <template #content>
-  <pv-data-table :value="users" responsiveLayout="stack">
-
-    <pv-column field="fullname" header="Name" style="text-align: center;"></pv-column>
-    <pv-column field="specialist" header="Specialist" style="text-align: center;"></pv-column>
-    <pv-column field="workplace" header="Work place" style="text-align: center;"></pv-column>
-    <pv-column field="recommendation" header="Recommendations" style="text-align: center;"></pv-column>
-    <pv-column>
-      <template #body="slotprops">
-        <pv-button label="Ver perfil" class="p-button-outlined" @click="goEntry(slotprops.data)"></pv-button>
-      </template>
-
-    </pv-column>
-  </pv-data-table>
-  </template>
+      <pv-carousel :value="users" :numVisible="3" :numScroll="1" :responsiveOptions="responsiveOptions" class="custom-carousel" :circular="true" :autoplayInterval="5000">
+        <template #item="slotProps">
+          <div class="doctor-profile">
+              <img :src="'../media/' + slotProps.data.image" class="doctor-image"/>
+              <h3 class="doctor-name">{{ slotProps.data.fullname }}</h3>
+              <h4>{{ slotProps.data.specialist}}</h4>
+              <h5 class="doctor-description">{{ slotProps.data.recommendation}} Recommendations</h5>
+              <h5 class="doctor-description">{{ slotProps.data.workplace}}</h5>
+              <pv-button label="View profile" class="p-button-outlined" @click="goEntry(slotprops.data)"></pv-button>
+          </div>
+        </template>
+      </pv-carousel>
+    </template>
   </pv-card>
 
 </template>
@@ -85,12 +84,40 @@ export default {
 
 };
 </script>
+
 <style>
  .card{
    margin-top: 1.5rem;
  }
 
- .column{
+ .doctor-profile {
+   border: 1px solid var(--surface-border);
+   border-color: blue;
+   border-radius: 3px;
+   margin: .3rem;
    text-align: center;
+   padding: 2rem 0;
+ }
+
+ .doctor-image{
+   width:7rem;
+   height: 7rem;
+   border-radius: 50%;
+   border: solid 1px #000000
+ }
+
+ .doctor-name{
+   font-family: Roboto, sans-serif;
+   font-size: 1.25rem;
+ }
+
+ .doctor-description{
+   font-weight: lighter;
+   margin: 2px;
+ }
+
+ .p-button-outlined{
+   margin-top: 1.5rem;
  }
 </style>
+
