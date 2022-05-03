@@ -68,7 +68,18 @@
           :sortable="true"
           style="min-width: 16rem"
         ></pv-column>
-        <pv-column :exportable="false" style="min-width: 5rem">
+        <pv-column
+          field="date"
+          header="Date"
+          :sortable="true"
+          style="min-width: 16rem"
+        ></pv-column>
+        <pv-column field="rating" header="Rating" style="width: 12rem">
+          <template #body="slotProps">
+            <pv-rating v-model="val" :model-value="slotProps.data.rating" :cancel="false" :readonly="true"/>
+          </template>
+        </pv-column>
+        <pv-column :exportable="false" header="Actions" style="min-width: 5rem">
           <template #body="slotProps">
             <pv-button
               icon="pi pi-pencil"
@@ -118,25 +129,6 @@
           />
           <label for="content">Contenido</label>
         </span>
-      </div>
-      <div class="field">
-        <pv-dropdown
-          id="published"
-          v-model="forum.status"
-          :options="statuses"
-          optionLabel="label"
-          placeholder="Seleccione estado"
-        >
-          <template #value="slotProps">
-            <div v-if="slotProps.value && slotProps.value.value">
-              <span>{{ slotProps.value.label }}</span>
-            </div>
-            <div v-else-if="slotProps.value && !slotProps.value.value">
-              <span>{{ slotProps.value }}</span>
-            </div>
-            <span v-else>{{ slotProps.placeholder }}</span>
-          </template>
-        </pv-dropdown>
       </div>
       <template #footer>
         <pv-button
@@ -244,6 +236,7 @@ export default {
         content: displayableForum.content,
         date: (displayableForum.date = "02-12-2020"),
         userId: (displayableForum.userId = 1),
+        rating: (displayableForum.rating = 0),
       };
     },
     initFilters() {
