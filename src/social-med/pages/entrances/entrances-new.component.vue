@@ -74,7 +74,7 @@
           :sortable="true"
           style="min-width: 16rem"
         ></pv-column>
-        <pv-column field="rating" header="Rating" style="width: 12rem">
+        <pv-column field="rating" header="Rating" :sortable="true" style="width: 12rem">
           <template #body="slotProps">
             <pv-rating v-model="val" :model-value="slotProps.data.rating" :cancel="false" :readonly="true"/>
           </template>
