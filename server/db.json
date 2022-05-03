@@ -3,7 +3,7 @@
     {
       "id": 1,
       "name": "ronaldo",
-      "last-name": "leon huanquiri",
+      "lastname": "leon huanquiri",
       "age": 20,
       "password": "123",
       "biography": "Los templos egipcios fueron construidos para el culto oficial de los dioses y la conmemoración"
@@ -11,7 +11,7 @@
     {
       "id": 2,
       "name": "jack",
-      "last-name": "quispe mamani",
+      "lastname": "quispe mamani",
       "age": 21,
       "password": "123",
       "biography": "Los templos egipcios fueron construidos para el culto oficial de los dioses y la conmemoración"
@@ -19,7 +19,7 @@
     {
       "id": 3,
       "name": "pedro",
-      "last-name": "ronaldinho santos",
+      "lastname": "ronaldinho santos",
       "age": 10,
       "password": "123",
       "biography": "Los templos egipcios fueron construidos para el culto oficial de los dioses y la conmemoración"
@@ -27,7 +27,7 @@
     {
       "id": 4,
       "name": "jhony",
-      "last-name": "casillas quispe ",
+      "lastname": "casillas quispe ",
       "age": 24,
       "password": "123",
       "biography": "Los templos egipcios fueron construidos para el culto oficial de los dioses y la conmemoración"
