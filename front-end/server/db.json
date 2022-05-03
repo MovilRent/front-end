@@ -1,0 +1,84 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "ronaldo",
+      "last-name": "leon huanquiri",
+      "age": 20,
+      "password": "123",
+      "biography": "Los templos egipcios fueron construidos para el culto oficial de los dioses y la conmemoración"
+    },
+    {
+      "id": 2,
+      "name": "jack",
+      "last-name": "quispe mamani",
+      "age": 21,
+      "password": "123",
+      "biography": "Los templos egipcios fueron construidos para el culto oficial de los dioses y la conmemoración"
+    },
+    {
+      "id": 3,
+      "name": "pedro",
+      "last-name": "ronaldinho santos",
+      "age": 10,
+      "password": "123",
+      "biography": "Los templos egipcios fueron construidos para el culto oficial de los dioses y la conmemoración"
+    },
+    {
+      "id": 4,
+      "name": "jhony",
+      "last-name": "casillas quispe ",
+      "age": 24,
+      "password": "123",
+      "biography": "Los templos egipcios fueron construidos para el culto oficial de los dioses y la conmemoración"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "forumId": 1,
+      "userId": 1,
+      "content": "El cuidado del hogar de los dioses era obligación de los faraones, que dedicaron ingentes cantidades de recursos para la construcción y el mantenimiento de los templos.",
+      "date": "05-11-21"
+    },
+    {
+      "id": 2,
+      "forumId": 1,
+      "userId": 2,
+      "content": "El cuidado del hogar de los dioses era obligación de los faraones, que dedicaron ingentes cantidades de recursos para la construcción y el mantenimiento de los templos.",
+      "date": "05-11-21"
+    },
+    {
+      "id": 3,
+      "forumId": 1,
+      "userId": 2,
+      "content": "El cuidado del hogar de los dioses era obligación de los faraones, que dedicaron ingentes cantidades de recursos para la construcción y el mantenimiento de los templos.",
+      "date": "05-11-21"
+    },
+    {
+      "id": 4,
+      "forumId": 1,
+      "userId": 4,
+      "content": "El cuidado del hogar de los dioses era obligación de los faraones, que dedicaron ingentes cantidades de recursos para la construcción y el mantenimiento de los templos.",
+      "date": "05-11-21"
+    }
+  ],
+  "forums": [
+    {
+      "id": 1,
+      "userId": 1,
+      "title": "Premio Grammy al mejor álbum de pop vocal tradicional",
+      "content": "El premio Grammy al mejor álbum de pop vocal tradicional es un galardón otorgado a los artistas en el contexto de los premios Grammy, una ceremonia establecida en 1958 y llamada originalmente los premios Gramophone. Los reconocimientos en cada categoría son entregados en una ceremonia anual por The Recording Academy de los Estados Unidos con la intención de «distinguir los logros artísticos, la pericia técnica y la excelencia en general en la industria de la grabación, sin tener en cuenta la cantidad de ventas del álbum o su posición en las listas».",
+      "date": "05-11-21"
+    },
+    {
+      "id": 2,
+      "userId": 2,
+      "title": "Medico álbum de pop vocal tradicional",
+      "content": "El premio Grammy al mejor álbum de pop vocal tradicional es un galardón otorgado a los artistas en el contexto de los premios Grammy, una ceremonia establecida en 1958 y llamada originalmente los premios Gramophone. Los reconocimientos en cada categoría son entregados en una ceremonia anual por The Recording Academy de los Estados Unidos con la intención de «distinguir los logros artísticos, la pericia técnica y la excelencia en general en la industria de la grabación, sin tener en cuenta la cantidad de ventas del álbum o su posición en las listas».",
+      "date": "05-12-21"
+    }
+  ]
+
+
+}
