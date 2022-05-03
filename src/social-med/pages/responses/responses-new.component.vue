@@ -58,10 +58,7 @@
 </template>
 
 <script>
-import { FilterMatchMode } from "primevue/api";
-import { ForumApiService } from "../../services/forum.service";
 import { CommentApiService } from "../../services/comment.service";
-import { UserApiService } from "../../services/user.service";
 export default {
   name: "responses-new.component",
   data() {
