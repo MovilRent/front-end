@@ -1,17 +1,10 @@
 <template>
-  <div>
+  <pv-card class="card">
+    <template #content>
     <h1>{{ title }}</h1>
     <p>Por: {{ author }}</p>
     <p>{{ description }}</p>
-    <p>
-      {{ promVal }}
-      <i class="pi pi-star-fill"></i>
-    </p>
-    <p>Puntúa esta entrada</p>
     <pv-rating v-model="val" :cancel="false" :disabled="isValDisabled" />
-    <pv-button
-      class="p-button-rounded p-button-raised p-button-info"
-      label="Calificar" @click="submitValoration()"/>
     <pv-dialog header="Calificación a la entrada" :visible="isDialogVisible" :closable="false">
       <p>Tu calificación a la entrada es de {{val}} estrellas.</p>
       <template #footer>
@@ -24,14 +17,11 @@
     />
     <h2>Respuestas ({{ comments.length }})</h2>
     <pv-data-table :value="comments" responsiveLayout="scroll">
-      <pv-column header="Autor">
-        <template #body="{ data }">
-          <h3>{{getUserNameById(data.id)}}</h3>
-        </template>
-      </pv-column>
-      <pv-column field="content" header="Comentario"/>
+      <pv-column field="author" header="Author"></pv-column>
+      <pv-column field="content" header="Comentario" style="text-align: justify"/>
     </pv-data-table>
-  </div>
+    </template>
+  </pv-card>
 </template>
 
 <script>
@@ -50,11 +40,11 @@ export default {
         "Cada día vemos que los gobiernos dejan de usar las medidas preventivas contra la COVID-19. Sin embargo, en el Perú todavía se siguen implementando. ¿Ustedes cuándo piensan que va a terminar la pandemia del COVID-19 en el Perú?",
       promVal: 0,
       val: 0,
-      comments: [],
-      errors: [],
+      comments: {},
+      errors: {},
       isValDisabled: false,
       isDialogVisible: false,
-      users : []
+      users : {},
     };
   },
   created() {
@@ -68,27 +58,28 @@ export default {
         .getAll()
         .then((response) => {
           this.comments = response.data;
+          this.comments.forEach( (comment) => {
+            this.usersApi.getById(comment.userId).then( (response) => {
+              comment.author = response.data.name + " " + response.data.lastname;
+            });
+          })
           console.log(response.data);
         })
-        .catch((error) => {
-          this.errors.push(error);
-          console.log(error);
-        });
     },
     getUsers() {
       this.usersApi
         .getAll()
         .then((response) => {
           this.users = response.data;
-          console.log(response.data);
+          this.users.forEach( (user) => {
+            user.fullname = user.name + " " + user.lastname;
+          })
+          console.log(this.users);
         })
         .catch((error) => {
           this.errors.push(error);
           console.log(error);
         });
-    },
-    getUserNameById(id) {
-     return this.users[id-1].name + " " + this.users[id-1].lastname;
     },
     getAverageValoration(valorations) {
       let i = 0,
@@ -125,6 +116,11 @@ h3 {
   margin-left: 10px;
   margin-top: 10px;
 }
+
+.card{
+  margin-top: 2rem;
+}
+
 #answer-btn {
   margin-left: 80%;
 }

@@ -21,6 +21,7 @@ import Dropdown from "primevue/dropdown";
 import Tag from "primevue/tag";
 import Textarea from "primevue/textarea";
 import Rating from "primevue/rating";
+import Card from "primevue/card";
 
 const app = createApp(App);
 
@@ -40,5 +41,6 @@ app.component("pv-dropdown", Dropdown);
 app.component("pv-tag", Tag);
 app.component("pv-textarea", Textarea);
 app.component("pv-rating", Rating);
+app.component("pv-card", Card)
 
 app.mount("#app");
