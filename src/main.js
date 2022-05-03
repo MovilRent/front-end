@@ -49,4 +49,5 @@ app.component("pv-rating", Rating);
 app.component("pv-image", Image);
 app.component("pv-carousel", Carousel)
 
+
 app.mount("#app");
