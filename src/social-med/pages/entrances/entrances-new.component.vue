@@ -75,7 +75,7 @@
             <pv-rating v-model="val" :model-value="slotProps.data.rating" :cancel="false" :readonly="true"/>
           </template>
         </pv-column>
-        <pv-column :exportable="false" header="Actions" style="min-width: 7rem; text-align: center">
+        <pv-column :exportable="false" header="Actions" style="min-width: 8rem;">
           <template #body="slotProps">
             <pv-button
               icon="pi pi-pencil"
