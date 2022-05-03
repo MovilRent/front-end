@@ -7,7 +7,7 @@
   <pv-data-table :value="forums"  :rows=4 responsiveLayout="stack" tableStyle="border-color: blue;">
     <pv-column field="author" header="Author" headerClass="column" style="text-align: center;"></pv-column>
     <pv-column field="title" header="Title" style="text-align: center"></pv-column>
-    <pv-column field="content" header="Description" style="text-align: justify;+"></pv-column>
+    <pv-column field="content" header="Description" style="text-align: justify;"></pv-column>
     <pv-column field="date" header="Publication date" style="text-align: center"></pv-column>
     <pv-column field="rating" header="Rating" style="width: 12rem">
       <template #body="slotProps">

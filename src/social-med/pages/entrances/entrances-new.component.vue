@@ -19,6 +19,8 @@
         </template>
         <template #end> </template>
       </pv-toolbar>
+      <pv-card>
+        <template #content>
       <pv-data-table
         ref="dt"
         :value="forums"
@@ -36,7 +38,7 @@
           <div
             class="table-header flex flex-column md:flex-row md:justify-content-between"
           >
-            <h5 class="mb-2 md:m-0 p-as-md-center text-xl">Manage Forums</h5>
+            <h5 class="mb-2 md:m-0 p-as-md-center text-xl">Manage my entries</h5>
             <span class="p-input-icon-left"
               ><i class="pi pi-search" /><pv-input-text
                 v-model="filters['global'].value"
@@ -51,35 +53,29 @@
           :exportable="false"
         ></pv-column>
         <pv-column
-          field="id"
-          header="Id"
-          :sortable="true"
-          style="min-width: 5rem"
-        ></pv-column>
-        <pv-column
           field="title"
           header="Title"
           :sortable="true"
-          style="min-width: 12rem"
+          style="min-width: 6rem; text-align: justify;"
         ></pv-column>
         <pv-column
           field="content"
-          header="Content"
+          header="Description"
           :sortable="true"
-          style="min-width: 16rem"
+          style="min-width: 14rem; text-align: justify;"
         ></pv-column>
         <pv-column
           field="date"
           header="Date"
           :sortable="true"
-          style="min-width: 16rem"
+          style="width: 7rem;"
         ></pv-column>
-        <pv-column field="rating" header="Rating" :sortable="true" style="width: 12rem">
+        <pv-column field="rating" header="Rating" :sortable="true" style="width: 10rem">
           <template #body="slotProps">
             <pv-rating v-model="val" :model-value="slotProps.data.rating" :cancel="false" :readonly="true"/>
           </template>
         </pv-column>
-        <pv-column :exportable="false" header="Actions" style="min-width: 5rem">
+        <pv-column :exportable="false" header="Actions" style="min-width: 7rem; text-align: center">
           <template #body="slotProps">
             <pv-button
               icon="pi pi-pencil"
@@ -93,7 +89,14 @@
             />
           </template>
         </pv-column>
+        <pv-column :exportable="false" style="min-width: 10rem">
+          <template #body="slotProps">
+            <pv-button label="View entry" class="p-button-outlined" @click="goEntry(slotProps.data)"></pv-button>
+          </template>
+        </pv-column>
       </pv-data-table>
+        </template>
+      </pv-card>
     </div>
     <pv-dialog
       v-model:visible="forumDialog"
@@ -334,4 +337,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.card{
+  margin-top: 1.5rem;
+
+}
+
+</style>
