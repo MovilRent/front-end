@@ -9,19 +9,21 @@
     <pv-column field="title" header="Title" style="text-align: center"></pv-column>
     <pv-column field="content" header="Description" style="text-align: justify;"></pv-column>
     <pv-column field="date" header="Publication date" style="text-align: center"></pv-column>
-    <pv-column field="rating" header="Rating" style="width: 12rem">
+    <pv-column field="rating" header="Rating" style="width: 10rem">
       <template #body="slotProps">
         <pv-rating v-model="val" :model-value="slotProps.data.rating" :cancel="false" :readonly="true"/>
       </template>
     </pv-column>
-    <pv-column>
+    <pv-column style="width: 10rem;">
       <template #body="slotProps">
-        <pv-button label="Go" class="p-button-outlined" @click="goEntry(slotProps.data)"></pv-button>
+        <pv-button label="View entry" class="p-button-outlined" @click="goEntry(slotProps.data)"></pv-button>
       </template>
 
     </pv-column>
     <template #footer>
-      <pv-button label="View more recommended entries" class="p-button-link" />
+      <RouterLink to="/forums">
+        <pv-button label="View more recommended entries" class="p-button-link" />
+      </RouterLink>
     </template>
 
   </pv-data-table>
