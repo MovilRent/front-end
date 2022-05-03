@@ -4,7 +4,7 @@
       Recomended entries for you
     </template>
     <template #content>
-  <pv-data-table :value="forums" :rows=4 responsiveLayout="stack">
+  <pv-data-table :value="forums"  :rows=4 responsiveLayout="stack" tableStyle="border-color: blue;">
     <pv-column field="author" header="Author" headerClass="column" style="text-align: center;"></pv-column>
     <pv-column field="title" header="Title" style="text-align: center"></pv-column>
     <pv-column field="content" header="Description" style="text-align: justify;+"></pv-column>
@@ -16,10 +16,13 @@
     </pv-column>
     <pv-column>
       <template #body="slotProps">
-        <pv-button label="Ir" class="p-button-outlined" @click="goEntry(slotProps.data)"></pv-button>
+        <pv-button label="Go" class="p-button-outlined" @click="goEntry(slotProps.data)"></pv-button>
       </template>
 
     </pv-column>
+    <template #footer>
+      <pv-button label="View more recommended entries" class="p-button-link" />
+    </template>
 
   </pv-data-table>
     </template>
@@ -118,6 +121,10 @@ export default {
 
  .p-button-outlined{
    margin-top: 1.5rem;
+ }
+
+ .table-forum{
+   border: solid 1px blue;
  }
 </style>
 

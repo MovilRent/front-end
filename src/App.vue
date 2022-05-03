@@ -2,13 +2,12 @@
 export default {
   data() {
     return {
-      drawer: false,
       items: [
-        { label: "home", to: "/home" },
-        { label: "profile", to: "/profile" },
-        { label: "forums", to: "/forums" },
-        { label: "entrances", to: "/entrances" },
-        { label: "responses", to: "/responses" },
+        { label: "Home", to: "/home" },
+        { label: "Forums", to: "/forums" },
+        { label: "My profile", to: "/profile" },
+        { label: "My entries", to: "/entrances" },
+        { label: "", to: "/responses" },
       ],
     };
   },
@@ -16,16 +15,14 @@ export default {
 </script>
 
 <template>
-  <pv-toast>t</pv-toast>
   <header>
-    <pv-toolbar class="bg-primary">
+    <pv-toolbar :style="'backgroundColor: #9CD4E7;'">
       <template #start>
-        <pv-button
-          class="p-button-text text-white"
-          icon="pi pi-bars"
-          @click="drawer = !drawer"
-        ></pv-button>
-        <h3>SocialMed</h3>
+        <img :src="'../media/logo.png'" class="logo"/>
+        <span class="p-input-icon-left">
+    <i class="pi pi-search" />
+    <pv-input-text type="text" v-model="value1" placeholder="Search" />
+</span>
       </template>
       <template #end>
         <div class="flex-column">
@@ -37,7 +34,8 @@ export default {
             :key="item.label"
           >
             <pv-button
-              class="p-button-text text-white"
+              :StyleClass="Botones-nav"
+              :style="'backgroundColor: #9CD4E7; borderColor: #9CD4E7; margin-right: 0.5rem; color: #000000;'"
               :href="href"
               @click="navigate"
               >{{ item.label }}</pv-button
@@ -47,8 +45,17 @@ export default {
       </template>
     </pv-toolbar>
   </header>
-  <pv-sidebar v-model:visible="drawer"></pv-sidebar>
   <RouterView />
 </template>
 
-<style></style>
+<style>
+.logo{
+  width: 10rem;
+  height: 3.5rem;
+}
+
+.p-input-icon-left{
+  margin-left: 2rem;
+}
+
+</style>
