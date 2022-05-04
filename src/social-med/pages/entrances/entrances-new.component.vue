@@ -4,13 +4,13 @@
       <pv-toolbar class="mb-4">
         <template #start>
           <pv-button
-            label="New"
+            label="Create entry"
             icon="pi pi-plus"
             class="p-button-success mr-2"
             @click="openNew"
           />
           <pv-button
-            label="Delete"
+            label="Delete entry"
             icon="pi pi-trash"
             class="p-button-danger"
             @click="confirmDeleteSelected"
@@ -103,7 +103,7 @@
     <pv-dialog
       v-model:visible="forumDialog"
       :style="{ width: '600px' }"
-      header="Nuevo Foro"
+      header="Create entry"
       :modal="true"
       class="p-fluid"
     >
@@ -117,7 +117,7 @@
             autofocus
             :class="{ 'p-invalid': submitted && !forum.title }"
           />
-          <label for="title">Ingrese el Título</label>
+          <label for="title">Title</label>
           <small class="p-error" v-if="submitted && !forum.title"
             >Title is required.</small
           >
@@ -132,7 +132,7 @@
             rows="2"
             cols="2"
           />
-          <label for="content">Contenido</label>
+          <label for="content">Description</label>
         </span>
       </div>
       <template #footer>
@@ -227,7 +227,7 @@ export default {
   },
   created() {
     this.forumsService = new ForumApiService();
-    this.forumsService.getAll().then((response) => {
+    this.forumsService.getByUserId(1).then((response) => {
       this.forums = response.data;
       console.log(this.forums);
     });
