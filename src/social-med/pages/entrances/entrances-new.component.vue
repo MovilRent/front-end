@@ -31,7 +31,7 @@
             :filters="filters"
             paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
             :rowsPerPageOptions="[5, 10, 15]"
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} tutorials"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} Entries"
             responsiveLayout="scroll"
           >
             <template #header>
@@ -124,7 +124,7 @@
     </div>
     <pv-dialog
       v-model:visible="forumDialog"
-      :style="{ width: '50vw'}"
+      :style="{ width: '40vw'}"
       header="Create entry"
       :modal="true"
       class="p-fluid"
@@ -208,7 +208,7 @@
       <div class="confirmation-content">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
         <span v-if="selectedForums"
-          >Are you sure you want to delete the selected tutorials?</span
+          >Are you sure you want to delete the selected Entries?</span
         >
       </div>
       <template #footer>
@@ -299,7 +299,7 @@ export default {
               this.$toast.add({
                 severity: "success",
                 summary: "Successful",
-                detail: "Tutorial Updated",
+                detail: "Entry Updated",
                 life: 3000,
               });
               console.log(response);
@@ -313,7 +313,7 @@ export default {
             this.$toast.add({
               severity: "success",
               summary: "Successful",
-              detail: "Tutorial Created",
+              detail: "Entry Created",
               life: 3000,
             });
             console.log(response);
@@ -333,13 +333,13 @@ export default {
     },
     deleteForum() {
       this.forumsService.delete(this.forum.id).then((response) => {
-        this.forums = this.forums.filter((t) => t.id !== this.forum.id);
+        this.forums = this.forums.filter((f) => f.id !== this.forum.id);
         this.deleteForumDialog = false;
         this.forum = {};
         this.$toast.add({
           severity: "success",
           summary: "Successful",
-          detail: "Tutorial Deleted",
+          detail: "Entry Deleted",
           life: 3000,
         });
         console.log(response);
@@ -351,11 +351,12 @@ export default {
     deleteSelectedForums() {
       this.selectedForums.forEach((forum) => {
         this.forumsService.delete(forum.id).then((response) => {
-          this.forums = this.forums.filter((t) => t.id !== this.forum.id);
+          this.forums = this.forums.filter((f) => f.id !== forum.id);
           console.log(response);
         });
       });
       this.deleteForumsDialog = false;
+      this.selectedForums = null;
     },
   },
 };
