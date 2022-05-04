@@ -32,17 +32,17 @@
   >
     <h2 class="field">
         <span class="p-float-label">
-          {{forum.title}}
+          {{ title }}
         </span>
     </h2>
     <div class="field">
         <span class="p-float-label">
-          Por: {{user.name}} {{user.last_name}}
+          Por: {{ author }}
         </span>
     </div>
     <div class="field">
         <span class="text-justify p-float-label">
-          {{forum.content}}
+          {{ description }}
         </span>
     </div>
     <div class="field">
