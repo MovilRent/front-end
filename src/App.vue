@@ -7,7 +7,6 @@ export default {
         { label: "Forums", to: "/forums" },
         { label: "My profile", to: "/profile" },
         { label: "My entries", to: "/entrances" },
-        { label: "Responses", to: "/responses" },
       ],
     };
   },

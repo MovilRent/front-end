@@ -32,17 +32,17 @@
   >
     <h2 class="field">
         <span class="p-float-label">
-          {{forum.title}}
+          {{ title }}
         </span>
     </h2>
     <div class="field">
         <span class="p-float-label">
-          Por: {{user.name}} {{user.last_name}}
+          Por: {{ author }}
         </span>
     </div>
     <div class="field">
         <span class="text-justify p-float-label">
-          {{forum.content}}
+          {{ description }}
         </span>
     </div>
     <div class="field">
@@ -70,17 +70,18 @@
 <script>
 import { CommentApiService } from "../../services/comment.service";
 import { UserApiService } from "../../services/user.service";
+import { ForumApiService } from "../../services/forum.service";
 
 export default {
   name: "responses-new.component",
   data() {
     return {
-      commentsApi: new CommentApiService(),
-      usersApi: new UserApiService(),
-      title: "¿Cuándo va a terminar la pandemia del COVID-19?",
-      author: "María Rosales",
-      description:
-        "Cada día vemos que los gobiernos dejan de usar las medidas preventivas contra la COVID-19. Sin embargo, en el Perú todavía se siguen implementando. ¿Ustedes cuándo piensan que va a terminar la pandemia del COVID-19 en el Perú?",
+      commentsApi: null,
+      usersApi: null,
+      forumsApi: null,
+      title: "",
+      author: "",
+      description: "",
       promVal: 0,
       val: 0,
       commentDialog: false,
@@ -92,11 +93,22 @@ export default {
     };
   },
   created() {
+    this.commentsApi = new CommentApiService();
+    this.usersApi = new UserApiService();
+    this.forumsApi = new ForumApiService();
+    this.title = this.$route.params.title;
+    this.description = this.$route.params.content;
+    this.getEntryAuthor(this.$route.params.userId);
     this.getCommentsToPost();
     this.getUsers();
     this.promVal = this.getAverageValoration([3, 4, 5, 5, 5]); //arreglo ejemplo, ahí irá un arreglo de calificaciones
   },
   methods: {
+    getEntryAuthor(id){
+      this.usersApi.getById(id).then( (response) => {
+        this.author = response.data.name + " " + response.data.lastname;
+      });
+    },
     getCommentsToPost() {
       this.commentsApi
         .getAll()

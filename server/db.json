@@ -86,11 +86,11 @@
   "forums": [
     {
       "id": 1,
-      "userId": 1,
-      "rating": 3.6,
-      "title": "Premio Grammy al mejor álbum de pop vocal tradicional",
+      "title": "Premio Grammy al mejor álbum de pop",
       "content": "El premio Grammy al mejor álbum de pop vocal tradicional es un galardón otorgado a los artistas en el contexto de los premios Grammy, una ceremonia establecida en 1958 y llamada originalmente los premios Gramophone. Los reconocimientos en cada categoría son entregados en una ceremonia anual por The Recording Academy de los Estados Unidos con la intención de «distinguir los logros artísticos, la pericia técnica y la excelencia en general en la industria de la grabación, sin tener en cuenta la cantidad de ventas del álbum o su posición en las listas».",
-      "date": "05-11-21"
+      "date": "02-12-2020",
+      "userId": 1,
+      "rating": 0
     },
     {
       "id": 2,

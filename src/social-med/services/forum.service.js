@@ -8,6 +8,10 @@ export class ForumApiService {
     return http.get(`/forums/${id}`);
   }
 
+  getByUserId(id){
+    return http.get(`users/${id}/forums`);
+  }
+
   create(data) {
     return http.post("forums", data);
   }
