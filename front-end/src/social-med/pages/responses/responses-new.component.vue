@@ -4,10 +4,10 @@
       <pv-toolbar class="mb-4">
         <template #start>
           <pv-button
-            label="Responder"
+            label="View entry"
             icon=""
             class="p-button-primary p-button-outlined mr-2"
-            @click="newComment"
+            @click="viewEntry"
           />
         </template>
       </pv-toolbar>
@@ -83,6 +83,16 @@ export default {
     this.commentsService.getAll().then((response) => {
       this.comments = response.data;
     });
+
+    this.forumsService = new ForumApiService();
+    this.forumsService.getAll().then((response) => {
+      this.forums = response.data;
+    });
+
+    this.usersService = new UserApiService();
+    this.usersService.getAll().then((response) => {
+      this.users = response.data;
+    });
   },
   methods: {
     findIndexById(id) {
@@ -99,46 +109,33 @@ export default {
       };
     },
 
-    //
-    //TEXTO DE PRUEBA - PARA VER SI EL DIALOG SE MUESTRA CON EL CONTENIDO - LUEGO CAMBIAR A BASE CON JSON
-    //
-    newComment() {
-      this.forum = {
-      //
-      //TEXTO DE PRUEBA - PARA VER SI EL DIALOG SE MUESTRA CON EL CONTENIDO - LUEGO CAMBIAR A BASE CON JSON
-      //
-      "id": 1,
-      "userId": 1,
-      "title": "Premio Grammy al mejor álbum de pop vocal tradicional",
-      "content": "El premio Grammy al mejor álbum de pop vocal tradicional es un galardón otorgado a los artistas en el contexto de los premios Grammy, una ceremonia establecida en 1958 y llamada originalmente los premios Gramophone. Los reconocimientos en cada categoría son entregados en una ceremonia anual por The Recording Academy de los Estados Unidos con la intención de «distinguir los logros artísticos, la pericia técnica y la excelencia en general en la industria de la grabación, sin tener en cuenta la cantidad de ventas del álbum o su posición en las listas».",
-      "date": "05-11-21"
-    };
-      this.user = {
-      //
-      //TEXTO DE PRUEBA - PARA VER SI EL DIALOG SE MUESTRA CON EL CONTENIDO - LUEGO CAMBIAR A BASE CON JSON
-      //
-      "id": 1,
-      "name": "Ronaldo",
-      "last_name": "Leon Huanquiri",
-      "age": 20,
-      "password": "123",
-      "biography": "Los templos egipcios fueron construidos para el culto oficial de los dioses y la conmemoración"
-    };
+    viewEntry() {
+      this.forum = this.forumsService.getById(this.$route.params.id);
+      this.user = this.usersService.getById(this.forum.userId);
+
       this.commentDialog = true;
     },
     hideDialog() {
       this.commentDialog = false;
     },
     postComment() {
-      this.forum.id = 0;
-      this.comment = this.getStorableComment(this.comment);
+      var currentDate = new Date();
+
+      this.comment = {
+        forumId: this.$route.params.id,
+        userId: this.user.id,
+        //TEXTO DE PRUEBA, LUEGO CAMBIAR AL CONTENIDO QUE SE HA ESCRITO ARRIBA
+        content: "Me parece un tópico muy interesante, creo que se debe investigar más sobre este tipo de temas en la ciencia actual.",
+        //VARIABLE QUE SE LE ASIGNA LA FECHA ACTUAL
+        date: currentDate,
+      };
       this.commentsService.create(this.comment).then((response) => {
         this.comment = this.getDisplayableComment(response.data);
         this.comments.push(this.comment);
             });
 
       this.commentDialog = false;
-      this.forum = {};
+      console.log(this.comment);
     },
   },
 };
