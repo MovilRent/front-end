@@ -21,93 +21,115 @@
       </pv-toolbar>
       <pv-card>
         <template #content>
-      <pv-data-table
-        ref="dt"
-        :value="forums"
-        v-model:selection="selectedForums"
-        dataKey="id"
-        :paginator="true"
-        :rows="10"
-        :filters="filters"
-        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-        :rowsPerPageOptions="[5, 10, 15]"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} tutorials"
-        responsiveLayout="scroll"
-      >
-        <template #header>
-          <div
-            class="table-header flex flex-column md:flex-row md:justify-content-between"
+          <pv-data-table
+            ref="dt"
+            :value="forums"
+            v-model:selection="selectedForums"
+            dataKey="id"
+            :paginator="true"
+            :rows="10"
+            :filters="filters"
+            paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+            :rowsPerPageOptions="[5, 10, 15]"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} tutorials"
+            responsiveLayout="scroll"
           >
-            <h5 class="mb-2 md:m-0 p-as-md-center text-xl">Manage my entries</h5>
-            <span class="p-input-icon-left"
-              ><i class="pi pi-search" /><pv-input-text
-                v-model="filters['global'].value"
-                placeholder="Search..."
-              />
-            </span>
-          </div>
-        </template>
-        <pv-column
-          selectionMode="multiple"
-          style="width: 3rem"
-          :exportable="false"
-        ></pv-column>
-        <pv-column
-          field="title"
-          header="Title"
-          :sortable="true"
-          style="min-width: 6rem; text-align: justify;"
-        ></pv-column>
-        <pv-column
-          field="content"
-          header="Description"
-          :sortable="true"
-          style="min-width: 14rem; text-align: justify;"
-        ></pv-column>
-        <pv-column
-          field="date"
-          header="Date"
-          :sortable="true"
-          style="width: 7rem;"
-        ></pv-column>
-        <pv-column field="rating" header="Rating" :sortable="true" style="width: 10rem">
-          <template #body="slotProps">
-            <pv-rating v-model="val" :model-value="slotProps.data.rating" :cancel="false" :readonly="true"/>
-          </template>
-        </pv-column>
-        <pv-column :exportable="false" header="Actions" style="min-width: 8rem;">
-          <template #body="slotProps">
-            <pv-button
-              icon="pi pi-pencil"
-              class="p-button-text p-button-rounded"
-              @click="editForum(slotProps.data)"
-            />
-            <pv-button
-              icon="pi pi-trash"
-              class="p-button-text p-button-rounded"
-              @click="confirmDeleteForum(slotProps.data)"
-            />
-          </template>
-        </pv-column>
-        <pv-column :exportable="false" style="min-width: 10rem">
-          <template #body="slotProps">
-            <router-link :to="{ name: 'responses', params: slotProps.data }" style="text-decoration: none">
-              <pv-button label="View entry" class="p-button-outlined"></pv-button>
-            </router-link>
-          </template>
-        </pv-column>
-      </pv-data-table>
+            <template #header>
+              <div
+                class="table-header flex flex-column md:flex-row md:justify-content-between"
+              >
+                <h5 class="mb-2 md:m-0 p-as-md-center text-xl">
+                  Manage my entries
+                </h5>
+                <span class="p-input-icon-left"
+                  ><i class="pi pi-search" /><pv-input-text
+                    v-model="filters['global'].value"
+                    placeholder="Search..."
+                  />
+                </span>
+              </div>
+            </template>
+            <pv-column
+              selectionMode="multiple"
+              style="width: 3rem"
+              :exportable="false"
+            ></pv-column>
+            <pv-column
+              field="title"
+              header="Title"
+              :sortable="true"
+              style="min-width: 6rem; text-align: justify"
+            ></pv-column>
+            <pv-column
+              field="content"
+              header="Description"
+              :sortable="true"
+              style="min-width: 14rem; text-align: justify"
+            ></pv-column>
+            <pv-column
+              field="date"
+              header="Date"
+              :sortable="true"
+              style="width: 7rem"
+            ></pv-column>
+            <pv-column
+              field="rating"
+              header="Rating"
+              :sortable="true"
+              style="width: 10rem"
+            >
+              <template #body="slotProps">
+                <pv-rating
+                  v-model="val"
+                  :model-value="slotProps.data.rating"
+                  :cancel="false"
+                  :readonly="true"
+                />
+              </template>
+            </pv-column>
+            <pv-column
+              :exportable="false"
+              header="Actions"
+              style="min-width: 8rem"
+            >
+              <template #body="slotProps">
+                <pv-button
+                  icon="pi pi-pencil"
+                  class="p-button-text p-button-rounded"
+                  @click="editForum(slotProps.data)"
+                />
+                <pv-button
+                  icon="pi pi-trash"
+                  class="p-button-text p-button-rounded"
+                  @click="confirmDeleteForum(slotProps.data)"
+                />
+              </template>
+            </pv-column>
+            <pv-column :exportable="false" style="min-width: 10rem">
+              <template #body="slotProps">
+                <router-link
+                  :to="{ name: 'responses', params: slotProps.data }"
+                  style="text-decoration: none"
+                >
+                  <pv-button
+                    label="View entry"
+                    class="p-button-outlined"
+                  ></pv-button>
+                </router-link>
+              </template>
+            </pv-column>
+          </pv-data-table>
         </template>
       </pv-card>
     </div>
     <pv-dialog
       v-model:visible="forumDialog"
-      :style="{ width: '600px' }"
+      :style="{ width: '50vw' }"
       header="Create entry"
       :modal="true"
       class="p-fluid"
     >
-      <div class="field">
+      <div class="field" style="padding-top: 3rem">
         <span class="p-float-label">
           <pv-input-text
             type="text"
@@ -123,13 +145,13 @@
           >
         </span>
       </div>
-      <div class="field">
+      <div class="field" style="padding-top: 2rem">
         <span class="p-float-label">
           <pv-textarea
             id="content"
             v-model="forum.content"
             required="false"
-            rows="2"
+            rows="3"
             cols="2"
           />
           <label for="content">Description</label>
@@ -340,9 +362,8 @@ export default {
 </script>
 
 <style scoped>
-.card{
+.card {
   margin-top: 1.5rem;
-
 }
 
 </style>
