@@ -91,7 +91,9 @@
         </pv-column>
         <pv-column :exportable="false" style="min-width: 10rem">
           <template #body="slotProps">
-            <pv-button label="View entry" class="p-button-outlined" @click="goEntry(slotProps.data)"></pv-button>
+            <router-link :to="{ name: 'responses', params: slotProps.data }" style="text-decoration: none">
+              <pv-button label="View entry" class="p-button-outlined"></pv-button>
+            </router-link>
           </template>
         </pv-column>
       </pv-data-table>

@@ -47,7 +47,7 @@ const router = createRouter({
         import("../social-med/pages/entrances/entrances-new.component.vue"),
     },
     {
-      path: "/responses",
+      path: "/responses/:id",
       name: "responses",
       component: () =>
         import("../social-med/pages/responses/responses-new.component.vue"),
