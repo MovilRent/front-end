@@ -18,6 +18,7 @@
       header="Escribir una respuesta"
       :modal="true"
       class="p-fluid"
+      v-model="comment.content"
     >
       <h2 class="field">
         <span class="p-float-label">
@@ -125,7 +126,7 @@ export default {
         forumId: this.$route.params.id,
         userId: this.user.id,
         //TEXTO DE PRUEBA, LUEGO CAMBIAR AL CONTENIDO QUE SE HA ESCRITO ARRIBA
-        content: "Me parece un tópico muy interesante, creo que se debe investigar más sobre este tipo de temas en la ciencia actual.",
+        content: this.comment.content,
         //VARIABLE QUE SE LE ASIGNA LA FECHA ACTUAL
         date: currentDate,
       };
