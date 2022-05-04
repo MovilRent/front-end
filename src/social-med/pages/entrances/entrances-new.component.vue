@@ -64,13 +64,13 @@
               field="content"
               header="Description"
               :sortable="true"
-              style="min-width: 14rem; text-align: justify"
+              style="max-width:30rem; white-space: nowrap;overflow: hidden; text-overflow: ellipsis;"
             ></pv-column>
             <pv-column
               field="date"
               header="Date"
               :sortable="true"
-              style="width: 7rem"
+              style="width: 8rem"
             ></pv-column>
             <pv-column
               field="rating"
@@ -90,7 +90,7 @@
             <pv-column
               :exportable="false"
               header="Actions"
-              style="min-width: 8rem"
+              style="min-width: 6rem"
             >
               <template #body="slotProps">
                 <pv-button
@@ -124,7 +124,7 @@
     </div>
     <pv-dialog
       v-model:visible="forumDialog"
-      :style="{ width: '50vw' }"
+      :style="{ width: '50vw'}"
       header="Create entry"
       :modal="true"
       class="p-fluid"
@@ -151,7 +151,7 @@
             id="content"
             v-model="forum.content"
             required="false"
-            rows="3"
+            rows="5"
             cols="2"
           />
           <label for="content">Description</label>
