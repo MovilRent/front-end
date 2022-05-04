@@ -96,20 +96,18 @@ export default {
     this.commentsApi = new CommentApiService();
     this.usersApi = new UserApiService();
     this.forumsApi = new ForumApiService();
-    this.getEntryDescription(this.$route.params.id);
+    this.title = this.$route.params.title;
+    this.description = this.$route.params.content;
+    this.getEntryAuthor(this.$route.params.userId);
     this.getCommentsToPost();
     this.getUsers();
     this.promVal = this.getAverageValoration([3, 4, 5, 5, 5]); //arreglo ejemplo, ahí irá un arreglo de calificaciones
   },
   methods: {
-    getEntryDescription(id){
-      this.forumsApi.getById(id).then((response) =>{
-        this.title = response.data.title;
-        this.description = response.data.content;
-        this.usersApi.getById(response.data.userId).then( (response) => {
-          this.author = response.data.name + " " + response.data.lastname;
-        });
-      })
+    getEntryAuthor(id){
+      this.usersApi.getById(id).then( (response) => {
+        this.author = response.data.name + " " + response.data.lastname;
+      });
     },
     getCommentsToPost() {
       this.commentsApi
