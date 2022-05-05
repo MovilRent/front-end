@@ -26,7 +26,7 @@
             :filters="filters"
             paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
             :rowsPerPageOptions="[5, 10, 15]"
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} tutorials"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
             responsiveLayout="scroll"
         >
           <template #header>
