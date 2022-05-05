@@ -5,13 +5,13 @@
     <p>Por: {{ author }}</p>
     <p>{{ description }}</p>
     <pv-rating :modelValue=promval :cancel="false" :readonly="true" />
-      <p>La calificación a la entrada es de {{ promval }} estrellas.</p>
+      <p>Rating: {{ promval }} stars</p>
     <pv-button id="answer-btn"
                class="p-button-rounded p-button-raised p-button-info"
                label="Responder"
                @click="newComment"
     />
-    <h2>Respuestas ({{ comments.length }})</h2>
+    <h2>Comments: ({{ comments.length }})</h2>
     <pv-data-table :value="comments" responsiveLayout="scroll">
       <pv-column field="author" header="Author"></pv-column>
       <pv-column field="content" header="Comentario" style="text-align: justify"/>
@@ -86,7 +86,7 @@ export default {
       errors: {},
       isValDisabled: false,
       isDialogVisible: false,
-      users : {},
+      users: {},
     };
   },
   created() {
@@ -102,50 +102,51 @@ export default {
     this.getAverageValoration();
   },
   methods: {
-    getEntryAuthor(id){
-      this.usersApi.getById(id).then( (response) => {
+    getEntryAuthor(id) {
+      this.usersApi.getById(id).then((response) => {
         this.author = response.data.name + " " + response.data.lastname;
       });
     },
     getCommentsToPost() {
       this.commentsApi
-        .getByForumId(this.$route.params.id)
-        .then((response) => {
-          this.comments = response.data;
-          this.comments.forEach( (comment) => {
-            this.usersApi.getById(comment.userId).then( (response) => {
-              comment.author = response.data.name + " " + response.data.lastname;
-            });
+          .getByForumId(this.$route.params.id)
+          .then((response) => {
+            this.comments = response.data;
+            this.comments.forEach((comment) => {
+              this.usersApi.getById(comment.userId).then((response) => {
+                comment.author = response.data.name + " " + response.data.lastname;
+              });
+            })
+            console.log(response.data);
           })
-          console.log(response.data);
-        })
     },
     getUsers() {
       this.usersApi
-        .getAll()
-        .then((response) => {
-          this.users = response.data;
-          this.users.forEach( (user) => {
-            user.fullname = user.name + " " + user.lastname;
+          .getAll()
+          .then((response) => {
+            this.users = response.data;
+            this.users.forEach((user) => {
+              user.fullname = user.name + " " + user.lastname;
+            })
+            console.log(this.users);
           })
-          console.log(this.users);
-        })
-        .catch((error) => {
-          this.errors.push(error);
-          console.log(error);
-        });
+          .catch((error) => {
+            this.errors.push(error);
+            console.log(error);
+          });
     },
     getAverageValoration() {
-      console.log(this.$route.params.id)
-      this.ratingApi.getByForumId(this.$route.params.id).then((response) => {
-        this.vals = response.data;
-        this.vals.forEach((val) => {
-          this.promval += val.rating.valueOf()
-          console.log(this.promval)
-        })
-        this.promval /= this.vals.length;
-        this.promval.toFixed(2);
-      })
+          this.ratingApi.getByForumId(this.$route.params.id).then((response) => {
+            this.promval = 0;
+            this.vals = response.data;
+            if (this.vals.length !== 0) {
+              this.vals.forEach((val) => {
+                this.promval += val.rating.valueOf()
+              })
+              this.promval /= this.vals.length;
+              this.promval.toFixed(2);
+            }
+          })
     },
     closeDialog() {
       this.isDialogVisible = false;
@@ -161,6 +162,10 @@ export default {
         content: (displayableComment.content),
         date: (displayableComment.date = "02-12-2021"),
       };
+
+    },
+    getDisplayableComment(){
+
     },
     //
     //TEXTO DE PRUEBA - PARA VER SI EL DIALOG SE MUESTRA CON EL CONTENIDO - LUEGO CAMBIAR A BASE CON JSON
@@ -193,16 +198,16 @@ export default {
       this.commentDialog = false;
     },
     postComment() {
-      this.forum.id = 0;
-      this.comment = this.getStorableComment(this.comment);
-      this.commentsService.create(this.comment).then((response) => {
+
+      this.commentsApi.create(this.comment).then((response) => {
         this.comment = this.getDisplayableComment(response.data);
         this.comments.push(this.comment);
       });
+
       this.commentDialog = false;
-      this.forum = {};
+      console.log(this.comment);
     },
-  },
+  }
 };
 </script>
 

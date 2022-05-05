@@ -251,9 +251,11 @@ export default {
       submitted: false,
       forumsService: null,
       ratingService: null,
+      fecha: null
     };
   },
   created() {
+    this.fecha = new Date();
     this.forumsService = new ForumApiService();
     this.ratingService = new RatingApiService();
     this.forumsService.getByUserId(1).then((response) => {
@@ -283,9 +285,8 @@ export default {
         id: displayableForum.id,
         title: displayableForum.title,
         content: displayableForum.content,
-        date: (displayableForum.date = "02-12-2020"),
+        date: displayableForum.date = this.fecha.getDate() + "-" + (this.fecha.getMonth() + 1) + "-" + this.fecha.getFullYear(),
         userId: (displayableForum.userId = 1),
-        rating: (displayableForum.rating = 0),
       };
     },
     initFilters() {
