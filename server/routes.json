@@ -2,6 +2,7 @@
   "/api/v1/*": "/$1",
   "users/:userId/forums/:forumId": "/forums/:forumId",
   "/forums/:forumId/comments/:commentId": "/comments/:commentId",
+  "/forums/:forumId/ratings/:ratingId": "/comments/:ratingId",
   "/users/:userId/forums/:forumId/comments/:commentId": "/comments/:commentId",
   "/users/:userId": "/users/:userId"
 }

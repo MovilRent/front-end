@@ -9,6 +9,10 @@ export class CommentApiService {
     return http.get(`/comments/${id}`);
   }
 
+  getByForumId(id) {
+    return http.get(`/forums/${id}/comments/`);
+  }
+
   create(data) {
     return http.post("/comments", data);
   }

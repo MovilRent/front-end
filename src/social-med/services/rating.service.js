@@ -5,6 +5,10 @@ export class RatingApiService {
     return http.get("/ratings");
   }
 
+  getByForumId(id) {
+    return http.get(`forums/${id}/ratings`);
+  }
+
   create(data) {
     return http.post("/ratings", data);
   }
