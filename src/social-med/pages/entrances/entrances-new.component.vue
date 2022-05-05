@@ -34,6 +34,7 @@
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} Entries"
             responsiveLayout="scroll"
           >
+
             <template #header>
               <div
                 class="table-header flex flex-column md:flex-row md:justify-content-between"
@@ -119,6 +120,7 @@
               </template>
             </pv-column>
           </pv-data-table>
+
         </template>
       </pv-card>
     </div>
@@ -232,6 +234,8 @@
 <script>
 import { FilterMatchMode } from "primevue/api";
 import { ForumApiService } from "../../services/forum.service";
+import {RatingApiService} from "../../services/rating.service";
+
 export default {
   name: "entrances-new.component",
   data() {
@@ -243,14 +247,32 @@ export default {
       forum: {},
       selectedForums: null,
       filters: {},
+      vasl: {},
       submitted: false,
       forumsService: null,
+      ratingService: null,
     };
   },
   created() {
     this.forumsService = new ForumApiService();
+    this.ratingService = new RatingApiService();
     this.forumsService.getByUserId(1).then((response) => {
       this.forums = response.data;
+        this.forums.forEach( (forum) => {
+          this.ratingService.getByForumId(forum.id).then((response) => {
+            let promval = 0;
+            this.vals = response.data;
+            if(this.vals.length == 0) {
+              forum.rating = 0
+            } else {
+              this.vals.forEach((val) => {
+                promval += val.rating.valueOf()
+              })
+              promval /= this.vals.length;
+              forum.rating = promval.toFixed(2);
+            }
+          })
+        })
       console.log(this.forums);
     });
     this.initFilters();

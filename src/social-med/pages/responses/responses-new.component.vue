@@ -4,13 +4,8 @@
     <h1>{{ title }}</h1>
     <p>Por: {{ author }}</p>
     <p>{{ description }}</p>
-    <pv-rating v-model="val" :cancel="false" :disabled="isValDisabled" />
-    <pv-dialog header="Calificación a la entrada" :visible="isDialogVisible" :closable="false">
-      <p>Tu calificación a la entrada es de {{val}} estrellas.</p>
-      <template #footer>
-        <pv-button class="p-button-rounded p-button-raised p-button-info" label="OK" @click="closeDialog()"/>
-      </template>
-    </pv-dialog>
+    <pv-rating :modelValue=promval :cancel="false" :readonly="true" />
+      <p>La calificación a la entrada es de {{ promval }} estrellas.</p>
     <pv-button id="answer-btn"
                class="p-button-rounded p-button-raised p-button-info"
                label="Responder"
@@ -71,6 +66,7 @@
 import { CommentApiService } from "../../services/comment.service";
 import { UserApiService } from "../../services/user.service";
 import { ForumApiService } from "../../services/forum.service";
+import { RatingApiService } from "../../services/rating.service";
 
 export default {
   name: "responses-new.component",
@@ -79,11 +75,12 @@ export default {
       commentsApi: null,
       usersApi: null,
       forumsApi: null,
+      ratingApi: null,
       title: "",
       author: "",
       description: "",
-      promVal: 0,
-      val: 0,
+      vals: {},
+      promval: 0,
       commentDialog: false,
       comments: {},
       errors: {},
@@ -96,12 +93,13 @@ export default {
     this.commentsApi = new CommentApiService();
     this.usersApi = new UserApiService();
     this.forumsApi = new ForumApiService();
+    this.ratingApi = new RatingApiService();
     this.title = this.$route.params.title;
     this.description = this.$route.params.content;
     this.getEntryAuthor(this.$route.params.userId);
     this.getCommentsToPost();
     this.getUsers();
-    this.promVal = this.getAverageValoration([3, 4, 5, 5, 5]); //arreglo ejemplo, ahí irá un arreglo de calificaciones
+    this.getAverageValoration();
   },
   methods: {
     getEntryAuthor(id){
@@ -111,7 +109,7 @@ export default {
     },
     getCommentsToPost() {
       this.commentsApi
-        .getAll()
+        .getByForumId(this.$route.params.id)
         .then((response) => {
           this.comments = response.data;
           this.comments.forEach( (comment) => {
@@ -137,18 +135,17 @@ export default {
           console.log(error);
         });
     },
-    getAverageValoration(valorations) {
-      let i = 0,
-        sum = 0,
-        length = valorations.length;
-      while (i < length) {
-        sum += valorations[i++];
-      }
-      return sum / length;
-    },
-    submitValoration() {
-      this.isValDisabled = true;
-      this.isDialogVisible = true;
+    getAverageValoration() {
+      console.log(this.$route.params.id)
+      this.ratingApi.getByForumId(this.$route.params.id).then((response) => {
+        this.vals = response.data;
+        this.vals.forEach((val) => {
+          this.promval += val.rating.valueOf()
+          console.log(this.promval)
+        })
+        this.promval /= this.vals.length;
+        this.promval.toFixed(2);
+      })
     },
     closeDialog() {
       this.isDialogVisible = false;

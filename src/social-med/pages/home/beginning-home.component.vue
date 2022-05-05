@@ -4,19 +4,21 @@
       Recomended entries for you
     </template>
     <template #content>
-  <pv-data-table :value="forums"  :rows=4 responsiveLayout="stack" tableStyle="border-color: blue;">
-    <pv-column field="author" header="Author" headerClass="column" style="text-align: center;"></pv-column>
+  <pv-data-table :value="forums"  :rows=4 responsiveLayout="stack" >
+    <pv-column field="author" header="Author" style="text-align: center;"></pv-column>
     <pv-column field="title" header="Title" style="text-align: center"></pv-column>
-    <pv-column field="content" header="Description" style="text-align: justify;"></pv-column>
+    <pv-column field="content" header="Description" style="max-width:30rem; white-space: nowrap;overflow: hidden; text-overflow: ellipsis;"></pv-column>
     <pv-column field="date" header="Publication date" style="text-align: center"></pv-column>
     <pv-column field="rating" header="Rating" style="width: 10rem">
       <template #body="slotProps">
-        <pv-rating v-model="val" :model-value="slotProps.data.rating" :cancel="false" :readonly="true"/>
+        <pv-rating v-model="val" :model-value=slotProps.data.rating :cancel="false" :readonly="true"/>
       </template>
     </pv-column>
     <pv-column style="width: 10rem;">
       <template #body="slotProps">
-        <pv-button label="View entry" class="p-button-outlined" @click="goEntry(slotProps.data)"></pv-button>
+        <router-link :to="{ name: 'responses', params: slotProps.data }" style="text-decoration: none">
+          <pv-button label="View entry" class="p-button-outlined"></pv-button>
+        </router-link>
       </template>
 
     </pv-column>
@@ -55,28 +57,52 @@
 <script>
 import { ForumApiService } from "../../services/forum.service";
 import { UserApiService } from "../../services/user.service";
+import { RatingApiService } from "../../services/rating.service";
 
 export default {
   name: "beginning-home.component",
   data(){
     return{
+      responsiveOptions: [
+        {
+          breakpoint: '1024px',
+          numVisible: 2,
+          numScroll: 2
+        },
+      ],
       forums: {},
       users: {},
       forum: {},
+      vals: {},
       forumsService: null,
       usersService: null,
+      ratingService: null,
       user: null
     }
   },
   created() {
     this.forumsService = new ForumApiService();
     this.usersService = new UserApiService();
+    this.ratingService = new RatingApiService();
     this.forumsService.getAll().then((response) => {
       this.forums = response.data;
       this.forums.forEach( (forum) => {
         this.usersService.getById(forum.userId).then( (response) => {
           forum.author = response.data.name + " " + response.data.lastname;
         });
+        this.ratingService.getByForumId(forum.id).then((response) => {
+          let promval = 0;
+          this.vals = response.data;
+          if(this.vals.length == 0) {
+            forum.rating = 0
+          } else {
+          this.vals.forEach((val) => {
+            promval += val.rating.valueOf()
+          })
+          promval /= this.vals.length;
+          forum.rating = promval.toFixed(2);
+          }
+        })
       })
     })
     this.usersService.getAll().then((response) => {
@@ -85,8 +111,8 @@ export default {
         user.fullname = user.name + " " + user.lastname;
       })
     });
-  },
 
+  },
 };
 </script>
 
