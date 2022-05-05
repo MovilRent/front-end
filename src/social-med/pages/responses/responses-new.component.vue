@@ -64,10 +64,10 @@
 </template>
 
 <script>
-import { CommentApiService } from "../../services/comment.service";
-import { UserApiService } from "../../services/user.service";
-import { ForumApiService } from "../../services/forum.service";
-import { RatingApiService } from "../../services/rating.service";
+import { CommentApiService } from "../../services/comment-api.service";
+import { UserApiService } from "../../services/user-api.service";
+import { ForumApiService } from "../../services/forum-api.service";
+import { RatingApiService } from "../../services/rating-api.service";
 
 export default {
   name: "responses-new.component",

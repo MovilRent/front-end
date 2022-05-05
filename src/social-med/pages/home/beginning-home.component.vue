@@ -55,9 +55,9 @@
 </template>
 
 <script>
-import { ForumApiService } from "../../services/forum.service";
-import { UserApiService } from "../../services/user.service";
-import { RatingApiService } from "../../services/rating.service";
+import { ForumApiService } from "../../services/forum-api.service";
+import { UserApiService } from "../../services/user-api.service";
+import { RatingApiService } from "../../services/rating-api.service";
 
 export default {
   name: "beginning-home.component",

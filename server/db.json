@@ -95,6 +95,13 @@
       "userId": 1,
       "content": "b",
       "date": "5-5-2022"
+    },
+    {
+      "id": 7,
+      "forumId": "1",
+      "userId": 1,
+      "content": "f",
+      "date": "5-5-2022"
     }
   ],
   "forums": [

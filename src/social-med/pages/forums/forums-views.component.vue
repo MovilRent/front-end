@@ -134,9 +134,9 @@
 
 <script>
 import { FilterMatchMode } from "primevue/api";
-import { ForumApiService } from "../../services/forum.service";
-import {RatingApiService} from "../../services/rating.service";
-import { UserApiService } from "../../services/user.service";
+import { ForumApiService } from "../../services/forum-api.service";
+import {RatingApiService} from "../../services/rating-api.service";
+import { UserApiService } from "../../services/user-api.service";
 
 export default {
   name: "entrances-new.component",
