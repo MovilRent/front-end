@@ -59,7 +59,7 @@
               field="title"
               header="Title"
               :sortable="true"
-              style="min-width: 6rem; text-align: justify"
+              style="min-width: 6rem; text-align: center"
             ></pv-column>
             <pv-column
               field="content"

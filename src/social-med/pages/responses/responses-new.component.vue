@@ -44,6 +44,7 @@
         <span class="p-float-label">
           <pv-textarea
               id="content"
+              v-model="comment.content"
               required="false"
               rows="8"
               cols="2"
@@ -83,13 +84,16 @@ export default {
       promval: 0,
       commentDialog: false,
       comments: {},
+      comment: {},
       errors: {},
       isValDisabled: false,
       isDialogVisible: false,
       users: {},
+      fecha: null
     };
   },
   created() {
+    this.fecha = new Date();
     this.commentsApi = new CommentApiService();
     this.usersApi = new UserApiService();
     this.forumsApi = new ForumApiService();
@@ -148,58 +152,37 @@ export default {
             }
           })
     },
-    closeDialog() {
-      this.isDialogVisible = false;
-    },
     findIndexById(id) {
       return this.forums.findIndex((forum) => forum.id === id);
     },
     getStorableComment(displayableComment) {
       return {
         id: displayableComment.id,
-        forumId: displayableComment.forumId,
+        forumId: this.$route.params.id,
         userId: displayableComment.userId = 1,
         content: (displayableComment.content),
-        date: (displayableComment.date = "02-12-2021"),
+        date: displayableComment.date = this.fecha.getDate() + "-" + (this.fecha.getMonth() + 1) + "-" + this.fecha.getFullYear(),
       };
 
     },
-    getDisplayableComment(){
+    getDisplayableComment(comment){
 
+      return comment;
     },
-    //
-    //TEXTO DE PRUEBA - PARA VER SI EL DIALOG SE MUESTRA CON EL CONTENIDO - LUEGO CAMBIAR A BASE CON JSON
-    //
-    newComment() {
-      this.forum = {
-        //
-        //TEXTO DE PRUEBA - PARA VER SI EL DIALOG SE MUESTRA CON EL CONTENIDO - LUEGO CAMBIAR A BASE CON JSON
-        //
-        "id": 1,
-        "userId": 1,
-        "title": "Premio Grammy al mejor álbum de pop vocal tradicional",
-        "content": "El premio Grammy al mejor álbum de pop vocal tradicional es un galardón otorgado a los artistas en el contexto de los premios Grammy, una ceremonia establecida en 1958 y llamada originalmente los premios Gramophone. Los reconocimientos en cada categoría son entregados en una ceremonia anual por The Recording Academy de los Estados Unidos con la intención de «distinguir los logros artísticos, la pericia técnica y la excelencia en general en la industria de la grabación, sin tener en cuenta la cantidad de ventas del álbum o su posición en las listas».",
-        "date": "05-11-21"
-      };
-      this.user = {
-        //
-        //TEXTO DE PRUEBA - PARA VER SI EL DIALOG SE MUESTRA CON EL CONTENIDO - LUEGO CAMBIAR A BASE CON JSON
-        //
-        "id": 1,
-        "name": "Ronaldo",
-        "last_name": "Leon Huanquiri",
-        "age": 20,
-        "password": "123",
-        "biography": "Los templos egipcios fueron construidos para el culto oficial de los dioses y la conmemoración"
-      };
+    newComment(){
       this.commentDialog = true;
     },
+
     hideDialog() {
       this.commentDialog = false;
     },
     postComment() {
-
+      this.comment.id = 0;
+      this.comment = this.getStorableComment(this.comment);
       this.commentsApi.create(this.comment).then((response) => {
+        this.usersApi.getById(this.comment.userId).then( (response) => {
+          this.comment.author = response.data.name + " " + response.data.lastname;
+        })
         this.comment = this.getDisplayableComment(response.data);
         this.comments.push(this.comment);
       });
