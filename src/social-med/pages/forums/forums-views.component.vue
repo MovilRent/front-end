@@ -1,9 +1,9 @@
 <template>
   <div>
 
-      <pv-card class="card">
-        <template #content>
-          <div class="card">
+    <pv-card class="card">
+      <template #content>
+        <div class="card">
           <pv-toolbar class="mb-4">
             <template #end>
               <pv-button
@@ -15,82 +15,82 @@
             </template>
 
           </pv-toolbar>
-          </div>
+        </div>
 
-          <pv-data-table
-              ref="dt"
-              :value="forums"
-              v-model:selection="selectedForums"
-              dataKey="id"
-              :paginator="true"
-              :rows="10"
-              :filters="filters"
-              paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-              :rowsPerPageOptions="[5, 10, 15]"
-              currentPageReportTemplate="Showing {first} to {last} of {totalRecords} tutorials"
-              responsiveLayout="scroll"
-          >
-            <template #header>
-              <div
-                  class="table-header flex flex-column md:flex-row md:justify-content-between"
-              >
-                <h5 class="mb-2 md:m-0 p-as-md-center text-xl">Entries</h5>
-                <span class="p-input-icon-left"
-                ><i class="pi pi-search" /><pv-input-text
-                    v-model="filters['global'].value"
-                    placeholder="Search..."
-                />
+        <pv-data-table
+            ref="dt"
+            :value="forums"
+            v-model:selection="selectedForums"
+            dataKey="id"
+            :paginator="true"
+            :rows="10"
+            :filters="filters"
+            paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+            :rowsPerPageOptions="[5, 10, 15]"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} tutorials"
+            responsiveLayout="scroll"
+        >
+          <template #header>
+            <div
+                class="table-header flex flex-column md:flex-row md:justify-content-between"
+            >
+              <h5 class="mb-2 md:m-0 p-as-md-center text-xl">Entries</h5>
+              <span class="p-input-icon-left"
+              ><i class="pi pi-search" /><pv-input-text
+                  v-model="filters['global'].value"
+                  placeholder="Search..."
+              />
             </span>
-              </div>
+            </div>
+          </template>
+          <pv-column
+              selectionMode="multiple"
+              style="width: 3rem"
+              :exportable="false"
+          ></pv-column>
+          <pv-column
+              field="title"
+              header="Title"
+              :sortable="true"
+              style="min-width: 6rem; text-align: justify;"
+          ></pv-column>
+          <pv-column
+              field="content"
+              header="Description"
+              :sortable="true"
+              style="min-width: 14rem; text-align: justify;"
+          ></pv-column>
+          <pv-column
+              field="date"
+              header="Date"
+              :sortable="true"
+              style="width: 7.5rem;"
+          ></pv-column>
+          <pv-column field="rating" header="Rating" :sortable="true" style="width: 10rem">
+            <template #body="slotProps">
+              <pv-rating v-model="val" :model-value="slotProps.data.rating" :cancel="false" :readonly="true"/>
             </template>
-            <pv-column
-                selectionMode="multiple"
-                style="width: 3rem"
-                :exportable="false"
-            ></pv-column>
-            <pv-column
-                field="title"
-                header="Title"
-                :sortable="true"
-                style="min-width: 6rem; text-align: justify;"
-            ></pv-column>
-            <pv-column
-                field="content"
-                header="Description"
-                :sortable="true"
-                style="min-width: 14rem; text-align: justify;"
-            ></pv-column>
-            <pv-column
-                field="date"
-                header="Date"
-                :sortable="true"
-                style="width: 7.5rem;"
-            ></pv-column>
-            <pv-column field="rating" header="Rating" :sortable="true" style="width: 10rem">
-              <template #body="slotProps">
-                <pv-rating v-model="val" :model-value="slotProps.data.rating" :cancel="false" :readonly="true"/>
-              </template>
-            </pv-column>
+          </pv-column>
 
-            <pv-column :exportable="false" style="min-width: 10rem">
-              <template #body="slotProps">
-                <router-link :to="{ name: 'responses', params: slotProps.data }" style="text-decoration: none">
-                  <pv-button label="View entry" class="p-button-outlined"></pv-button>
-                </router-link>
-              </template>
-            </pv-column>
-          </pv-data-table>
-        </template>
-      </pv-card>
-    </div>
-    <pv-dialog
-        v-model:visible="forumDialog"
-        :style="{ width: '600px' }"
-        header="Create entry"
-        :modal="true"
-        class="p-fluid"
-    >
-      <div class="field">
+          <pv-column :exportable="false" style="min-width: 10rem">
+            <template #body="slotProps">
+              <router-link :to="{ name: 'responses', params: slotProps.data }" style="text-decoration: none">
+                <pv-button label="View entry" class="p-button-outlined"></pv-button>
+              </router-link>
+            </template>
+          </pv-column>
+        </pv-data-table>
+      </template>
+    </pv-card>
+  </div>
+  <pv-dialog
+      v-model:visible="forumDialog"
+      :style="{ width: '600px' }"
+      header="Create entry"
+      :modal="true"
+      class="p-fluid"
+  >
+    <div class="field">
         <span class="p-float-label">
           <pv-input-text
               type="text"
@@ -105,8 +105,8 @@
           >Title is required.</small
           >
         </span>
-      </div>
-      <div class="field">
+    </div>
+    <div class="field">
         <span class="p-float-label">
           <pv-textarea
               id="content"
@@ -117,76 +117,76 @@
           />
           <label for="content">Description</label>
         </span>
-      </div>
-      <template #footer>
-        <pv-button
-            label="Cancel"
-            icon="pi pi-times"
-            class="p-button-text"
-            @click="hideDialog"
-        />
-        <pv-button
-            label="Save"
-            icon="pi pi-check"
-            class="p-button-text"
-            @click="saveForum"
-        />
-      </template>
-    </pv-dialog>
-    <pv-dialog
-        v-model:visible="deleteForumDialog"
-        :style="{ width: '450px' }"
-        header="Confirm"
-        :modal="true"
-    >
-      <div class="confirmation-content">
-        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
-        <span v-if="forum"
-        >Are you sure you want to delete <b>{{ forum.title }}</b></span
-        >
-      </div>
-      <template #footer>
-        <pv-button
-            label="No"
-            icon="pi pi-times"
-            class="p-button-text"
-            @click="deleteForumDialog = false"
-        />
-        <pv-button
-            label="Yes"
-            icon="pi pi-check"
-            class="p-button-text"
-            @click="deleteForum"
-        />
-      </template>
-    </pv-dialog>
-    <pv-dialog
-        v-model:visible="deleteForumsDialog"
-        :style="{ width: '450px' }"
-        header="Confirm"
-        :modal="true"
-    >
-      <div class="confirmation-content">
-        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
-        <span v-if="selectedForums"
-        >Are you sure you want to delete the selected tutorials?</span
-        >
-      </div>
-      <template #footer>
-        <pv-button
-            label="No"
-            icon="pi pi-times"
-            class="p-button-text"
-            @click="deleteForumsDialog = false"
-        />
-        <pv-button
-            label="Yes"
-            icon="pi pi-check"
-            class="p-button-text"
-            @click="deleteSelectedForums"
-        />
-      </template>
-    </pv-dialog>
+    </div>
+    <template #footer>
+      <pv-button
+          label="Cancel"
+          icon="pi pi-times"
+          class="p-button-text"
+          @click="hideDialog"
+      />
+      <pv-button
+          label="Save"
+          icon="pi pi-check"
+          class="p-button-text"
+          @click="saveForum"
+      />
+    </template>
+  </pv-dialog>
+  <pv-dialog
+      v-model:visible="deleteForumDialog"
+      :style="{ width: '450px' }"
+      header="Confirm"
+      :modal="true"
+  >
+    <div class="confirmation-content">
+      <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
+      <span v-if="forum"
+      >Are you sure you want to delete <b>{{ forum.title }}</b></span
+      >
+    </div>
+    <template #footer>
+      <pv-button
+          label="No"
+          icon="pi pi-times"
+          class="p-button-text"
+          @click="deleteForumDialog = false"
+      />
+      <pv-button
+          label="Yes"
+          icon="pi pi-check"
+          class="p-button-text"
+          @click="deleteForum"
+      />
+    </template>
+  </pv-dialog>
+  <pv-dialog
+      v-model:visible="deleteForumsDialog"
+      :style="{ width: '450px' }"
+      header="Confirm"
+      :modal="true"
+  >
+    <div class="confirmation-content">
+      <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
+      <span v-if="selectedForums"
+      >Are you sure you want to delete the selected tutorials?</span
+      >
+    </div>
+    <template #footer>
+      <pv-button
+          label="No"
+          icon="pi pi-times"
+          class="p-button-text"
+          @click="deleteForumsDialog = false"
+      />
+      <pv-button
+          label="Yes"
+          icon="pi pi-check"
+          class="p-button-text"
+          @click="deleteSelectedForums"
+      />
+    </template>
+  </pv-dialog>
 </template>
 
 <script>
@@ -328,3 +328,4 @@ export default {
 }
 
 </style>
+
