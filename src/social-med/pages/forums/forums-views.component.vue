@@ -153,10 +153,12 @@ export default {
       submitted: false,
       forumsService: null,
       ratingService: null,
-      usersService: null
+      usersService: null,
+      fecha: null
     };
   },
   created() {
+    this.fecha = new Date();
     this.forumsService = new ForumApiService();
     this.ratingService = new RatingApiService();
     this.usersService = new UserApiService();
@@ -190,10 +192,9 @@ export default {
         id: displayableForum.id,
         title: displayableForum.title,
         content: displayableForum.content,
-        date: (displayableForum.date = "02-12-2020"),
+        date: (displayableForum.date = this.fecha.getDate() + "-" + (this.fecha.getMonth() + 1) + "-" + this.fecha.getFullYear()),
         userId: (displayableForum.userId = 1),
         author: "Manuel Quispe Salazar",
-        rating: (displayableForum.rating = 0),
       };
     },
     initFilters() {

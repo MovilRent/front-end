@@ -81,6 +81,20 @@
       "userId": 4,
       "content": "El cuidado del hogar de los dioses era obligación de los faraones, que dedicaron ingentes cantidades de recursos para la construcción y el mantenimiento de los templos.",
       "date": "05-11-21"
+    },
+    {
+      "id": 5,
+      "forumId": "1",
+      "userId": 1,
+      "content": "a",
+      "date": "5-5-2022"
+    },
+    {
+      "id": 6,
+      "forumId": "1",
+      "userId": 1,
+      "content": "b",
+      "date": "5-5-2022"
     }
   ],
   "forums": [

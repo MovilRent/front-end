@@ -5,13 +5,13 @@
     <p>Por: {{ author }}</p>
     <p>{{ description }}</p>
     <pv-rating :modelValue=promval :cancel="false" :readonly="true" />
-      <p>La calificación a la entrada es de {{ promval }} estrellas.</p>
+      <p>Rating: {{ promval }} stars</p>
     <pv-button id="answer-btn"
                class="p-button-rounded p-button-raised p-button-info"
                label="Responder"
                @click="newComment"
     />
-    <h2>Respuestas ({{ comments.length }})</h2>
+    <h2>Comments: ({{ comments.length }})</h2>
     <pv-data-table :value="comments" responsiveLayout="scroll">
       <pv-column field="author" header="Author"></pv-column>
       <pv-column field="content" header="Comentario" style="text-align: justify"/>
@@ -44,6 +44,7 @@
         <span class="p-float-label">
           <pv-textarea
               id="content"
+              v-model="comment.content"
               required="false"
               rows="8"
               cols="2"
@@ -83,13 +84,16 @@ export default {
       promval: 0,
       commentDialog: false,
       comments: {},
+      comment: {},
       errors: {},
       isValDisabled: false,
       isDialogVisible: false,
-      users : {},
+      users: {},
+      fecha: null
     };
   },
   created() {
+    this.fecha = new Date();
     this.commentsApi = new CommentApiService();
     this.usersApi = new UserApiService();
     this.forumsApi = new ForumApiService();
@@ -102,53 +106,51 @@ export default {
     this.getAverageValoration();
   },
   methods: {
-    getEntryAuthor(id){
-      this.usersApi.getById(id).then( (response) => {
+    getEntryAuthor(id) {
+      this.usersApi.getById(id).then((response) => {
         this.author = response.data.name + " " + response.data.lastname;
       });
     },
     getCommentsToPost() {
       this.commentsApi
-        .getByForumId(this.$route.params.id)
-        .then((response) => {
-          this.comments = response.data;
-          this.comments.forEach( (comment) => {
-            this.usersApi.getById(comment.userId).then( (response) => {
-              comment.author = response.data.name + " " + response.data.lastname;
-            });
+          .getByForumId(this.$route.params.id)
+          .then((response) => {
+            this.comments = response.data;
+            this.comments.forEach((comment) => {
+              this.usersApi.getById(comment.userId).then((response) => {
+                comment.author = response.data.name + " " + response.data.lastname;
+              });
+            })
+            console.log(response.data);
           })
-          console.log(response.data);
-        })
     },
     getUsers() {
       this.usersApi
-        .getAll()
-        .then((response) => {
-          this.users = response.data;
-          this.users.forEach( (user) => {
-            user.fullname = user.name + " " + user.lastname;
+          .getAll()
+          .then((response) => {
+            this.users = response.data;
+            this.users.forEach((user) => {
+              user.fullname = user.name + " " + user.lastname;
+            })
+            console.log(this.users);
           })
-          console.log(this.users);
-        })
-        .catch((error) => {
-          this.errors.push(error);
-          console.log(error);
-        });
+          .catch((error) => {
+            this.errors.push(error);
+            console.log(error);
+          });
     },
     getAverageValoration() {
-      console.log(this.$route.params.id)
-      this.ratingApi.getByForumId(this.$route.params.id).then((response) => {
-        this.vals = response.data;
-        this.vals.forEach((val) => {
-          this.promval += val.rating.valueOf()
-          console.log(this.promval)
-        })
-        this.promval /= this.vals.length;
-        this.promval.toFixed(2);
-      })
-    },
-    closeDialog() {
-      this.isDialogVisible = false;
+          this.ratingApi.getByForumId(this.$route.params.id).then((response) => {
+            this.promval = 0;
+            this.vals = response.data;
+            if (this.vals.length !== 0) {
+              this.vals.forEach((val) => {
+                this.promval += val.rating.valueOf()
+              })
+              this.promval /= this.vals.length;
+              this.promval.toFixed(2);
+            }
+          })
     },
     findIndexById(id) {
       return this.forums.findIndex((forum) => forum.id === id);
@@ -156,53 +158,39 @@ export default {
     getStorableComment(displayableComment) {
       return {
         id: displayableComment.id,
-        forumId: displayableComment.forumId,
+        forumId: this.$route.params.id,
         userId: displayableComment.userId = 1,
         content: (displayableComment.content),
-        date: (displayableComment.date = "02-12-2021"),
+        date: displayableComment.date = this.fecha.getDate() + "-" + (this.fecha.getMonth() + 1) + "-" + this.fecha.getFullYear(),
       };
+
     },
-    //
-    //TEXTO DE PRUEBA - PARA VER SI EL DIALOG SE MUESTRA CON EL CONTENIDO - LUEGO CAMBIAR A BASE CON JSON
-    //
-    newComment() {
-      this.forum = {
-        //
-        //TEXTO DE PRUEBA - PARA VER SI EL DIALOG SE MUESTRA CON EL CONTENIDO - LUEGO CAMBIAR A BASE CON JSON
-        //
-        "id": 1,
-        "userId": 1,
-        "title": "Premio Grammy al mejor álbum de pop vocal tradicional",
-        "content": "El premio Grammy al mejor álbum de pop vocal tradicional es un galardón otorgado a los artistas en el contexto de los premios Grammy, una ceremonia establecida en 1958 y llamada originalmente los premios Gramophone. Los reconocimientos en cada categoría son entregados en una ceremonia anual por The Recording Academy de los Estados Unidos con la intención de «distinguir los logros artísticos, la pericia técnica y la excelencia en general en la industria de la grabación, sin tener en cuenta la cantidad de ventas del álbum o su posición en las listas».",
-        "date": "05-11-21"
-      };
-      this.user = {
-        //
-        //TEXTO DE PRUEBA - PARA VER SI EL DIALOG SE MUESTRA CON EL CONTENIDO - LUEGO CAMBIAR A BASE CON JSON
-        //
-        "id": 1,
-        "name": "Ronaldo",
-        "last_name": "Leon Huanquiri",
-        "age": 20,
-        "password": "123",
-        "biography": "Los templos egipcios fueron construidos para el culto oficial de los dioses y la conmemoración"
-      };
+    getDisplayableComment(comment){
+
+      return comment;
+    },
+    newComment(){
       this.commentDialog = true;
     },
+
     hideDialog() {
       this.commentDialog = false;
     },
     postComment() {
-      this.forum.id = 0;
+      this.comment.id = 0;
       this.comment = this.getStorableComment(this.comment);
-      this.commentsService.create(this.comment).then((response) => {
+      this.commentsApi.create(this.comment).then((response) => {
+        this.usersApi.getById(this.comment.userId).then( (response) => {
+          this.comment.author = response.data.name + " " + response.data.lastname;
+        })
         this.comment = this.getDisplayableComment(response.data);
         this.comments.push(this.comment);
       });
+
       this.commentDialog = false;
-      this.forum = {};
+      console.log(this.comment);
     },
-  },
+  }
 };
 </script>
 
