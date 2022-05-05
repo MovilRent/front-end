@@ -20,7 +20,6 @@
         <pv-data-table
             ref="dt"
             :value="forums"
-            v-model:selection="selectedForums"
             dataKey="id"
             :paginator="true"
             :rows="10"
@@ -43,22 +42,18 @@
             </span>
             </div>
           </template>
-          <pv-column
-              selectionMode="multiple"
-              style="width: 3rem"
-              :exportable="false"
-          ></pv-column>
+          <pv-column field="author" header="Author" :sortable="true" style="text-align: center"></pv-column>
           <pv-column
               field="title"
               header="Title"
               :sortable="true"
-              style="min-width: 6rem; text-align: justify;"
+              style="min-width: 6rem; text-align: center;"
           ></pv-column>
           <pv-column
               field="content"
               header="Description"
               :sortable="true"
-              style="min-width: 14rem; text-align: justify;"
+              style="max-width:30rem; white-space: nowrap;overflow: hidden; text-overflow: ellipsis;"
           ></pv-column>
           <pv-column
               field="date"
@@ -68,7 +63,7 @@
           ></pv-column>
           <pv-column field="rating" header="Rating" :sortable="true" style="width: 10rem">
             <template #body="slotProps">
-              <pv-rating v-model="val" :model-value="slotProps.data.rating" :cancel="false" :readonly="true"/>
+              <pv-rating v-model="val" :model-value=slotProps.data.rating :cancel="false" :readonly="true"/>
             </template>
           </pv-column>
 
@@ -133,65 +128,16 @@
       />
     </template>
   </pv-dialog>
-  <pv-dialog
-      v-model:visible="deleteForumDialog"
-      :style="{ width: '450px' }"
-      header="Confirm"
-      :modal="true"
-  >
-    <div class="confirmation-content">
-      <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
-      <span v-if="forum"
-      >Are you sure you want to delete <b>{{ forum.title }}</b></span
-      >
-    </div>
-    <template #footer>
-      <pv-button
-          label="No"
-          icon="pi pi-times"
-          class="p-button-text"
-          @click="deleteForumDialog = false"
-      />
-      <pv-button
-          label="Yes"
-          icon="pi pi-check"
-          class="p-button-text"
-          @click="deleteForum"
-      />
-    </template>
-  </pv-dialog>
-  <pv-dialog
-      v-model:visible="deleteForumsDialog"
-      :style="{ width: '450px' }"
-      header="Confirm"
-      :modal="true"
-  >
-    <div class="confirmation-content">
-      <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
-      <span v-if="selectedForums"
-      >Are you sure you want to delete the selected tutorials?</span
-      >
-    </div>
-    <template #footer>
-      <pv-button
-          label="No"
-          icon="pi pi-times"
-          class="p-button-text"
-          @click="deleteForumsDialog = false"
-      />
-      <pv-button
-          label="Yes"
-          icon="pi pi-check"
-          class="p-button-text"
-          @click="deleteSelectedForums"
-      />
-    </template>
-  </pv-dialog>
+
+
 </template>
 
 <script>
 import { FilterMatchMode } from "primevue/api";
 import { ForumApiService } from "../../services/forum.service";
+import {RatingApiService} from "../../services/rating.service";
+import { UserApiService } from "../../services/user.service";
+
 export default {
   name: "entrances-new.component",
   data() {
@@ -201,16 +147,39 @@ export default {
       deleteForumsDialog: false,
       deleteForumDialog: false,
       forum: {},
+      vals: {},
       selectedForums: null,
       filters: {},
       submitted: false,
       forumsService: null,
+      ratingService: null,
+      usersService: null
     };
   },
   created() {
     this.forumsService = new ForumApiService();
+    this.ratingService = new RatingApiService();
+    this.usersService = new UserApiService();
     this.forumsService.getAll().then((response) => {
       this.forums = response.data;
+      this.forums.forEach( (forum) => {
+        this.usersService.getById(forum.userId).then( (response) => {
+          forum.author = response.data.name + " " + response.data.lastname;
+        });
+        this.ratingService.getByForumId(forum.id).then((response) => {
+          let promval = 0;
+          this.vals = response.data;
+          if(this.vals.length == 0) {
+            forum.rating = 0
+          } else {
+            this.vals.forEach((val) => {
+              promval += val.rating.valueOf()
+            })
+            promval /= this.vals.length;
+            forum.rating = promval.toFixed(2);
+          }
+        })
+      })
       console.log(this.forums);
     });
     this.initFilters();
@@ -223,12 +192,13 @@ export default {
         content: displayableForum.content,
         date: (displayableForum.date = "02-12-2020"),
         userId: (displayableForum.userId = 1),
+        author: "Manuel Quispe Salazar",
         rating: (displayableForum.rating = 0),
       };
     },
     initFilters() {
       this.filters = {
-        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+        global: {value: null, matchMode: FilterMatchMode.CONTAINS},
       };
     },
     findIndexById(id) {
@@ -259,7 +229,7 @@ export default {
                 this.$toast.add({
                   severity: "success",
                   summary: "Successful",
-                  detail: "Tutorial Updated",
+                  detail: "Entry Updated",
                   life: 3000,
                 });
                 console.log(response);
@@ -273,7 +243,7 @@ export default {
             this.$toast.add({
               severity: "success",
               summary: "Successful",
-              detail: "Tutorial Created",
+              detail: "Entry Created",
               life: 3000,
             });
             console.log(response);
@@ -283,41 +253,7 @@ export default {
       this.forumDialog = false;
       this.forum = {};
     },
-    editForum(forum) {
-      this.forum = { ...forum };
-      this.forumDialog = true;
-    },
-    confirmDeleteForum(forum) {
-      this.forum = forum;
-      this.deleteForumDialog = true;
-    },
-    deleteForum() {
-      this.forumsService.delete(this.forum.id).then((response) => {
-        this.forums = this.forums.filter((t) => t.id !== this.forum.id);
-        this.deleteForumDialog = false;
-        this.forum = {};
-        this.$toast.add({
-          severity: "success",
-          summary: "Successful",
-          detail: "Tutorial Deleted",
-          life: 3000,
-        });
-        console.log(response);
-      });
-    },
-    confirmDeleteSelected() {
-      this.deleteForumsDialog = true;
-    },
-    deleteSelectedForums() {
-      this.selectedForums.forEach((forum) => {
-        this.forumsService.delete(forum.id).then((response) => {
-          this.forums = this.forums.filter((t) => t.id !== this.forum.id);
-          console.log(response);
-        });
-      });
-      this.deleteForumsDialog = false;
-    },
-  },
+  }
 };
 </script>
 
@@ -328,4 +264,3 @@ export default {
 }
 
 </style>
-
