@@ -4,17 +4,28 @@
     <h1>{{ title }}</h1>
     <p>Por: {{ author }}</p>
     <p>{{ description }}</p>
-    <pv-rating :modelValue=promval :cancel="false" :readonly="true" />
-      <p>Rating: {{ promval }} stars</p>
+    <pv-toolbar>
+      <template #start>
+        <p>{{ promval }}</p>
+        <pv-rating :modelValue="1" :readonly="true" :stars="1" :cancel="false"></pv-rating>
+        <div class="spacer"></div>
+        <pv-rating v-model="val"/>
+        <h3 class="value-temp">{{val}}</h3>
+        <div class="spacer"></div>
+        <pv-button icon="pi pi-send" class="p-button-rounded p-button-outlined" @click="postRating"/>
+      </template>
+      <template #end></template>
+    </pv-toolbar>
+
     <pv-button id="answer-btn"
                class="p-button-rounded p-button-raised p-button-info"
-               label="Responder"
+               label="Reply"
                @click="newComment"
     />
     <h2>Comments: ({{ comments.length }})</h2>
     <pv-data-table :value="comments" responsiveLayout="scroll">
       <pv-column field="author" header="Author"></pv-column>
-      <pv-column field="content" header="Comentario" style="text-align: justify"/>
+      <pv-column field="content" header="Comment" style="text-align: justify"/>
     </pv-data-table>
     </template>
   </pv-card>
@@ -89,7 +100,11 @@ export default {
       isValDisabled: false,
       isDialogVisible: false,
       users: {},
-      fecha: null
+      fecha: null,
+      ratings: {},
+      rating: {},
+      submit: null,
+      val: 0
     };
   },
   created() {
@@ -102,8 +117,10 @@ export default {
     this.description = this.$route.params.content;
     this.getEntryAuthor(this.$route.params.userId);
     this.getCommentsToPost();
+    this.getRatingsToPost();
     this.getUsers();
     this.getAverageValoration();
+    this.submit = false;
   },
   methods: {
     getEntryAuthor(id) {
@@ -123,6 +140,12 @@ export default {
             })
             console.log(response.data);
           })
+    },
+    getRatingsToPost() {
+      this.ratingApi.getByForumId(this.$route.params.id).then((response) => {
+        this.ratings = response.data;
+        console.log(response.data);
+      })
     },
     getUsers() {
       this.usersApi
@@ -159,15 +182,29 @@ export default {
       return {
         id: displayableComment.id,
         forumId: this.$route.params.id,
-        userId: displayableComment.userId = 1,
+        userId: (displayableComment.userId = 1),
         content: (displayableComment.content),
-        date: displayableComment.date = this.fecha.getDate() + "-" + (this.fecha.getMonth() + 1) + "-" + this.fecha.getFullYear(),
+        date: (displayableComment.date =
+          this.fecha.getDate() +
+          "-" +
+          (this.fecha.getMonth() + 1) +
+          "-" +
+          this.fecha.getFullYear()),
       };
 
     },
+    getStorableRating(displayableRating) {
+      return {
+        id: displayableRating.id,
+        forumId: this.$route.params.id,
+        rating: displayableRating.rating,
+      };
+    },
     getDisplayableComment(comment){
-
       return comment;
+    },
+    getDisplayableRating(rating){
+      return rating;
     },
     newComment(){
       this.commentDialog = true;
@@ -190,7 +227,24 @@ export default {
       this.commentDialog = false;
       console.log(this.comment);
     },
-  }
+
+    postRating() {
+      if (this.val != null && this.val > 0){
+        this.rating = this.getStorableRating(this.rating)
+        this.ratingApi.create(this.rating).then((response) => {
+          this.forumsApi.getById(this.rating.forumId).then((response) => {
+            this.rating.rating = this.val;
+            console.log(response.data);
+
+          });
+          this.rating = this.getDisplayableRating(response.data);
+          this.ratings.push(this.rating);
+        });
+      }
+
+
+    },
+  },
 };
 </script>
 
@@ -209,11 +263,17 @@ h3 {
   margin-left: 10px;
   margin-top: 10px;
 }
+.spacer{
+  margin-left: 1.2rem;
+}
 
 .card{
   margin-top: 2rem;
 }
-
+.value-temp{
+  margin:0;
+  margin-left: 0.5rem;
+}
 #answer-btn {
   margin-left: 80%;
 }
