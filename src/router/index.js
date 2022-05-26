@@ -64,6 +64,12 @@ const router = createRouter({
       component: () =>
         import("../social-med/pages/reports/report-bugs.component.vue"),
     },
+    {
+      path: "/contacts",
+      name: "contacts",
+      component: () =>
+        import("../social-med/pages/contacts/contacts-view.component.vue"),
+    },
   ],
 });
 

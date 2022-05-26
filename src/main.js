@@ -2,6 +2,8 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
 import PrimeVue from "primevue/config";
+//import socketio from "socket.io";
+//import VueSocketIO from "vue-socket.io";
 
 import "primevue/resources/themes/lara-light-blue/theme.css";
 import "primevue/resources/primevue.min.css";
@@ -25,12 +27,14 @@ import Card from "primevue/card";
 import Rating from "primevue/rating";
 import Image from "primevue/image";
 import Carousel from "primevue/carousel";
+import Listbox from "primevue/listbox";
 
 const app = createApp(App);
 
 app.use(router);
 app.use(PrimeVue, { ripple: true });
 app.use(ToastService);
+
 
 app.component("pv-data-table", DataTable);
 app.component("pv-column", Column);
@@ -44,10 +48,10 @@ app.component("pv-dropdown", Dropdown);
 app.component("pv-tag", Tag);
 app.component("pv-textarea", Textarea);
 app.component("pv-divider", Divider);
-app.component("pv-card", Card)
+app.component("pv-card", Card);
 app.component("pv-rating", Rating);
 app.component("pv-image", Image);
-app.component("pv-carousel", Carousel)
-
+app.component("pv-carousel", Carousel);
+app.component("pv-list-box", Listbox);
 
 app.mount("#app");

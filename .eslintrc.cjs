@@ -9,6 +9,14 @@ module.exports = {
     "@vue/eslint-config-prettier"
   ],
   "env": {
-    "vue/setup-compiler-macros": true
-  }
+    "vue/setup-compiler-macros": true,
+    browser: true,
+    node: true,
+    es6: true
+  },
+  "globals": {
+    "$": true,
+    "require": true,
+    "process": true
+  },
 }
