@@ -197,7 +197,7 @@ export default {
       return {
         id: displayableRating.id,
         forumId: this.$route.params.id,
-        rating: displayableRating.rating,
+        rating: this.val,
       };
     },
     getDisplayableComment(comment){
