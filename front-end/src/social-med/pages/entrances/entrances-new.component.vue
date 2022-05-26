@@ -4,13 +4,13 @@
       <pv-toolbar class="mb-4">
         <template #start>
           <pv-button
-            label="New"
+            label="Create entry"
             icon="pi pi-plus"
             class="p-button-success mr-2"
             @click="openNew"
           />
           <pv-button
-            label="Delete"
+            label="Delete entry"
             icon="pi pi-trash"
             class="p-button-danger"
             @click="confirmDeleteSelected"
@@ -19,79 +19,122 @@
         </template>
         <template #end> </template>
       </pv-toolbar>
-      <pv-data-table
-        ref="dt"
-        :value="forums"
-        v-model:selection="selectedForums"
-        dataKey="id"
-        :paginator="true"
-        :rows="10"
-        :filters="filters"
-        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-        :rowsPerPageOptions="[5, 10, 15]"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} tutorials"
-        responsiveLayout="scroll"
-      >
-        <template #header>
-          <div
-            class="table-header flex flex-column md:flex-row md:justify-content-between"
+      <pv-card>
+        <template #content>
+          <pv-data-table
+            ref="dt"
+            :value="forums"
+            v-model:selection="selectedForums"
+            dataKey="id"
+            :paginator="true"
+            :rows="10"
+            :filters="filters"
+            paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+            :rowsPerPageOptions="[5, 10, 15]"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} Entries"
+            responsiveLayout="scroll"
           >
-            <h5 class="mb-2 md:m-0 p-as-md-center text-xl">Manage Forums</h5>
-            <span class="p-input-icon-left"
-              ><i class="pi pi-search" /><pv-input-text
-                v-model="filters['global'].value"
-                placeholder="Search..."
-              />
-            </span>
-          </div>
+            <template #header>
+              <div
+                class="table-header flex flex-column md:flex-row md:justify-content-between"
+              >
+                <h5 class="mb-2 md:m-0 p-as-md-center text-xl">
+                  Manage my entries
+                </h5>
+                <span class="p-input-icon-left"
+                  ><i class="pi pi-search" /><pv-input-text
+                    v-model="filters['global'].value"
+                    placeholder="Search..."
+                  />
+                </span>
+              </div>
+            </template>
+            <pv-column
+              selectionMode="multiple"
+              style="width: 3rem"
+              :exportable="false"
+            ></pv-column>
+            <pv-column
+              field="title"
+              header="Title"
+              :sortable="true"
+              style="min-width: 6rem; text-align: center"
+            ></pv-column>
+            <pv-column
+              field="content"
+              header="Description"
+              :sortable="true"
+              style="
+                max-width: 30rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              "
+            ></pv-column>
+            <pv-column
+              field="date"
+              header="Date"
+              :sortable="true"
+              style="width: 8rem"
+            ></pv-column>
+            <pv-column
+              field="rating"
+              header="Rating"
+              :sortable="true"
+              style="width: 10rem"
+            >
+              <template #body="slotProps">
+                <pv-rating
+                  v-model="val"
+                  :model-value="slotProps.data.rating"
+                  :cancel="false"
+                  :readonly="true"
+                />
+              </template>
+            </pv-column>
+            <pv-column
+              :exportable="false"
+              header="Actions"
+              style="min-width: 6rem"
+            >
+              <template #body="slotProps">
+                <pv-button
+                  icon="pi pi-pencil"
+                  class="p-button-text p-button-rounded"
+                  @click="editForum(slotProps.data)"
+                />
+                <pv-button
+                  icon="pi pi-trash"
+                  class="p-button-text p-button-rounded"
+                  @click="confirmDeleteForum(slotProps.data)"
+                />
+              </template>
+            </pv-column>
+            <pv-column :exportable="false" style="min-width: 10rem">
+              <template #body="slotProps">
+                <router-link
+                  :to="{ name: 'responses', params: slotProps.data }"
+                  style="text-decoration: none"
+                >
+                  <pv-button
+                    label="View entry"
+                    class="p-button-outlined"
+                  ></pv-button>
+                </router-link>
+              </template>
+            </pv-column>
+          </pv-data-table>
         </template>
-        <pv-column
-          selectionMode="multiple"
-          style="width: 3rem"
-          :exportable="false"
-        ></pv-column>
-        <pv-column
-          field="id"
-          header="Id"
-          :sortable="true"
-          style="min-width: 5rem"
-        ></pv-column>
-        <pv-column
-          field="title"
-          header="Title"
-          :sortable="true"
-          style="min-width: 12rem"
-        ></pv-column>
-        <pv-column
-          field="content"
-          header="Content"
-          :sortable="true"
-          style="min-width: 16rem"
-        ></pv-column>
-        <pv-column :exportable="false" style="min-width: 5rem">
-          <template #body="slotProps">
-            <pv-button
-              icon="pi pi-pencil"
-              class="p-button-text p-button-rounded"
-              @click="editForum(slotProps.data)"
-            />
-            <pv-button
-              icon="pi pi-trash"
-              class="p-button-text p-button-rounded"
-              @click="confirmDeleteForum(slotProps.data)"
-            />
-          </template>
-        </pv-column>
-      </pv-data-table>
+      </pv-card>
     </div>
     <pv-dialog
       v-model:visible="forumDialog"
-      :style="{ width: '600px' }"
-      header="Nuevo Foro"
+      :style="{ width: '40vw' }"
+      header="Create entry"
       :modal="true"
       class="p-fluid"
     >
-      <div class="field">
+      <div class="field" style="padding-top: 3rem">
         <span class="p-float-label">
           <pv-input-text
             type="text"
@@ -101,42 +144,23 @@
             autofocus
             :class="{ 'p-invalid': submitted && !forum.title }"
           />
-          <label for="title">Ingrese el Título</label>
+          <label for="title">Title</label>
           <small class="p-error" v-if="submitted && !forum.title"
             >Title is required.</small
           >
         </span>
       </div>
-      <div class="field">
+      <div class="field" style="padding-top: 2rem">
         <span class="p-float-label">
           <pv-textarea
             id="content"
             v-model="forum.content"
             required="false"
-            rows="2"
+            rows="5"
             cols="2"
           />
-          <label for="content">Contenido</label>
+          <label for="content">Description</label>
         </span>
-      </div>
-      <div class="field">
-        <pv-dropdown
-          id="published"
-          v-model="forum.status"
-          :options="statuses"
-          optionLabel="label"
-          placeholder="Seleccione estado"
-        >
-          <template #value="slotProps">
-            <div v-if="slotProps.value && slotProps.value.value">
-              <span>{{ slotProps.value.label }}</span>
-            </div>
-            <div v-else-if="slotProps.value && !slotProps.value.value">
-              <span>{{ slotProps.value }}</span>
-            </div>
-            <span v-else>{{ slotProps.placeholder }}</span>
-          </template>
-        </pv-dropdown>
       </div>
       <template #footer>
         <pv-button
@@ -189,7 +213,7 @@
       <div class="confirmation-content">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
         <span v-if="selectedForums"
-          >Are you sure you want to delete the selected tutorials?</span
+          >Are you sure you want to delete the selected Entries?</span
         >
       </div>
       <template #footer>
@@ -212,7 +236,9 @@
 
 <script>
 import { FilterMatchMode } from "primevue/api";
-import { ForumApiService } from "../../services/forum.service";
+import { ForumApiService } from "../../services/forum-api.service";
+import { RatingApiService } from "../../services/rating-api.service";
+
 export default {
   name: "entrances-new.component",
   data() {
@@ -224,14 +250,34 @@ export default {
       forum: {},
       selectedForums: null,
       filters: {},
+      vasl: {},
       submitted: false,
       forumsService: null,
+      ratingService: null,
+      fecha: null,
     };
   },
   created() {
+    this.fecha = new Date();
     this.forumsService = new ForumApiService();
-    this.forumsService.getAll().then((response) => {
+    this.ratingService = new RatingApiService();
+    this.forumsService.getByUserId(1).then((response) => {
       this.forums = response.data;
+      this.forums.forEach((forum) => {
+        this.ratingService.getByForumId(forum.id).then((response) => {
+          let promval = 0;
+          this.vals = response.data;
+          if (this.vals.length == 0) {
+            forum.rating = 0;
+          } else {
+            this.vals.forEach((val) => {
+              promval += val.rating.valueOf();
+            });
+            promval /= this.vals.length;
+            forum.rating = promval.toFixed(2);
+          }
+        });
+      });
       console.log(this.forums);
     });
     this.initFilters();
@@ -242,7 +288,12 @@ export default {
         id: displayableForum.id,
         title: displayableForum.title,
         content: displayableForum.content,
-        date: (displayableForum.date = "02-12-2020"),
+        date: (displayableForum.date =
+          this.fecha.getDate() +
+          "-" +
+          (this.fecha.getMonth() + 1) +
+          "-" +
+          this.fecha.getFullYear()),
         userId: (displayableForum.userId = 1),
       };
     },
@@ -279,7 +330,7 @@ export default {
               this.$toast.add({
                 severity: "success",
                 summary: "Successful",
-                detail: "Tutorial Updated",
+                detail: "Entry Updated",
                 life: 3000,
               });
               console.log(response);
@@ -293,7 +344,7 @@ export default {
             this.$toast.add({
               severity: "success",
               summary: "Successful",
-              detail: "Tutorial Created",
+              detail: "Entry Created",
               life: 3000,
             });
             console.log(response);
@@ -313,13 +364,13 @@ export default {
     },
     deleteForum() {
       this.forumsService.delete(this.forum.id).then((response) => {
-        this.forums = this.forums.filter((t) => t.id !== this.forum.id);
+        this.forums = this.forums.filter((f) => f.id !== this.forum.id);
         this.deleteForumDialog = false;
         this.forum = {};
         this.$toast.add({
           severity: "success",
           summary: "Successful",
-          detail: "Tutorial Deleted",
+          detail: "Entry Deleted",
           life: 3000,
         });
         console.log(response);
@@ -331,14 +382,19 @@ export default {
     deleteSelectedForums() {
       this.selectedForums.forEach((forum) => {
         this.forumsService.delete(forum.id).then((response) => {
-          this.forums = this.forums.filter((t) => t.id !== this.forum.id);
+          this.forums = this.forums.filter((f) => f.id !== forum.id);
           console.log(response);
         });
       });
       this.deleteForumsDialog = false;
+      this.selectedForums = null;
     },
   },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.card {
+  margin-top: 1.5rem;
+}
+</style>

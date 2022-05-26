@@ -5,6 +5,16 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      path: "/log-in",
+      name: "log-in",
+      component: () => import("../public/log-in.component.vue"),
+    },
+    {
+      path: "/sign-in",
+      name: "sign-in",
+      component: () => import("../public/sign-in.component.vue"),
+    },
+    {
       path: "/1",
       name: "home1",
       component: HomeView,
@@ -37,7 +47,7 @@ const router = createRouter({
         import("../social-med/pages/entrances/entrances-new.component.vue"),
     },
     {
-      path: "/responses",
+      path: "/responses/:id",
       name: "responses",
       component: () =>
         import("../social-med/pages/responses/responses-new.component.vue"),

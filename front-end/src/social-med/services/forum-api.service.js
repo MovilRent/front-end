@@ -5,7 +5,11 @@ export class ForumApiService {
   }
 
   getById(id) {
-    return http.get("/forums/${id}");
+    return http.get(`/forums/${id}`);
+  }
+
+  getByUserId(id){
+    return http.get(`users/${id}/forums`);
   }
 
   create(data) {
@@ -13,14 +17,14 @@ export class ForumApiService {
   }
 
   update(id, data) {
-    return http.put("/forums/${id}", data);
+    return http.put(`/forums/${id}`, data);
   }
 
   delete(id) {
-    return http.delete("/forums/${id}");
+    return http.delete(`/forums/${id}`);
   }
 
   findByTitle(title) {
-    return http.get("/forums?title=${title}");
+    return http.get(`/forums?title=${title}`);
   }
 }
