@@ -137,10 +137,12 @@
       "actions": [
         {
           "key": 1,
+          "actionCode": 1,
           "desc": "Ver perfil"
         },
         {
           "key": 2,
+          "actionCode": 4,
           "desc": "Enviar solicitud"
         }
       ]
@@ -152,10 +154,12 @@
       "actions": [
         {
           "key": 1,
+          "actionCode": 1,
           "desc": "Ver perfil"
         },
         {
           "key": 2,
+          "actionCode": 2,
           "desc": "Enviar mensaje"
         }
       ]
@@ -167,6 +171,7 @@
       "actions": [
         {
           "key": 1,
+          "actionCode": 3,
           "desc": "Leer"
         }
       ]

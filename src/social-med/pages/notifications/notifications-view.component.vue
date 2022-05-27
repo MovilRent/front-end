@@ -27,7 +27,15 @@
           <pv-column>
             <template #body="slotProps">
               <div v-for="action in slotProps.data.actions" :key="action.key">
-                <pv-button :label="action.desc" style="margin: 0.7rem" class="p-button-outlined"></pv-button>
+                <router-link v-if="action.actionCode===1" to="/profile">
+                  <pv-button  :label="action.desc" style="margin: 0.7rem" class="p-button-outlined"></pv-button>
+                </router-link>
+                <router-link v-else-if="action.actionCode===3" :to="{ name: 'responses', params: {id: 1, userId: 1} }">
+                  <pv-button :label="action.desc" style="margin: 0.7rem" class="p-button-outlined"></pv-button>
+                </router-link>
+                <router-link v-else to="/home">
+                  <pv-button  :label="action.desc" style="margin: 0.7rem" class="p-button-outlined"></pv-button>
+                </router-link>
               </div>
             </template>
           </pv-column>
