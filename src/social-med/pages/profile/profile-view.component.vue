@@ -27,7 +27,7 @@
     </div>
     <div class="col-10">
       <div class="grid">
-        <div class="col">
+        <div class="col-12">
           <pv-card class="card">
             <template #title>
               <p>Biography: </p>
@@ -37,7 +37,7 @@
             </template>
           </pv-card>
         </div>
-        <div class="col">
+        <div class="col-12">
           <pv-card class="card">
             <template #content>
               <pv-data-table
