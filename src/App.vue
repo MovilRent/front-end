@@ -8,6 +8,7 @@ export default {
         { label: "My profile", to: "/profile" },
         { label: "My entries", to: "/entrances" },
         { label: "Contacts", to: "/contacts" },
+        { label: "Notifications", to: "/notifications" }
       ],
     };
   },
