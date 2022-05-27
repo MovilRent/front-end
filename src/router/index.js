@@ -75,7 +75,13 @@ const router = createRouter({
       path: "/notifications",
       name: "notifications",
       component: () => import("../social-med/pages/notifications/notifications-view.component.vue")
-    }
+    },
+    {
+      path: "/report-bugs",
+      name: "report-bugs",
+      component: () =>
+        import("../social-med/pages/reports/report-bugs.component.vue"),
+    },
 
   ],
 });
