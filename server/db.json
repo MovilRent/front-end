@@ -127,6 +127,21 @@
       "id": 1,
       "forumId": 1,
       "rating": 0
+    },
+    {
+      "forumId": "1",
+      "rating": 4,
+      "id": 2
+    },
+    {
+      "forumId": "2",
+      "rating": 5,
+      "id": 3
+    },
+    {
+      "forumId": "2",
+      "rating": 2,
+      "id": 4
     }
   ]
 }

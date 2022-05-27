@@ -239,6 +239,7 @@ export default {
           });
           this.rating = this.getDisplayableRating(response.data);
           this.ratings.push(this.rating);
+          this.getAverageValoration();
         });
       }
 
