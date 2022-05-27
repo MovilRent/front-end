@@ -137,6 +137,53 @@
       "rating": 3
     }
   ],
+
+  "notifications": [
+    {
+      "id": 1,
+      "title": " te ha recomendado",
+      "userId": 1,
+      "actions": [
+        {
+          "key": 1,
+          "actionCode": 1,
+          "desc": "Ver perfil"
+        },
+        {
+          "key": 2,
+          "actionCode": 4,
+          "desc": "Enviar solicitud"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": " te ha recomendado",
+      "userId": 2,
+      "actions": [
+        {
+          "key": 1,
+          "actionCode": 1,
+          "desc": "Ver perfil"
+        },
+        {
+          "key": 2,
+          "actionCode": 2,
+          "desc": "Enviar mensaje"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": " ha creado una nueva entrada en el foro",
+      "userId": 4,
+      "actions": [
+        {
+          "key": 1,
+          "actionCode": 3,
+          "desc": "Leer"
+        }
+      ]
   "recommendations": [
     {
       "recommendationUserId": 2,
@@ -145,6 +192,7 @@
     {
       "recommendationUserId": 3,
       "recommendedUserId": 1
+
     }
   ]
 }
