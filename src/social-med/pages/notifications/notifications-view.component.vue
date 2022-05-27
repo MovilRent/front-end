@@ -1,7 +1,7 @@
 <template>
   <div>
     <pv-card>
-      <template #title>Notificaciones</template>
+      <template #title>Notifications</template>
       <template #content>
         <pv-data-table
           ref="dt"
@@ -12,10 +12,10 @@
           paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
           :rowsPerPageOptions="[5, 10, 15]"
           responsiveLayout="scroll"
-          currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} notificaciones"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} notifications"
         >
           <template #header>
-            <h2 class="m-0">Nuevas notificaciones ({{notifications.length}})</h2>
+            <h2 class="m-0">New notifications ({{notifications.length}})</h2>
           </template>
           <pv-column>
             <template #body="slotProps">

@@ -71,7 +71,7 @@ const router = createRouter({
       component: () =>
         import("../social-med/pages/contacts/contacts-view.component.vue"),
     },
-
+    {
       path: "/notifications",
       name: "notifications",
       component: () => import("../social-med/pages/notifications/notifications-view.component.vue")
