@@ -6,7 +6,7 @@
           <h1>Report an Error</h1>
           <div class="field">
         <span class="p-float-label">
-          Insert a tittle
+          Insert a title
         </span>
           </div>
           <div class="field">
@@ -16,6 +16,7 @@
             required="false"
             rows="2"
             cols="100"
+            v-model="report.title"
           />
         </span>
           </div>
@@ -31,6 +32,7 @@
             required="false"
             rows="10"
             cols="100"
+            v-model="report.content"
           />
         </span>
           </div>
@@ -50,14 +52,14 @@
 </template>
 
 <script>
-import { ReportsApiService } from "../../services/reports-api.service";
+import { ReportsApiService } from "../../services/report-bugs-api.service";
 
 export default {
   name: "report-bugs.component",
   data() {
     return {
       reportsApi: null,
-      reports: {},
+      reports: [],
       report: {},
       title: "",
       description: "",
@@ -73,7 +75,7 @@ export default {
     getStorableReport(displayableReport) {
       return {
         id: displayableReport.id,
-        tittle: displayableReport.title,
+        title: displayableReport.title,
         content: displayableReport.content,
       };
 

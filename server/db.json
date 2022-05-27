@@ -152,7 +152,6 @@
       "id": 4
     }
   ],
-
   "notifications": [
     {
       "id": 1,
@@ -209,7 +208,7 @@
     {
       "recommendationUserId": 3,
       "recommendedUserId": 1
-
     }
-  ]
+  ],
+  "report-bugs": []
 }
