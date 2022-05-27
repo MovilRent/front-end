@@ -3,7 +3,7 @@
     class="card-container blue-container flex align-items-center justify-content-start"
   >
     <div>
-      <h2>My Contacts</h2>
+      <h2>My Contacts: {{this.selectedName}}</h2>
       <pv-list-box
         v-model="selectedContact"
         :options="contacts"
@@ -13,27 +13,31 @@
         listStyle="max-height:250px"
         style="width: 20rem"
         filterPlaceholder="Search"
+        @click="pushcurrent"
       >
       </pv-list-box>
     </div>
 
     <div class="chat-container">
-      <div class="block bg-gray-50 font-bold text-center p-4 border-round mb-3">
-        <div v-for="message in messages" :key="message.id">
-          <b>
-            {{ message.user }}
-          </b>
-          : {{ message.text }}
+      <div class="block bg-gray-50 font-bold text-right p-4 border-round mb-3">
+        <div class="block bg-gray-300 h-20rem font-bold text-right p-4 border-round mb-3">
+          <div v-for="message in messages" :key="message.id">
+            <pv-tag style="margin: 1rem">{{ message.text }}</pv-tag>
+             :  {{ message.user }}
+          </div>
         </div>
       </div>
       <div
-        class="bottom-0 right-0 bg-white-500 font-bold text-center p-4 border-round mb-3"
+        class="block bg-white-500 font-bold text-center p-1 border-round mb-3"
       >
-        <textarea
-          v-model="text"
-          class="text-message"
-          v-on:keyup.enter="sendMessage"
-        ></textarea>
+        <div class="card-container blue-container flex align-items-center justify-content-start">
+           <textarea
+             v-model="text"
+             class="block bg-white-500 font-bold w-full h-1rem text-center p-3 border-round mb-3"
+             v-on:keyup.enter="sendMessage"
+           ></textarea>
+        </div>
+
       </div>
     </div>
   </div>
@@ -86,6 +90,9 @@ export default {
       this.messages = this.messages.concat(message);
       this.socketInstance.emit("message", message);
     },
+    pushcurrent(){
+      this.selectedName=this.selectedContact[0].name;
+    }
   },
 };
 </script>
@@ -103,5 +110,12 @@ export default {
 .text-message {
   width: 30vw;
   height: 3vw;
+}
+.block-text {
+  max-height: 50vw;
+  height: 25vw;
+  width: 70vw;
+  min-width: 10vw;
+  background-color: gainsboro;
 }
 </style>
