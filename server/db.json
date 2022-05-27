@@ -6,11 +6,13 @@
       "lastname": "Quispe Salazar",
       "age": 20,
       "image": "doc1.jpg",
+      "phone": "932859055",
       "email": "jack@gmail.com",
       "workplace": "Hospital del niño",
       "recommendation": 8,
       "password": "123",
       "specialist": "Dentist",
+      "residence": "Perú",
       "biography": "Los templos egipcios fueron construidos para el culto oficial de los dioses y la conmemoración"
     },
     {
@@ -19,11 +21,13 @@
       "lastname": "Torres Lee",
       "age": 21,
       "image": "doc2.png",
+      "phone": "948375930",
       "email": "jack@gmail.com",
       "specialist": "Psychologist",
       "recommendation": 5,
       "workplace": "Clínica San Borja",
       "password": "123",
+      "residence": "Perú",
       "biography": "Los templos egipcios fueron construidos para el culto oficial de los dioses y la conmemoración"
     },
     {
@@ -32,11 +36,13 @@
       "lastname": "Jimenez Ruiz",
       "age": 10,
       "image": "doc3.jpg",
+      "phone": "995837509",
       "email": "jack@gmail.com",
       "specialist": "Ophthalmologist",
       "recommendation": 15,
       "workplace": "Clínica San Felipe",
       "password": "123",
+      "residence": "Perú",
       "biography": "Los templos egipcios fueron construidos para el culto oficial de los dioses y la conmemoración"
     },
     {
@@ -45,11 +51,13 @@
       "lastname": "Araujo Bermudez",
       "age": 24,
       "image": "doc4.jpg",
+      "phone": "993748909",
       "email": "jack@gmail.com",
       "workplace": "Clínica San Pablo",
       "recommendation": 24,
       "specialist": "Pediatrician",
       "password": "123",
+      "residence": "Perú",
       "biography": "Los templos egipcios fueron construidos para el culto oficial de los dioses y la conmemoración"
     }
   ],
@@ -127,6 +135,16 @@
       "id": 1,
       "forumId": 1,
       "rating": 3
+    }
+  ],
+  "recommendations": [
+    {
+      "recommendationUserId": 2,
+      "recommendedUserId": 1
+    },
+    {
+      "recommendationUserId": 3,
+      "recommendedUserId": 1
     }
   ]
 }

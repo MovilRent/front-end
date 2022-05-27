@@ -53,7 +53,7 @@ const router = createRouter({
         import("../social-med/pages/responses/responses-new.component.vue"),
     },
     {
-      path: "/profile",
+      path: "/profile/:id",
       name: "profile",
       component: () =>
         import("../social-med/pages/profile/profile-view.component.vue"),

@@ -43,9 +43,11 @@
               <img :src="'../media/' + slotProps.data.image" class="doctor-image"/>
               <h3 class="doctor-name">{{ slotProps.data.fullname }}</h3>
               <h4>{{ slotProps.data.specialist}}</h4>
-              <h5 class="doctor-description">{{ slotProps.data.recommendation}} Recommendations</h5>
+              <h5 class="doctor-description">{{ slotProps.data.recommendation }} Recommendations</h5>
               <h5 class="doctor-description">{{ slotProps.data.workplace}}</h5>
-              <pv-button label="View profile" class="p-button-outlined" @click="goEntry(slotprops.data)"></pv-button>
+              <router-link :to="{ name: 'profile', params: slotProps.data }" style="text-decoration: none">
+                <pv-button label="View profile" class="p-button-outlined"></pv-button>
+              </router-link>
           </div>
         </template>
       </pv-carousel>
