@@ -156,49 +156,51 @@
   "notifications": [
     {
       "id": 1,
-      "title": " te ha recomendado",
+      "title": " recommends you",
       "userId": 1,
       "actions": [
         {
           "key": 1,
           "actionCode": 1,
-          "desc": "Ver perfil"
+          "desc": "View profile"
         },
         {
           "key": 2,
           "actionCode": 4,
-          "desc": "Enviar solicitud"
+          "desc": "Send message"
         }
       ]
     },
     {
       "id": 2,
-      "title": " te ha recomendado",
+      "title": " recommends you",
       "userId": 2,
       "actions": [
         {
           "key": 1,
           "actionCode": 1,
-          "desc": "Ver perfil"
+          "desc": "View profile"
         },
         {
           "key": 2,
           "actionCode": 2,
-          "desc": "Enviar mensaje"
+          "desc": "Send message"
         }
       ]
     },
     {
       "id": 3,
-      "title": " ha creado una nueva entrada en el foro",
+      "title": " has created a new entrance in the forum",
       "userId": 4,
       "actions": [
         {
           "key": 1,
           "actionCode": 3,
-          "desc": "Leer"
+          "desc": "View entry"
         }
       ]
+    }
+  ],
   "recommendations": [
     {
       "recommendationUserId": 2,
