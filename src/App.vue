@@ -7,6 +7,7 @@ export default {
         { label: "Forums", to: "/forums" },
         { label: "My profile", to: "/profile" },
         { label: "My entries", to: "/entrances" },
+        { label: "Contacts", to: "/contacts" },
         { label: "Notifications", to: "/notifications" }
       ],
     };
@@ -18,11 +19,11 @@ export default {
   <header>
     <pv-toolbar :style="'backgroundColor: #9CD4E7;'">
       <template #start>
-        <img :src="'../media/logo.png'" class="logo"/>
+        <img :src="'../media/logo.png'" class="logo" />
         <span class="p-input-icon-left">
-    <i class="pi pi-search" />
-    <pv-input-text type="text" v-model="value1" placeholder="Search" />
-</span>
+          <i class="pi pi-search" />
+          <pv-input-text type="text" v-model="value1" placeholder="Search" />
+        </span>
       </template>
       <template #end>
         <div class="flex-column">
@@ -34,7 +35,7 @@ export default {
             :key="item.label"
           >
             <pv-button
-              :StyleClass="Botones-nav"
+              :StyleClass="Botones - nav"
               :style="'backgroundColor: #9CD4E7; borderColor: #9CD4E7; margin-right: 0.5rem; color: #000000;'"
               :href="href"
               @click="navigate"
@@ -49,13 +50,12 @@ export default {
 </template>
 
 <style>
-.logo{
+.logo {
   width: 10rem;
   height: 3.5rem;
 }
 
-.p-input-icon-left{
+.p-input-icon-left {
   margin-left: 2rem;
 }
-
 </style>

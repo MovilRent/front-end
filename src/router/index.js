@@ -65,10 +65,18 @@ const router = createRouter({
         import("../social-med/pages/reports/report-bugs.component.vue"),
     },
     {
+
+      path: "/contacts",
+      name: "contacts",
+      component: () =>
+        import("../social-med/pages/contacts/contacts-view.component.vue"),
+    },
+
       path: "/notifications",
       name: "notifications",
       component: () => import("../social-med/pages/notifications/notifications-view.component.vue")
     }
+
   ],
 });
 
