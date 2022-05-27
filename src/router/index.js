@@ -53,7 +53,7 @@ const router = createRouter({
         import("../social-med/pages/responses/responses-new.component.vue"),
     },
     {
-      path: "/profile",
+      path: "/profile/:id",
       name: "profile",
       component: () =>
         import("../social-med/pages/profile/profile-view.component.vue"),
@@ -64,6 +64,19 @@ const router = createRouter({
       component: () =>
         import("../social-med/pages/reports/report-bugs.component.vue"),
     },
+    {
+
+      path: "/contacts",
+      name: "contacts",
+      component: () =>
+        import("../social-med/pages/contacts/contacts-view.component.vue"),
+    },
+
+      path: "/notifications",
+      name: "notifications",
+      component: () => import("../social-med/pages/notifications/notifications-view.component.vue")
+    }
+
   ],
 });
 
