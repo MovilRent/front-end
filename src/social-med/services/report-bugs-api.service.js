@@ -1,23 +1,23 @@
 import http from "../../core/services/http-common";
 export class ReportsApiService {
   getAll() {
-    return http.get("/report-bugs");
+    return http.get("/reports-bugs");
   }
 
   getById(id) {
-    return http.get(`/report-bugs/${id}`);
+    return http.get(`/reports-bugs/${id}`);
   }
 
   create(data) {
-    return http.post("/report-bugs", data);
+    return http.post("reports-bugs", data);
   }
 
   update(id, data) {
-    return http.put(`/report-bugs/${id}`, data);
+    return http.put(`/reports-bugs/${id}`, data);
   }
 
   delete(id) {
-    return http.delete(`/report-bugs/${id}`);
+    return http.delete(`/reports-bugs/${id}`);
   }
 }
 

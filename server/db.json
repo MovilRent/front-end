@@ -128,6 +128,13 @@
       "title": "Medico álbum de pop vocal tradicional",
       "content": "El premio Grammy al mejor álbum de pop vocal tradicional es un galardón otorgado a los artistas en el contexto de los premios Grammy, una ceremonia establecida en 1958 y llamada originalmente los premios Gramophone. Los reconocimientos en cada categoría son entregados en una ceremonia anual por The Recording Academy de los Estados Unidos con la intención de «distinguir los logros artísticos, la pericia técnica y la excelencia en general en la industria de la grabación, sin tener en cuenta la cantidad de ventas del álbum o su posición en las listas».",
       "date": "05-12-21"
+    },
+    {
+      "id": 3,
+      "title": "n",
+      "date": "4-6-2022",
+      "userId": 1,
+      "author": "Manuel Quispe Salazar"
     }
   ],
   "ratings": [
@@ -152,7 +159,6 @@
       "id": 4
     }
   ],
-
   "notifications": [
     {
       "id": 1,
@@ -209,7 +215,184 @@
     {
       "recommendationUserId": 3,
       "recommendedUserId": 1
-
+    }
+  ],
+  "reports-bugs": [
+    {
+      "id": 1,
+      "title": "a",
+      "description": "b"
+    },
+    {
+      "id": 2,
+      "title": "a",
+      "description": "b"
+    },
+    {
+      "id": 3,
+      "title": "a",
+      "description": "b"
+    },
+    {
+      "id": 4,
+      "title": "a",
+      "description": "b"
+    },
+    {
+      "id": 5,
+      "title": "a",
+      "description": "b"
+    },
+    {
+      "id": 6,
+      "title": "a",
+      "description": "b"
+    },
+    {
+      "id": 7,
+      "title": "a",
+      "description": "b"
+    },
+    {
+      "id": 8,
+      "title": "a",
+      "description": "b"
+    },
+    {
+      "id": 9,
+      "title": "a",
+      "description": "b"
+    },
+    {
+      "id": 10,
+      "title": "a",
+      "description": "b"
+    },
+    {
+      "id": 11,
+      "title": "a",
+      "description": "b"
+    },
+    {
+      "id": 12,
+      "title": "a",
+      "description": "b"
+    },
+    {
+      "id": 13,
+      "title": "a",
+      "description": "b"
+    },
+    {
+      "id": 14,
+      "title": "a",
+      "description": "b"
+    },
+    {
+      "id": 15,
+      "title": "a",
+      "description": "b"
+    },
+    {
+      "id": 16,
+      "title": "a",
+      "description": "b"
+    },
+    {
+      "id": 17
+    },
+    {
+      "id": 18
+    },
+    {
+      "id": 19
+    },
+    {
+      "id": 20,
+      "title": "a",
+      "description": "b"
+    },
+    {
+      "id": 21,
+      "title": "a",
+      "description": "b"
+    },
+    {
+      "id": 22,
+      "title": "a",
+      "description": "b"
+    },
+    {
+      "id": 23
+    },
+    {
+      "id": 24
+    },
+    {
+      "id": 25
+    },
+    {
+      "id": 26
+    },
+    {
+      "id": 27
+    },
+    {
+      "id": 28
+    },
+    {
+      "id": 29
+    },
+    {
+      "id": 30
+    },
+    {
+      "id": 31
+    },
+    {
+      "id": 32
+    },
+    {
+      "id": 33
+    },
+    {
+      "id": 34
+    },
+    {
+      "id": 35
+    },
+    {
+      "id": 36
+    },
+    {
+      "id": 37
+    },
+    {
+      "id": 38
+    },
+    {
+      "id": 39
+    },
+    {
+      "id": 40
+    },
+    {
+      "id": 41
+    },
+    {
+      "id": 42,
+      "title": "a",
+      "description": "b"
+    },
+    {
+      "id": 43,
+      "title": "a",
+      "description": "b"
+    },
+    {
+      "id": 44,
+      "title": "a",
+      "description": "b"
     }
   ]
 }

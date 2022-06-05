@@ -13,10 +13,15 @@
         <span class="p-float-label">
           <pv-textarea
             id="title"
-            required="false"
+            v-model="report.title"
+            required="true"
             rows="2"
             cols="100"
+            :class="{ 'p-invalid': submitted && !report.title }"
           />
+          <small class="p-error" v-if="submitted && !report.title"
+          >Title is required.</small
+          >
         </span>
           </div>
           <div class="field">
@@ -27,11 +32,16 @@
           <div class="field">
         <span class="p-float-label">
           <pv-textarea
-            id="content"
-            required="false"
+            id="description"
+            v-model="report.description"
+            required="true"
             rows="10"
             cols="100"
+            :class="{ 'p-invalid': submitted && !report.description }"
           />
+          <small class="p-error" v-if="submitted && !report.description"
+          >Description is required.</small
+          >
         </span>
           </div>
           <div class="col-12 md:col-2 p-fluid">
@@ -50,7 +60,7 @@
 </template>
 
 <script>
-import { ReportsApiService } from "../../services/reports-api.service";
+import { ReportsApiService } from "../../services/report-bugs-api.service";
 
 export default {
   name: "report-bugs.component",
@@ -61,6 +71,7 @@ export default {
       report: {},
       title: "",
       description: "",
+      submitted: false
     };
   },
   created() {
@@ -73,8 +84,8 @@ export default {
     getStorableReport(displayableReport) {
       return {
         id: displayableReport.id,
-        tittle: displayableReport.title,
-        content: displayableReport.content,
+        title: displayableReport.title,
+        description: displayableReport.description,
       };
 
     },
@@ -84,13 +95,14 @@ export default {
     },
 
     postReport() {
-      this.report.id = 0;
-      this.report = this.getStorableReport(this.report);
-      this.reportsApi.create(this.report).then((response) => {
-
-        this.report = this.getDisplayableReport(response.data);
-        this.reports.push(this.report);
-      });
+      this.submitted = true;
+      if(this.report.title && this.report.description) {
+        this.report.id = 0;
+        this.report = this.getStorableReport(this.report);
+        this.reportsApi.create(this.report)
+        this.submitted = false;
+        this.report = {}
+      }
 
     },
   }
