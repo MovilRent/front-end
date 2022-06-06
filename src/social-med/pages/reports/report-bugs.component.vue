@@ -19,6 +19,7 @@
             rows="2"
             cols="100"
             :class="{ 'p-invalid': submitted && !report.title }"
+
           />
           <small class="p-error" v-if="submitted && !report.title"
           >Title is required.</small
@@ -69,7 +70,7 @@ export default {
   data() {
     return {
       reportsApi: null,
-      reports: {},
+      reports: [],
       report: {},
       title: "",
       description: "",

@@ -264,9 +264,11 @@
       "author": "Manuel Quispe Salazar"
     }
   ],
+
   "ratings": [
     
   ],
+
   "notifications": [
     {
       "id": 1,
@@ -325,182 +327,8 @@
       "recommendedUserId": 1
     }
   ],
-  "reports-bugs": [
-    {
-      "id": 1,
-      "title": "a",
-      "description": "b"
-    },
-    {
-      "id": 2,
-      "title": "a",
-      "description": "b"
-    },
-    {
-      "id": 3,
-      "title": "a",
-      "description": "b"
-    },
-    {
-      "id": 4,
-      "title": "a",
-      "description": "b"
-    },
-    {
-      "id": 5,
-      "title": "a",
-      "description": "b"
-    },
-    {
-      "id": 6,
-      "title": "a",
-      "description": "b"
-    },
-    {
-      "id": 7,
-      "title": "a",
-      "description": "b"
-    },
-    {
-      "id": 8,
-      "title": "a",
-      "description": "b"
-    },
-    {
-      "id": 9,
-      "title": "a",
-      "description": "b"
-    },
-    {
-      "id": 10,
-      "title": "a",
-      "description": "b"
-    },
-    {
-      "id": 11,
-      "title": "a",
-      "description": "b"
-    },
-    {
-      "id": 12,
-      "title": "a",
-      "description": "b"
-    },
-    {
-      "id": 13,
-      "title": "a",
-      "description": "b"
-    },
-    {
-      "id": 14,
-      "title": "a",
-      "description": "b"
-    },
-    {
-      "id": 15,
-      "title": "a",
-      "description": "b"
-    },
-    {
-      "id": 16,
-      "title": "a",
-      "description": "b"
-    },
-    {
-      "id": 17
-    },
-    {
-      "id": 18
-    },
-    {
-      "id": 19
-    },
-    {
-      "id": 20,
-      "title": "a",
-      "description": "b"
-    },
-    {
-      "id": 21,
-      "title": "a",
-      "description": "b"
-    },
-    {
-      "id": 22,
-      "title": "a",
-      "description": "b"
-    },
-    {
-      "id": 23
-    },
-    {
-      "id": 24
-    },
-    {
-      "id": 25
-    },
-    {
-      "id": 26
-    },
-    {
-      "id": 27
-    },
-    {
-      "id": 28
-    },
-    {
-      "id": 29
-    },
-    {
-      "id": 30
-    },
-    {
-      "id": 31
-    },
-    {
-      "id": 32
-    },
-    {
-      "id": 33
-    },
-    {
-      "id": 34
-    },
-    {
-      "id": 35
-    },
-    {
-      "id": 36
-    },
-    {
-      "id": 37
-    },
-    {
-      "id": 38
-    },
-    {
-      "id": 39
-    },
-    {
-      "id": 40
-    },
-    {
-      "id": 41
-    },
-    {
-      "id": 42,
-      "title": "a",
-      "description": "b"
-    },
-    {
-      "id": 43,
-      "title": "a",
-      "description": "b"
-    },
-    {
-      "id": 44,
-      "title": "a",
-      "description": "b"
-    }
+  
+  "report-bugs": [
+    
   ]
 }
