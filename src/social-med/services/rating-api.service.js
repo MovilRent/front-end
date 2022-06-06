@@ -9,6 +9,10 @@ export class RatingApiService {
     return http.get(`forums/${id}/ratings`);
   }
 
+  getByUserId(id) {
+    return http.get(`users/${id}/ratings`);
+  }
+
   create(data) {
     return http.post("/ratings", data);
   }

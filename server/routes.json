@@ -3,6 +3,7 @@
   "users/:userId/forums/:forumId": "/forums/:forumId",
   "/forums/:forumId/comments/:commentId": "/comments/:commentId",
   "/forums/:forumId/ratings/:ratingId": "/comments/:ratingId",
+  "/users/:userId/ratings/:ratingId": "/comments/:ratingId",
   "/users/:userId/forums/:forumId/comments/:commentId": "/comments/:commentId",
   "/users/:userId": "/users/:userId",
   "/users/:userId/recommendations/:recommendedUserId": "/recommendations/:recommendedUserId"

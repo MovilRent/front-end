@@ -276,7 +276,7 @@ export default {
         this.ratingService.getByForumId(forum.id).then((response) => {
           let promval = 0;
           this.vals = response.data;
-          if (this.vals.length == 0) {
+          if (this.vals.length === 0) {
             forum.rating = 0;
           } else {
             this.vals.forEach((val) => {
