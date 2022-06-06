@@ -4,7 +4,7 @@
       <template #content>
         <div class="card">
           <pv-toolbar class="mb-4">
-            <template #end>
+            <template #start>
               <pv-button
                 label="Create entry"
                 icon="pi pi-plus"
@@ -110,31 +110,38 @@
     class="p-fluid"
   >
     <div class="field">
-      <span class="p-float-label">
-        <pv-input-text
+      <span class="p-float-label" :style="'margin-top:1.5rem'">
+        <pv-textarea
           type="text"
           id="title"
           v-model.trim="forum.title"
           required="true"
           autofocus
+          rows="1"
+          :autoResize="true"
+          cols="1"
           :class="{ 'p-invalid': submitted && !forum.title }"
         />
-        <label for="title">Title</label>
+        <label for="title" :style="'margin-top:-0.2rem'">Title</label>
         <small class="p-error" v-if="submitted && !forum.title"
-          >Title is required.</small
-        >
+          >Title is required.</small>
       </span>
     </div>
     <div class="field">
       <span class="p-float-label">
         <pv-textarea
           id="content"
+          :style="'margin-top:1rem'"
           v-model="forum.content"
-          required="false"
+          :autoResize="true"
+          required="true"
           rows="2"
-          cols="2"
+          cols="5"
+          :class="{ 'p-invalid': submitted && !forum.content }"
         />
-        <label for="content">Description</label>
+        <label for="content" :style="'margin-top:0.50rem'">Description</label>
+        <small class="p-error" v-if="submitted && !forum.content"
+        >Description is required.</small>
       </span>
     </div>
     <template #footer>
@@ -246,7 +253,7 @@ export default {
     },
     saveForum() {
       this.submitted = true;
-      if (this.forum.title.trim()) {
+      if (this.forum.title.trim() && this.forum.content.trim()) {
         if (this.forum.id) {
           this.forum = this.getStorableForum(this.forum);
           this.forumsService
@@ -277,9 +284,10 @@ export default {
             console.log(response);
           });
         }
+        this.forumDialog = false;
+        this.forum = {};
       }
-      this.forumDialog = false;
-      this.forum = {};
+
     },
   },
 };

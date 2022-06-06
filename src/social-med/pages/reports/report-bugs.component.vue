@@ -15,6 +15,7 @@
             id="title"
             v-model="report.title"
             required="true"
+            :autoResize="true"
             rows="2"
             cols="100"
             :class="{ 'p-invalid': submitted && !report.title }"
@@ -37,6 +38,7 @@
             required="true"
             rows="10"
             cols="100"
+            :autoResize="true"
             :class="{ 'p-invalid': submitted && !report.description }"
           />
           <small class="p-error" v-if="submitted && !report.description"

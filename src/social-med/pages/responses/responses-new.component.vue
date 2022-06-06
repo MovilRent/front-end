@@ -65,6 +65,7 @@
               required="true"
               :class="{ 'p-invalid': submitted && !comment.content }"
               :style="'margin-top:1rem'"
+              :autoResize="true"
               rows="8"
               cols="2"
           />
