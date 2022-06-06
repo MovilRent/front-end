@@ -17,9 +17,16 @@
       <template #end></template>
     </pv-toolbar>
 
-      <h2>Comments: ({{ comments.length }})</h2>
-      <pv-button id="answer-btn" class="p-button-rounded p-button-raised p-button-info" label="Reply" @click="newComment"
-      />
+      <div class="grid">
+        <div class="col-4">
+          <h2>Comments: ({{ comments.length }})</h2></div>
+        <div class="col-4 col-offset-4">
+          <pv-button id="answer-btn" :style="'margin-top: 0.5rem'" class="p-button-rounded p-button-raised p-button-info" label="Reply" @click="newComment" />
+        </div>
+      </div>
+
+
+
 
 
     <pv-data-table :value="comments" responsiveLayout="scroll">
@@ -68,7 +75,7 @@
     </div>
     <template #footer>
       <pv-button
-          label="Publicar"
+          label="Publish"
           class="p-button-text"
           icon="pi pi-send"
           @click="postComment"
