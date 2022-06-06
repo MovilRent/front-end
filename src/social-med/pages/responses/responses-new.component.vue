@@ -3,26 +3,27 @@
     <template #content>
     <h1>{{ title }}</h1>
     <p>Por: {{ author }}</p>
-    <p>{{ description }}</p>
-    <pv-toolbar>
-      <template #start>
-        <p>{{ promval }}</p>
-        <pv-rating :modelValue="1" :readonly="true" :stars="1" :cancel="false"></pv-rating>
-        <div class="spacer"></div>
-        <pv-rating v-model="val"/>
-        <h3 class="value-temp">{{val}}</h3>
-        <div class="spacer"></div>
-        <pv-button icon="pi pi-send" class="p-button-rounded p-button-outlined" @click="postRating"/>
-      </template>
-      <template #end></template>
-    </pv-toolbar>
+    <p class="description">{{ description }}</p>
 
-    <pv-button id="answer-btn"
-               class="p-button-rounded p-button-raised p-button-info"
-               label="Reply"
-               @click="newComment"
-    />
-    <h2>Comments: ({{ comments.length }})</h2>
+
+      <div class="card">
+        <div class="flex flex-row flex-wrap card-container blue-container">
+          <div class="flex align-items-center justify-content-center"><p>{{ promval }}</p></div>
+          <div class="flex align-items-center justify-content-center"><pv-rating :modelValue="1" :readonly="true" :stars="1" :cancel="false" ></pv-rating></div>
+          <div class="flex align-items-center justify-content-center w-10rem m-2"><pv-rating v-model="val" @change="postRating"/></div>
+          <div class="flex align-items-center justify-content-center"><h3 class="value-temp">{{val}}</h3></div>
+
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="col-4">
+          <h2>Comments: ({{ comments.length }})</h2></div>
+        <div class="col-4 col-offset-4">
+          <pv-button id="answer-btn" :style="'margin-top: 0.5rem'" class="p-button-rounded p-button-raised p-button-info" label="Reply" @click="newComment" />
+        </div>
+      </div>
+
     <pv-data-table :value="comments" responsiveLayout="scroll">
       <pv-column field="author" header="Author"></pv-column>
       <pv-column field="content" header="Comment" style="text-align: justify"/>
@@ -32,7 +33,7 @@
   <pv-dialog
       v-model:visible="commentDialog"
       :style="{ width: '800px' }"
-      header="Escribir una respuesta"
+      header="Write a comment"
       :modal="true"
       class="p-fluid"
   >
@@ -56,16 +57,21 @@
           <pv-textarea
               id="content"
               v-model="comment.content"
-              required="false"
+              required="true"
+              :class="{ 'p-invalid': submitted && !comment.content }"
+              :style="'margin-top:1rem'"
+              :autoResize="true"
               rows="8"
               cols="2"
           />
-          <label for="content">Escriba su respuesta aquí.</label>
+          <label for="content" :style="'margin-top:0.50rem'">Write your comment here</label>
+          <small class="p-error" v-if="submitted && !comment.content"
+          >Comment is required.</small>
         </span>
     </div>
     <template #footer>
       <pv-button
-          label="Publicar"
+          label="Publish"
           class="p-button-text"
           icon="pi pi-send"
           @click="postComment"
@@ -101,9 +107,9 @@ export default {
       isDialogVisible: false,
       users: {},
       fecha: null,
-      ratings: {},
       rating: {},
-      submit: null,
+      ratings: {},
+      submitted: false,
       val: 0
     };
   },
@@ -120,7 +126,6 @@ export default {
     this.getRatingsToPost();
     this.getUsers();
     this.getAverageValoration();
-    this.submit = false;
   },
   methods: {
     getEntryAuthor(id) {
@@ -130,16 +135,16 @@ export default {
     },
     getCommentsToPost() {
       this.commentsApi
-          .getByForumId(this.$route.params.id)
-          .then((response) => {
-            this.comments = response.data;
-            this.comments.forEach((comment) => {
-              this.usersApi.getById(comment.userId).then((response) => {
-                comment.author = response.data.name + " " + response.data.lastname;
-              });
-            })
-            console.log(response.data);
+        .getByForumId(this.$route.params.id)
+        .then((response) => {
+          this.comments = response.data;
+          this.comments.forEach((comment) => {
+            this.usersApi.getById(comment.userId).then((response) => {
+              comment.author = response.data.name + " " + response.data.lastname;
+            });
           })
+          console.log(response.data);
+        })
     },
     getRatingsToPost() {
       this.ratingApi.getByForumId(this.$route.params.id).then((response) => {
@@ -149,31 +154,40 @@ export default {
     },
     getUsers() {
       this.usersApi
-          .getAll()
-          .then((response) => {
-            this.users = response.data;
-            this.users.forEach((user) => {
-              user.fullname = user.name + " " + user.lastname;
-            })
-            console.log(this.users);
+        .getAll()
+        .then((response) => {
+          this.users = response.data;
+          this.users.forEach((user) => {
+            user.fullname = user.name + " " + user.lastname;
           })
-          .catch((error) => {
-            this.errors.push(error);
-            console.log(error);
-          });
+          console.log(this.users);
+        })
+        .catch((error) => {
+          this.errors.push(error);
+          console.log(error);
+        });
     },
     getAverageValoration() {
-          this.ratingApi.getByForumId(this.$route.params.id).then((response) => {
-            this.promval = 0;
-            this.vals = response.data;
-            if (this.vals.length !== 0) {
-              this.vals.forEach((val) => {
-                this.promval += val.rating.valueOf()
-              })
-              this.promval /= this.vals.length;
-              this.promval.toFixed(2);
-            }
+      this.ratingApi.getByForumId(this.$route.params.id).then((response) => {
+        this.promval = 0;
+        this.vals = response.data;
+        console.log(this.vals)
+        if (this.vals.length !== 0) {
+          this.vals.forEach((val) => {
+            this.promval += val.rating.valueOf()
           })
+          this.promval /= this.vals.length;
+          this.promval.toFixed(2);
+        }
+      })
+      this.ratingApi.getByUserId(1).then((response) => {
+        console.log(response)
+        if (response.data.length > 0) {
+          this.val = response.data[0].rating
+          this.rating = response.data[0]
+          console.log(this.val)
+        }
+      })
     },
     findIndexById(id) {
       return this.forums.findIndex((forum) => forum.id === id);
@@ -196,57 +210,77 @@ export default {
     getStorableRating(displayableRating) {
       return {
         id: displayableRating.id,
-        forumId: this.$route.params.id,
+        forumId: this.$route.params.id.valueOf(),
+        userId: 1,
         rating: this.val,
       };
     },
-    getDisplayableComment(comment){
+    getDisplayableComment(comment) {
       return comment;
     },
-    getDisplayableRating(rating){
+    getDisplayableRating(rating) {
       return rating;
     },
-    newComment(){
+    newComment() {
       this.commentDialog = true;
+      this.submitted = false;
     },
 
     hideDialog() {
       this.commentDialog = false;
+      this.submitted = false;
     },
     postComment() {
-      this.comment.id = 0;
-      this.comment = this.getStorableComment(this.comment);
-      this.commentsApi.create(this.comment).then((response) => {
-        this.usersApi.getById(this.comment.userId).then( (response) => {
-          this.comment.author = response.data.name + " " + response.data.lastname;
-        })
-        this.comment = this.getDisplayableComment(response.data);
-        this.comments.push(this.comment);
-      });
-
-      this.commentDialog = false;
-      console.log(this.comment);
+      this.submitted = true;
+      if (this.comment.content.trim()) {
+        this.comment.id = 0;
+        this.comment = this.getStorableComment(this.comment);
+        this.commentsApi.create(this.comment).then((response) => {
+          this.usersApi.getById(this.comment.userId).then((response) => {
+            this.comment.author = response.data.name + " " + response.data.lastname;
+          })
+          this.comment = this.getDisplayableComment(response.data);
+          this.usersApi.getById(this.comment.userId).then((response) => {
+            this.comment.author = response.data.name + " " + response.data.lastname;
+          });
+          this.comments.push(this.comment);
+        });
+        this.commentDialog = false;
+        this.comment = {}
+        console.log(this.comment);
+      }
+    },
+    deleteRating(){
+        this.ratingApi.delete(this.rating.id).then((response) => {
+          this.rating = {};
+          console.log(response)
+          this.getAverageValoration()
+        });
     },
 
     postRating() {
-      if (this.val != null && this.val > 0){
-        this.rating = this.getStorableRating(this.rating)
-        this.ratingApi.create(this.rating).then((response) => {
-          this.forumsApi.getById(this.rating.forumId).then((response) => {
-            this.rating.rating = this.val;
-            console.log(response.data);
-
+      if (this.val != null && this.val > 0) {
+        if (this.rating.id) {
+          this.rating = this.getStorableRating(this.rating);
+          this.ratingApi.update(this.rating.id, this.rating)
+        }
+        else {
+          this.rating = this.getStorableRating(this.rating)
+          this.ratingApi.create(this.rating).then(() => {
+            this.forumsApi.getById(this.rating.forumId).then((response) => {
+              this.rating.rating = this.val;
+              console.log(response.data);
+            });
           });
-          this.rating = this.getDisplayableRating(response.data);
-          this.ratings.push(this.rating);
-          this.getAverageValoration();
-        });
+        }
+        this.getAverageValoration()
       }
-
-
-    },
-  },
-};
+      else if(this.rating.id){
+        this.deleteRating();
+      }
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -266,6 +300,10 @@ h3 {
 }
 .spacer{
   margin-left: 1.2rem;
+}
+
+.description{
+  text-align: justify;
 }
 
 .card{

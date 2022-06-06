@@ -110,6 +110,118 @@
       "userId": 1,
       "content": "f",
       "date": "5-5-2022"
+    },
+    {
+      "id": 8,
+      "forumId": "1",
+      "userId": 1,
+      "date": "4-6-2022"
+    },
+    {
+      "id": 9,
+      "forumId": "1",
+      "userId": 1,
+      "date": "4-6-2022"
+    },
+    {
+      "id": 10,
+      "forumId": "1",
+      "userId": 1,
+      "date": "4-6-2022"
+    },
+    {
+      "id": 11,
+      "forumId": "1",
+      "userId": 1,
+      "date": "4-6-2022"
+    },
+    {
+      "id": 12,
+      "forumId": "1",
+      "userId": 1,
+      "content": "ddd",
+      "date": "4-6-2022"
+    },
+    {
+      "id": 13,
+      "forumId": "1",
+      "userId": 1,
+      "content": "ddd",
+      "date": "4-6-2022"
+    },
+    {
+      "id": 14,
+      "forumId": "1",
+      "userId": 1,
+      "date": "4-6-2022"
+    },
+    {
+      "id": 15,
+      "forumId": "1",
+      "userId": 1,
+      "date": "5-6-2022"
+    },
+    {
+      "id": 16,
+      "forumId": "1",
+      "userId": 1,
+      "date": "6-6-2022"
+    },
+    {
+      "id": 17,
+      "forumId": "1",
+      "userId": 1,
+      "content": "d",
+      "date": "6-6-2022"
+    },
+    {
+      "id": 18,
+      "forumId": "1",
+      "userId": 1,
+      "content": "d",
+      "date": "6-6-2022"
+    },
+    {
+      "id": 19,
+      "forumId": "1",
+      "userId": 1,
+      "content": "a",
+      "date": "6-6-2022"
+    },
+    {
+      "id": 20,
+      "forumId": "1",
+      "userId": 1,
+      "content": "5",
+      "date": "6-6-2022"
+    },
+    {
+      "id": 21,
+      "forumId": "1",
+      "userId": 1,
+      "content": "prueba",
+      "date": "6-6-2022"
+    },
+    {
+      "id": 22,
+      "forumId": "2",
+      "userId": 1,
+      "content": "f",
+      "date": "6-6-2022"
+    },
+    {
+      "id": 23,
+      "forumId": "1",
+      "userId": 1,
+      "content": "a",
+      "date": "6-6-2022"
+    },
+    {
+      "id": 24,
+      "forumId": "1",
+      "userId": 1,
+      "content": "a",
+      "date": "6-6-2022"
     }
   ],
   "forums": [
@@ -128,30 +240,35 @@
       "title": "Medico álbum de pop vocal tradicional",
       "content": "El premio Grammy al mejor álbum de pop vocal tradicional es un galardón otorgado a los artistas en el contexto de los premios Grammy, una ceremonia establecida en 1958 y llamada originalmente los premios Gramophone. Los reconocimientos en cada categoría son entregados en una ceremonia anual por The Recording Academy de los Estados Unidos con la intención de «distinguir los logros artísticos, la pericia técnica y la excelencia en general en la industria de la grabación, sin tener en cuenta la cantidad de ventas del álbum o su posición en las listas».",
       "date": "05-12-21"
+    },
+    {
+      "id": 3,
+      "title": "n",
+      "date": "4-6-2022",
+      "userId": 1,
+      "author": "Manuel Quispe Salazar"
+    },
+    {
+      "id": 4,
+      "title": "a",
+      "date": "6-6-2022",
+      "userId": 1,
+      "author": "Manuel Quispe Salazar"
+    },
+    {
+      "id": 5,
+      "title": "a",
+      "content": "n",
+      "date": "6-6-2022",
+      "userId": 1,
+      "author": "Manuel Quispe Salazar"
     }
   ],
+
   "ratings": [
-    {
-      "id": 1,
-      "forumId": 1,
-      "rating": 0
-    },
-    {
-      "forumId": "1",
-      "rating": 4,
-      "id": 2
-    },
-    {
-      "forumId": "2",
-      "rating": 5,
-      "id": 3
-    },
-    {
-      "forumId": "2",
-      "rating": 2,
-      "id": 4
-    }
+    
   ],
+
   "notifications": [
     {
       "id": 1,
@@ -210,5 +327,8 @@
       "recommendedUserId": 1
     }
   ],
-  "report-bugs": []
+  
+  "report-bugs": [
+    
+  ]
 }

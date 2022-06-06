@@ -7,8 +7,6 @@ export default {
         { label: "Forums", to: "/forums" },
         { label: "My profile", to: "/profile" },
         { label: "My entries", to: "/entrances" },
-        { label: "Contacts", to: "/contacts" },
-        { label: "Notifications", to: "/notifications" },
         { label: "Report Errors", to: "/report-bugs" },
       ],
     };
@@ -40,8 +38,21 @@ export default {
               :style="'backgroundColor: #9CD4E7; borderColor: #9CD4E7; margin-right: 0.5rem; color: #000000;'"
               :href="href"
               @click="navigate"
-              >{{ item.label }}</pv-button
-            >
+              >{{ item.label }}</pv-button>
+          </router-link>
+          <router-link to="/contacts" style="text-decoration: none">
+            <pv-button
+              icon="pi pi-comment"
+              :style="'backgroundColor: #9CD4E7; borderColor: #9CD4E7; margin-right: 0.5rem; color: #000000;'"
+              @click="openNew"
+            />
+          </router-link>
+          <router-link to="/notifications" style="text-decoration: none">
+            <pv-button
+              icon="pi pi-bell"
+              :style="'backgroundColor: #9CD4E7; borderColor: #9CD4E7; margin-right: 0.5rem; color: #000000;'"
+              @click="openNew"
+            />
           </router-link>
         </div>
       </template>
