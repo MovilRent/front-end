@@ -3,7 +3,7 @@
     <template #content>
     <h1>{{ title }}</h1>
     <p>Por: {{ author }}</p>
-    <p>{{ description }}</p>
+    <p class="description">{{ description }}</p>
     <pv-toolbar>
       <template #start>
         <p>{{ promval }}</p>
@@ -17,12 +17,11 @@
       <template #end></template>
     </pv-toolbar>
 
-    <pv-button id="answer-btn"
-               class="p-button-rounded p-button-raised p-button-info"
-               label="Reply"
-               @click="newComment"
-    />
-    <h2>Comments: ({{ comments.length }})</h2>
+      <h2>Comments: ({{ comments.length }})</h2>
+      <pv-button id="answer-btn" class="p-button-rounded p-button-raised p-button-info" label="Reply" @click="newComment"
+      />
+
+
     <pv-data-table :value="comments" responsiveLayout="scroll">
       <pv-column field="author" header="Author"></pv-column>
       <pv-column field="content" header="Comment" style="text-align: justify"/>
@@ -32,7 +31,7 @@
   <pv-dialog
       v-model:visible="commentDialog"
       :style="{ width: '800px' }"
-      header="Escribir una respuesta"
+      header="Write a comment"
       :modal="true"
       class="p-fluid"
   >
@@ -56,11 +55,15 @@
           <pv-textarea
               id="content"
               v-model="comment.content"
-              required="false"
+              required="true"
+              :class="{ 'p-invalid': submitted && !comment.content }"
+              :style="'margin-top:1rem'"
               rows="8"
               cols="2"
           />
-          <label for="content">Escriba su respuesta aquí.</label>
+          <label for="content" :style="'margin-top:0.50rem'">Write your comment here</label>
+          <small class="p-error" v-if="submitted && !comment.content"
+          >Comment is required.</small>
         </span>
     </div>
     <template #footer>
@@ -103,7 +106,7 @@ export default {
       fecha: null,
       ratings: {},
       rating: {},
-      submit: null,
+      submitted: false,
       val: 0
     };
   },
@@ -120,7 +123,6 @@ export default {
     this.getRatingsToPost();
     this.getUsers();
     this.getAverageValoration();
-    this.submit = false;
   },
   methods: {
     getEntryAuthor(id) {
@@ -208,24 +210,32 @@ export default {
     },
     newComment(){
       this.commentDialog = true;
+      this.submitted = false;
     },
 
     hideDialog() {
       this.commentDialog = false;
+      this.submitted = false;
     },
     postComment() {
-      this.comment.id = 0;
-      this.comment = this.getStorableComment(this.comment);
-      this.commentsApi.create(this.comment).then((response) => {
-        this.usersApi.getById(this.comment.userId).then( (response) => {
-          this.comment.author = response.data.name + " " + response.data.lastname;
-        })
-        this.comment = this.getDisplayableComment(response.data);
-        this.comments.push(this.comment);
-      });
-
-      this.commentDialog = false;
-      console.log(this.comment);
+      this.submitted = true;
+      if(this.comment.content.trim()) {
+        this.comment.id = 0;
+        this.comment = this.getStorableComment(this.comment);
+        this.commentsApi.create(this.comment).then((response) => {
+          this.usersApi.getById(this.comment.userId).then((response) => {
+            this.comment.author = response.data.name + " " + response.data.lastname;
+          })
+          this.comment = this.getDisplayableComment(response.data);
+          this.usersApi.getById(this.comment.userId).then((response) => {
+            this.comment.author = response.data.name + " " + response.data.lastname;
+          });
+          this.comments.push(this.comment);
+        });
+        this.commentDialog = false;
+        this.comment = {}
+        console.log(this.comment);
+      }
     },
 
     postRating() {
@@ -266,6 +276,10 @@ h3 {
 }
 .spacer{
   margin-left: 1.2rem;
+}
+
+.description{
+  text-align: justify;
 }
 
 .card{

@@ -6,7 +6,7 @@
           <h1>Report an Error</h1>
           <div class="field">
         <span class="p-float-label">
-          Insert a tittle
+          Insert a title
         </span>
           </div>
           <div class="field">

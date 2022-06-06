@@ -350,9 +350,9 @@ export default {
             console.log(response);
           });
         }
+        this.forumDialog = false;
+        this.forum = {};
       }
-      this.forumDialog = false;
-      this.forum = {};
     },
     editForum(forum) {
       this.forum = { ...forum };

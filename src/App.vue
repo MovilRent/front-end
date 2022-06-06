@@ -40,14 +40,14 @@ export default {
               @click="navigate"
               >{{ item.label }}</pv-button>
           </router-link>
-          <router-link to="/contacts">
+          <router-link to="/contacts" style="text-decoration: none">
             <pv-button
               icon="pi pi-comment"
               :style="'backgroundColor: #9CD4E7; borderColor: #9CD4E7; margin-right: 0.5rem; color: #000000;'"
               @click="openNew"
             />
           </router-link>
-          <router-link to="/notifications">
+          <router-link to="/notifications" style="text-decoration: none">
             <pv-button
               icon="pi pi-bell"
               :style="'backgroundColor: #9CD4E7; borderColor: #9CD4E7; margin-right: 0.5rem; color: #000000;'"
