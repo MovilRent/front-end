@@ -16,7 +16,7 @@
     </pv-column>
     <pv-column style="width: 10rem;">
       <template #body="slotProps">
-        <router-link :to="{ name: 'responses', params: slotProps.data }" style="text-decoration: none">
+        <router-link  :to="{name: 'responses', params: slotProps.data} " style="text-decoration: none">
           <pv-button label="View entry" class="p-button-outlined"></pv-button>
         </router-link>
       </template>
@@ -45,8 +45,8 @@
               <h4>{{ slotProps.data.specialist}}</h4>
               <h5 class="doctor-description">{{ slotProps.data.recommendation }} Recommendations</h5>
               <h5 class="doctor-description">{{ slotProps.data.workplace}}</h5>
-              <router-link :to="{ name: 'profile', params: slotProps.data }" style="text-decoration: none">
-                <pv-button label="View profile" class="p-button-outlined"></pv-button>
+              <router-link :to="{ name: 'profile', params: slotProps.data }"  style="text-decoration: none">
+                <pv-button label="View profile" @click="this.storage.set('profile', slotProps.data.id)" class="p-button-outlined"></pv-button>
               </router-link>
           </div>
         </template>
@@ -60,6 +60,7 @@
 import { ForumApiService } from "../../services/forum-api.service";
 import { UserApiService } from "../../services/user-api.service";
 import { RatingApiService } from "../../services/rating-api.service";
+import { StorageService } from "../../../core/services/storage.service";
 
 export default {
   name: "beginning-home.component",
@@ -72,6 +73,7 @@ export default {
           numScroll: 2
         },
       ],
+      storage: null,
       forums: {},
       users: {},
       forum: {},
@@ -83,6 +85,7 @@ export default {
     }
   },
   created() {
+    this.storage = new StorageService();
     this.forumsService = new ForumApiService();
     this.usersService = new UserApiService();
     this.ratingService = new RatingApiService();

@@ -92,10 +92,6 @@ export default {
       };
 
     },
-    getDisplayableReport(report){
-
-      return report;
-    },
 
     postReport() {
       this.submitted = true;

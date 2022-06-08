@@ -264,11 +264,20 @@
       "author": "Manuel Quispe Salazar"
     }
   ],
-
   "ratings": [
-    
+    {
+      "id": 1,
+      "forumId": "2",
+      "userId": 1,
+      "rating": 1
+    },
+    {
+      "id": 2,
+      "forumId": "1",
+      "userId": 1,
+      "rating": 5
+    }
   ],
-
   "notifications": [
     {
       "id": 1,
@@ -317,18 +326,6 @@
       ]
     }
   ],
-  "recommendations": [
-    {
-      "recommendationUserId": 2,
-      "recommendedUserId": 1
-    },
-    {
-      "recommendationUserId": 3,
-      "recommendedUserId": 1
-    }
-  ],
-  
-  "report-bugs": [
-    
-  ]
+  "recommendations": [],
+  "report-bugs": []
 }

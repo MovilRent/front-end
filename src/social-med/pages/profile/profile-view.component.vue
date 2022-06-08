@@ -3,25 +3,30 @@
     <div class="col-2">
       <pv-card class="card">
         <template #content>
-          <img :src="'../media/' + this.$route.params.image" class="doctor-image"/>
-          <h3>{{ this.$route.params.name + " " + this.$route.params.lastname }}</h3>
-          <h5> {{ this.$route.params.email }}</h5>
+          <img :src="'../media/' + this.profile.image" class="doctor-image"/>
+          <h3>{{ this.profile.name + " " + this.profile.lastname }}</h3>
+          <h5> {{ this.profile.email }}</h5>
           <h5>Phone number: </h5>
-          <h6>{{ this.$route.params.phone }}</h6>
+          <h6>{{ this.profile.phone }}</h6>
           <h5>Speciality:</h5>
-          <h6>{{ this.$route.params.specialist }}</h6>
+          <h6>{{ this.profile.specialist }}</h6>
           <h5>Residence country:</h5>
-          <h6>{{ this.$route.params.residence }}</h6>
+          <h6>{{ this.profile.residence }}</h6>
           <h5>Work place:</h5>
-          <h6>{{ this.$route.params.workplace }}</h6>
-          <h4>{{this.recommendations}} Recommendations</h4>
+          <h6>{{ this.profile.workplace }}</h6>
+          <h4>{{this.cRecommendations}} Recommendations</h4>
+          <template v-if="!yourprofile">
             <template v-if="recommended">
-              <pv-button label="Recommended" icon="pi pi-check" iconPos="right" class="p-button-sm"/>
+              <pv-button label="Recommended" @click="deleteRecommend" icon="pi pi-check" iconPos="right" class="p-button-sm"/>
             </template>
             <template v-else>
-              <pv-button label="Recommend" class="p-button-sm"/>
+              <pv-button label="Recommend" @click="setRecommend" class="p-button-sm"/>
             </template>
             <pv-button label="Send message" class="p-button-sm"/>
+          </template>
+          <template v-else>
+              <pv-button label="Edit profile" @click="editProfile" class="p-button-sm"/>
+          </template>
         </template>
       </pv-card>
     </div>
@@ -33,7 +38,7 @@
               <p>Biography: </p>
             </template>
             <template #content>
-              <p class="bio">{{this.$route.params.biography}}</p>
+              <p class="bio">{{this.profile.biography}}</p>
             </template>
           </pv-card>
         </div>
@@ -112,41 +117,52 @@ import { ForumApiService } from "../../services/forum-api.service";
 import { RatingApiService } from "../../services/rating-api.service";
 import { UserApiService } from "../../services/user-api.service";
 import { FilterMatchMode } from "primevue/api";
+import { StorageService } from "../../../core/services/storage.service";
 
 export default {
   name: "profile-view",
-  data(){
+  data() {
     return {
-      recommendations: 0,
+      cRecommendations: 0,
+      yourprofile: false,
       recommendacionApiService: null,
       recommended: false,
       forums: [],
       forumsService: null,
       vals: {},
       filters: {},
+      user: {},
       ratingService: null,
-      usersService: null
+      usersService: null,
+      recommendation: {},
+      storage: null,
+      profile: {}
     }
   },
-  created(){
-    this.recommendacionApiService = new RecommendationApiService();
-    this.recommendacionApiService.getByRecommendedUserId(this.$route.params.id).then((response) => {
-      this.recommendations = response.data.length
-    })
+  created() {
+    this.recommendationApiService = new RecommendationApiService();
+    this.storage = new StorageService()
+    this.countRecommendations();
+    if(this.storage.get("profile") === "1") this.yourprofile = true
 
     this.forumsService = new ForumApiService();
     this.ratingService = new RatingApiService();
     this.usersService = new UserApiService();
-    this.forumsService.getByUserId(this.$route.params.id).then((response) => {
+
+    this.usersService.getById(this.storage.get("profile")).then( (response) => {
+      this.profile = response.data
+    })
+
+    this.forumsService.getByUserId(this.profile.id).then((response) => {
       this.forums = response.data;
-      this.forums.forEach( (forum) => {
-        this.usersService.getById(forum.userId).then( (response) => {
+      this.forums.forEach((forum) => {
+        this.usersService.getById(forum.userId).then((response) => {
           forum.author = response.data.name + " " + response.data.lastname;
         });
         this.ratingService.getByForumId(forum.id).then((response) => {
           let promval = 0;
           this.vals = response.data;
-          if(this.vals.length === 0) {
+          if (this.vals.length === 0) {
             forum.rating = 0
           } else {
             this.vals.forEach((val) => {
@@ -164,11 +180,43 @@ export default {
   methods: {
     initFilters() {
       this.filters = {
-        global: {value: null, matchMode: FilterMatchMode.CONTAINS},
+        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
       };
     },
+    countRecommendations() {
+      this.recommendationApiService.getByRecommendedUserId(this.profile.id).then((response) => {
+        console.log(response.data.length)
+        this.cRecommendations = response.data.length
+      });
+    },
+    getStorableReport(displayableRecommendation) {
+      return {
+        id: displayableRecommendation.id,
+        recommendationUserId: 1,
+        recommendedUserId: this.profile.id
+      };
+    },
+    setRecommend() {
+      this.recommended = true
+      this.recommendation.id = 0;
+      this.recommendation = this.getStorableReport(this.recommendation);
+      this.recommendationApiService.create(this.recommendation)
+      this.recommendation = {}
+
+      this.cRecommendations++;
+    },
+    deleteRecommend(){
+      this.recommended = false
+      this.recommendationApiService.getByRecommendedRecommendationUserId(this.profile.id, 1).then((response) =>{
+        console.log(response.data)
+        console.log(response.data[0].id)
+        this.recommendationApiService.delete(response.data[0].id)
+      })
+
+        this.cRecommendations--;
+    }
   }
-};
+}
 </script>
 
 <style scoped>
