@@ -85,6 +85,7 @@ import { CommentApiService } from "../../services/comment-api.service";
 import { UserApiService } from "../../services/user-api.service";
 import { ForumApiService } from "../../services/forum-api.service";
 import { RatingApiService } from "../../services/rating-api.service";
+import { StorageService } from "../../../core/services/storage.service";
 
 export default {
   name: "responses-new.component",
@@ -94,6 +95,7 @@ export default {
       usersApi: null,
       forumsApi: null,
       ratingApi: null,
+      storage: null,
       title: "",
       author: "",
       description: "",
@@ -110,11 +112,13 @@ export default {
       rating: {},
       ratings: {},
       submitted: false,
-      val: 0
+      val: 0,
+      forum: null
     };
   },
   created() {
     this.fecha = new Date();
+    this.storage = new StorageService();
     this.commentsApi = new CommentApiService();
     this.usersApi = new UserApiService();
     this.forumsApi = new ForumApiService();
@@ -156,11 +160,11 @@ export default {
       this.usersApi
         .getAll()
         .then((response) => {
+          console.log(typeof response.data)
           this.users = response.data;
           this.users.forEach((user) => {
             user.fullname = user.name + " " + user.lastname;
           })
-          console.log(this.users);
         })
         .catch((error) => {
           this.errors.push(error);
@@ -171,7 +175,6 @@ export default {
       this.ratingApi.getByForumId(this.$route.params.id).then((response) => {
         this.promval = 0;
         this.vals = response.data;
-        console.log(this.vals)
         if (this.vals.length !== 0) {
           this.vals.forEach((val) => {
             this.promval += val.rating.valueOf()
@@ -180,7 +183,7 @@ export default {
           this.promval.toFixed(2);
         }
       })
-      this.ratingApi.getByUserId(1).then((response) => {
+      this.ratingApi.getByForumUserId(this.$route.params.id, 1).then((response) => {
         console.log(response)
         if (response.data.length > 0) {
           this.val = response.data[0].rating

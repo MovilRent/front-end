@@ -6,11 +6,11 @@ export class RatingApiService {
   }
 
   getByForumId(id) {
-    return http.get(`forums/${id}/ratings`);
+    return http.get(`ratings?forumId=${id}`);
   }
 
-  getByUserId(id) {
-    return http.get(`users/${id}/ratings`);
+  getByForumUserId(idForum, idUser) {
+    return http.get(`ratings?forumId=${idForum}&userId=${idUser}`);
   }
 
   create(data) {
