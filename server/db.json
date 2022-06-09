@@ -283,47 +283,19 @@
       "id": 1,
       "title": " recommends you",
       "userId": 1,
-      "actions": [
-        {
-          "key": 1,
-          "actionCode": 1,
-          "desc": "View profile"
-        },
-        {
-          "key": 2,
-          "actionCode": 4,
-          "desc": "Send message"
-        }
-      ]
+      "actionsCodes": "1,2,"
     },
     {
       "id": 2,
       "title": " recommends you",
       "userId": 2,
-      "actions": [
-        {
-          "key": 1,
-          "actionCode": 1,
-          "desc": "View profile"
-        },
-        {
-          "key": 2,
-          "actionCode": 2,
-          "desc": "Send message"
-        }
-      ]
+      "actionsCodes": "1,2,"
     },
     {
       "id": 3,
       "title": " has created a new entrance in the forum",
       "userId": 4,
-      "actions": [
-        {
-          "key": 1,
-          "actionCode": 3,
-          "desc": "View entry"
-        }
-      ]
+      "actionsCodes": "3,"
     }
   ],
   "recommendations": [],
