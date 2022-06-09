@@ -6,7 +6,11 @@ export class RecommendationApiService {
   }
 
   getByRecommendedUserId(id) {
-    return http.get(`users/${id}/recommendations`);
+    return http.get(`/recommendations?recommendedUserId=${id}`);
+  }
+
+  getByRecommendedRecommendationUserId(recommendedId, recommendationId){
+    return http.get(`/recommendations?recommendedUserId=${recommendedId}&recommendationUserId=${recommendationId}`)
   }
 
   create(data) {

@@ -3,25 +3,30 @@
     <div class="col-2">
       <pv-card class="card">
         <template #content>
-          <img :src="'../media/' + this.$route.params.image" class="doctor-image"/>
-          <h3>{{ this.$route.params.name + " " + this.$route.params.lastname }}</h3>
-          <h5> {{ this.$route.params.email }}</h5>
+          <img :src="'../media/' + this.image" class="doctor-image"/>
+          <h3>{{ this.name + " " + this.lastname }}</h3>
+          <h5> {{ this.email }}</h5>
           <h5>Phone number: </h5>
-          <h6>{{ this.$route.params.phone }}</h6>
+          <h6>{{ this.phone }}</h6>
           <h5>Speciality:</h5>
-          <h6>{{ this.$route.params.specialist }}</h6>
+          <h6>{{ this.specialist }}</h6>
           <h5>Residence country:</h5>
-          <h6>{{ this.$route.params.residence }}</h6>
+          <h6>{{ this.residence }}</h6>
           <h5>Work place:</h5>
-          <h6>{{ this.$route.params.workplace }}</h6>
-          <h4>{{this.recommendations}} Recommendations</h4>
+          <h6>{{ this.workplace }}</h6>
+          <h4>{{this.cRecommendations}} Recommendations</h4>
+          <template v-if="!yourprofile">
             <template v-if="recommended">
-              <pv-button label="Recommended" icon="pi pi-check" iconPos="right" class="p-button-sm"/>
+              <pv-button label="Recommended" @click="deleteRecommend" icon="pi pi-check" iconPos="right" class="p-button-sm"/>
             </template>
             <template v-else>
-              <pv-button label="Recommend" class="p-button-sm"/>
+              <pv-button label="Recommend" @click="setRecommend" class="p-button-sm"/>
             </template>
             <pv-button label="Send message" class="p-button-sm"/>
+          </template>
+          <template v-else>
+              <pv-button label="Edit profile" @click="editProfile" class="p-button-sm"/>
+          </template>
         </template>
       </pv-card>
     </div>
@@ -33,7 +38,7 @@
               <p>Biography: </p>
             </template>
             <template #content>
-              <p class="bio">{{this.$route.params.biography}}</p>
+              <p class="bio">{{this.biography}}</p>
             </template>
           </pv-card>
         </div>
@@ -56,7 +61,7 @@
                   <div
                     class="table-header flex flex-column md:flex-row md:justify-content-between"
                   >
-                    <h5 class="mb-2 md:m-0 p-as-md-center text-xl">Their entries</h5>
+                    <h5 class="mb-2 md:m-0 p-as-md-center text-xl">Entries</h5>
                     <span class="p-input-icon-left"
                     ><i class="pi pi-search" /><pv-input-text
                       v-model="filters['global'].value"
@@ -104,6 +109,146 @@
       </div>
     </div>
   </div>
+  <pv-dialog
+    v-model:visible="this.editProfileDialog"
+    :style="{ width: '800px' }"
+    header="Edit profile"
+    :modal="true"
+    class="p-fluid"
+  >
+    <div class="field">
+        <span class="p-float-label">
+          <pv-textarea
+            id="name"
+            v-model="profile.name"
+            required="true"
+            :class="{ 'p-invalid': submitted && !profile.name }"
+            :style="'margin-top:1rem'"
+            :autoResize="true"
+            rows="1"
+            cols="1"
+          />
+          <label for="content" :style="'margin-top:0.50rem'">Name:</label>
+          <small class="p-error" v-if="submitted && !profile.name"
+          >Name is required.</small>
+        </span>
+    </div>
+    <div class="field">
+        <span class="p-float-label">
+          <pv-textarea
+            id="name"
+            v-model="profile.lastname"
+            required="true"
+            :class="{ 'p-invalid': submitted && !profile.lastname }"
+            :style="'margin-top:1rem'"
+            :autoResize="true"
+            rows="1"
+            cols="1"
+          />
+          <label for="content" :style="'margin-top:0.50rem'">Lastname:</label>
+          <small class="p-error" v-if="submitted && !profile.lastname"
+          >Lastname is required.</small>
+        </span>
+      <div class="field">
+        <span class="p-float-label">
+          <pv-textarea
+            id="name"
+            v-model="profile.email"
+            required="false"
+            :style="'margin-top:1rem'"
+            :autoResize="true"
+            rows="1"
+            cols="1"
+          />
+          <label for="content" :style="'margin-top:0.50rem'">Email:</label>
+        </span>
+      </div>
+      <div class="field">
+        <span class="p-float-label">
+          <pv-textarea
+            id="name"
+            v-model="profile.phone"
+            required="false"
+            :style="'margin-top:1rem'"
+            :autoResize="true"
+            rows="1"
+            cols="1"
+          />
+          <label for="content" :style="'margin-top:0.50rem'">Phone number:</label>
+        </span>
+      </div>
+      <div class="field">
+        <span class="p-float-label">
+          <pv-textarea
+            id="name"
+            v-model="profile.specialist"
+            required="true"
+            :class="{ 'p-invalid': submitted && !profile.specialist }"
+            :style="'margin-top:1rem'"
+            :autoResize="true"
+            rows="1"
+            cols="1"
+          />
+          <label for="content" :style="'margin-top:0.50rem'">Specialist:</label>
+          <small class="p-error" v-if="submitted && !profile.specialist"
+          >Specialist is required.</small>
+        </span>
+      </div>
+      <div class="field">
+        <span class="p-float-label">
+          <pv-textarea
+            id="name"
+            v-model="profile.residence"
+            required="false"
+            :style="'margin-top:1rem'"
+            :autoResize="true"
+            rows="1"
+            cols="1"
+          />
+          <label for="content" :style="'margin-top:0.50rem'">Residence:</label>
+        </span>
+      </div>
+      <div class="field">
+        <span class="p-float-label">
+          <pv-textarea
+            id="name"
+            v-model="profile.workplace"
+            required="false"
+            :style="'margin-top:1rem'"
+            :autoResize="true"
+            rows="1"
+            cols="1"
+          />
+          <label for="content" :style="'margin-top:0.50rem'">Work place:</label>
+        </span>
+      </div>
+      <div class="field">
+        <span class="p-float-label">
+          <pv-textarea
+            id="name"
+            v-model="profile.biography"
+            required="true"
+            :class="{ 'p-invalid': submitted && !profile.biography }"
+            :style="'margin-top:1rem'"
+            :autoResize="true"
+            rows="5"
+            cols="1"
+          />
+          <label for="content" :style="'margin-top:0.50rem'">Biography:</label>
+          <small class="p-error" v-if="submitted && !profile.biography"
+          >Biography is required.</small>
+        </span>
+    </div>
+    </div>
+    <template #footer>
+      <pv-button
+        label="Update"
+        class="p-button-text"
+        icon="pi pi-send"
+        @click="updateProfile"
+      />
+    </template>
+  </pv-dialog>
 </template>
 
 <script>
@@ -112,41 +257,61 @@ import { ForumApiService } from "../../services/forum-api.service";
 import { RatingApiService } from "../../services/rating-api.service";
 import { UserApiService } from "../../services/user-api.service";
 import { FilterMatchMode } from "primevue/api";
+import { StorageService } from "../../../core/services/storage.service";
 
 export default {
   name: "profile-view",
-  data(){
+  data() {
     return {
-      recommendations: 0,
+      cRecommendations: 0,
+      yourprofile: false,
       recommendacionApiService: null,
       recommended: false,
       forums: [],
       forumsService: null,
       vals: {},
       filters: {},
+      user: {},
       ratingService: null,
-      usersService: null
+      usersService: null,
+      recommendation: {},
+      storage: null,
+      profile: {},
+      submitted: false,
+      editProfileDialog: false,
+      name: "",
+      lastname: "",
+      email: "",
+      workplace: "",
+      biography: "",
+      specialist: "",
+      residence: "",
+      phone: "",
+      image: ""
     }
   },
-  created(){
-    this.recommendacionApiService = new RecommendationApiService();
-    this.recommendacionApiService.getByRecommendedUserId(this.$route.params.id).then((response) => {
-      this.recommendations = response.data.length
-    })
+  created() {
+    this.recommendationApiService = new RecommendationApiService();
+    this.storage = new StorageService()
+    this.countRecommendations();
+    if(this.storage.get("profile") === "1") this.yourprofile = true
 
     this.forumsService = new ForumApiService();
     this.ratingService = new RatingApiService();
     this.usersService = new UserApiService();
-    this.forumsService.getByUserId(this.$route.params.id).then((response) => {
+
+    this.setProfile();
+
+    this.forumsService.getByUserId(this.profile.id).then((response) => {
       this.forums = response.data;
-      this.forums.forEach( (forum) => {
-        this.usersService.getById(forum.userId).then( (response) => {
+      this.forums.forEach((forum) => {
+        this.usersService.getById(forum.userId).then((response) => {
           forum.author = response.data.name + " " + response.data.lastname;
         });
         this.ratingService.getByForumId(forum.id).then((response) => {
           let promval = 0;
           this.vals = response.data;
-          if(this.vals.length === 0) {
+          if (this.vals.length === 0) {
             forum.rating = 0
           } else {
             this.vals.forEach((val) => {
@@ -162,13 +327,82 @@ export default {
     this.initFilters();
   },
   methods: {
+    setProfile(){
+      this.usersService.getById(this.storage.get("profile")).then( (response) => {
+        this.profile = response.data
+        this.name = response.data.name
+        this.email = response.data.email
+        this.lastname = response.data.lastname
+        this.biography = response.data.biography
+        this.specialist = response.data.specialist
+        this.residence = response.data.residence
+        this.phone = response.data.phone
+        this.workplace = response.data.workplace
+        this.image = response.data.image
+      })
+    },
     initFilters() {
       this.filters = {
-        global: {value: null, matchMode: FilterMatchMode.CONTAINS},
+        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
       };
     },
+    countRecommendations() {
+      this.recommendationApiService.getByRecommendedUserId(this.profile.id).then((response) => {
+        console.log(response.data.length)
+        this.cRecommendations = response.data.length
+      });
+    },
+    getStorableReport(displayableRecommendation) {
+      return {
+        id: displayableRecommendation.id,
+        recommendationUserId: 1,
+        recommendedUserId: this.profile.id
+      };
+    },
+    setRecommend() {
+      this.recommended = true
+      this.recommendation.id = 0;
+      this.recommendation = this.getStorableReport(this.recommendation);
+      this.recommendationApiService.create(this.recommendation)
+      this.recommendation = {}
+
+      this.cRecommendations++;
+    },
+    deleteRecommend() {
+      this.recommended = false
+      this.recommendationApiService.getByRecommendedRecommendationUserId(this.profile.id, 1).then((response) => {
+        console.log(response.data)
+        console.log(response.data[0].id)
+        this.recommendationApiService.delete(response.data[0].id)
+      })
+
+      this.cRecommendations--;
+    },
+    editProfile(){
+      this.editProfileDialog = true
+    },
+    updateProfile(){
+      this.submitted = true;
+      if (this.profile.name.trim() && this.profile.lastname.trim() && this.profile.specialist.trim() && this.profile.biography.trim()) {
+        this.usersService.update(this.profile.id, this.profile).then((response) => {
+          this.profile = response.data
+          this.name = response.data.name
+          this.email = response.data.email
+          this.lastname = response.data.lastname
+          this.biography = response.data.biography
+          this.specialist = response.data.specialist
+          this.residence = response.data.residence
+          this.phone = response.data.phone
+          this.workplace = response.data.workplace
+          this.image = response.data.image
+        })
+        this.editProfileDialog = false;
+      }
+
+    }
   }
-};
+
+}
 </script>
 
 <style scoped>
