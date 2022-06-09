@@ -26,16 +26,22 @@
           <pv-column field="userDescription" :sortable="false" />
           <pv-column>
             <template #body="slotProps">
-              <div v-for="action in slotProps.data.actions" :key="action.key">
-                <router-link v-if="action.actionCode===1" to="/profile">
-                  <pv-button  :label="action.desc" style="margin: 0.7rem" class="p-button-outlined"></pv-button>
-                </router-link>
-                <router-link v-else-if="action.actionCode===3" :to="{ name: 'responses', params: {id: 1, userId: 1} }">
-                  <pv-button :label="action.desc" style="margin: 0.7rem" class="p-button-outlined"></pv-button>
-                </router-link>
-                <router-link v-else to="/home">
-                  <pv-button  :label="action.desc" style="margin: 0.7rem" class="p-button-outlined"></pv-button>
-                </router-link>
+              <div v-for="action in actionsCodesArrayFromStr(slotProps.data.actionsCodes)" :key="action">
+                <template v-if="action==1">
+                  <router-link  to="/profile">
+                    <pv-button  label="View profile" style="margin: 0.7rem" class="p-button-outlined"></pv-button>
+                  </router-link>
+                </template>
+                <template v-else-if="action==3">
+                  <router-link  :to="{ name: 'responses', params: {id: 1, userId: 1} }">
+                    <pv-button label="View entry" style="margin: 0.7rem" class="p-button-outlined"></pv-button>
+                  </router-link>
+                </template>
+                <template v-else>
+                  <router-link  to="/home">
+                    <pv-button  label="Send message" style="margin: 0.7rem" class="p-button-outlined"></pv-button>
+                  </router-link>
+                </template>
               </div>
             </template>
           </pv-column>
@@ -82,11 +88,25 @@ export default {
             userImage: "../media/" + response.data.image,
             title: `${response.data.name} ${response.data.lastname} ${notification.title}`,
             userDescription: `${response.data.specialist}\n${response.data.workplace}`,
-            actions: notification.actions
+            actionsCodes: notification.actionsCodes
           });
         });
       });
       console.log(this.displayableNotifications);
+    },
+    actionsCodesArrayFromStr(numString) {
+      let numArray=[];
+      let num = "";
+      for(let i=0;i<numString.length; ++i) {
+        if (numString.charAt(i)==',' || i==numString.length-1)
+        {
+          numArray.push(Number(num));
+          num = "";
+        }
+        else
+          num+=numString.charAt(i);
+      }
+      return numArray;
     },
   },
 };
