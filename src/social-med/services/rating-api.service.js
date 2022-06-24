@@ -6,7 +6,7 @@ export class RatingApiService {
   }
 
   getByForumId(id) {
-    return http.get(`ratings?forumId=${id}`);
+    return http.get(`/forums/${id}/ratings`);
   }
 
   getByForumUserId(idForum, idUser) {

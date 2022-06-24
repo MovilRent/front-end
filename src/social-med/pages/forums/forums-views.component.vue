@@ -195,10 +195,23 @@ export default {
       this.forums = response.data;
       this.forums.forEach((forum) => {
         this.usersService.getById(forum.userId).then((response) => {
-          forum.author = response.data.name + " " + response.data.lastname;
+          forum.author = response.data.name + " " + response.data.lastName;
         });
+        forum = this.getDisplayableForum(forum);
         this.ratingService.getByForumId(forum.id).then((response) => {
-          let promval = 0;
+
+          let sumval = 0;
+          this.vals = response.data;
+          if(this.vals.length == 0) {
+            forum.rating = 0
+          } else {
+            this.vals.forEach((rating) => {
+              sumval+=rating.rate;
+            });
+            forum.rating=sumval/this.vals.length;
+          }
+
+          /*let promval = 0;
           this.vals = response.data;
           if (this.vals.length == 0) {
             forum.rating = 0;
@@ -208,7 +221,7 @@ export default {
             });
             promval /= this.vals.length;
             forum.rating = promval.toFixed(2);
-          }
+          }*/
         });
       });
       console.log(this.forums);
@@ -221,14 +234,15 @@ export default {
         id: displayableForum.id,
         title: displayableForum.title,
         content: displayableForum.content,
-        date: (displayableForum.date =
+        /*date: (displayableForum.date =
           this.fecha.getDate() +
           "-" +
           (this.fecha.getMonth() + 1) +
           "-" +
-          this.fecha.getFullYear()),
+          this.fecha.getFullYear()),*/
+        date: new Date(displayableForum.date),
         userId: (displayableForum.userId = 1),
-        author: "Manuel Quispe Salazar",
+        //author: "Manuel Quispe Salazar",
       };
     },
     initFilters() {
@@ -271,6 +285,7 @@ export default {
             });
         } else {
           this.forum.id = 0;
+          this.forum.date=new Date();
           this.forum = this.getStorableForum(this.forum);
           this.forumsService.create(this.forum).then((response) => {
             this.forum = this.getDisplayableForum(response.data);
