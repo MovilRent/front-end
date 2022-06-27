@@ -44,7 +44,7 @@
               <h3 class="doctor-name">{{ slotProps.data.fullname }}</h3>
               <h4>{{ slotProps.data.specialist}}</h4>
               <h5 class="doctor-description">{{ slotProps.data.recommendation }} Recommendations</h5>
-              <h5 class="doctor-description">{{ slotProps.data.workplace}}</h5>
+              <h5 class="doctor-description">{{ slotProps.data.workPlace}}</h5>
               <router-link :to="{ name: 'profile', params: slotProps.data }"  style="text-decoration: none">
                 <pv-button label="View profile" @click="this.storage.set('profile', slotProps.data.id)" class="p-button-outlined"></pv-button>
               </router-link>
@@ -91,29 +91,38 @@ export default {
     this.ratingService = new RatingApiService();
     this.forumsService.getAll().then((response) => {
       this.forums = response.data;
+      console.log(response.data);
       this.forums.forEach( (forum) => {
         this.usersService.getById(forum.userId).then( (response) => {
-          forum.author = response.data.name + " " + response.data.lastname;
+          forum.author = response.data.name + " " + response.data.lastName;
         });
         this.ratingService.getByForumId(forum.id).then((response) => {
-          let promval = 0;
+          let sumval = 0;
           this.vals = response.data;
           if(this.vals.length == 0) {
             forum.rating = 0
           } else {
+            this.vals.forEach((rating) => {
+              sumval+=rating.rate;
+            });
+            forum.rating=sumval/this.vals.length;
+          }
+
+
+          /*else {
           this.vals.forEach((val) => {
             promval += val.rating.valueOf()
           })
           promval /= this.vals.length;
           forum.rating = promval.toFixed(2);
-          }
+          }*/
         })
       })
     })
     this.usersService.getAll().then((response) => {
       this.users = response.data;
       this.users.forEach( (user) => {
-        user.fullname = user.name + " " + user.lastname;
+        user.fullname = user.name + " " + user.lastName;
       })
     });
 

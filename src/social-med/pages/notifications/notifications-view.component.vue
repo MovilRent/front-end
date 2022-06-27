@@ -28,7 +28,8 @@
             <template #body="slotProps">
               <div v-for="action in actionsCodesArrayFromStr(slotProps.data.actionsCodes)" :key="action">
                 <template v-if="action==1">
-                  <router-link  to="/profile">
+
+                  <router-link  :to="'/profile/'+slotProps.data.referencesToUserId">
                     <pv-button  label="View profile" style="margin: 0.7rem" class="p-button-outlined"></pv-button>
                   </router-link>
                 </template>
@@ -82,13 +83,14 @@ export default {
     },
     getDisplayableNotifications() {
       this.notifications.forEach((notification) => {
-        this.usersApi.getById(notification.userId).then((response) => {
+        this.usersApi.getById(notification.referencesToUserId).then((response) => {
           this.displayableNotifications.push({
             id: notification.id,
             userImage: "../media/" + response.data.image,
-            title: `${response.data.name} ${response.data.lastname} ${notification.title}`,
-            userDescription: `${response.data.specialist}\n${response.data.workplace}`,
-            actionsCodes: notification.actionsCodes
+            title: `${response.data.name} ${response.data.lastName} ${notification.title}`,
+            userDescription: `${response.data.specialist}\n${response.data.workPlace}`,
+            actionsCodes: notification.actionsCodes,
+            referencesToUserId: notification.referencesToUserId
           });
         });
       });

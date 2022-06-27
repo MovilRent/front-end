@@ -302,14 +302,27 @@ export default {
 
     this.setProfile();
 
-    this.forumsService.getByUserId(this.profile.id).then((response) => {
+    //this.forumsService.getByUserId(this.profile.id).then((response) => {
+    this.forumsService.getByUserId(this.$route.params.id).then((response) => {
       this.forums = response.data;
       this.forums.forEach((forum) => {
         this.usersService.getById(forum.userId).then((response) => {
-          forum.author = response.data.name + " " + response.data.lastname;
+          forum.author = response.data.name + " " + response.data.lastName;
         });
         this.ratingService.getByForumId(forum.id).then((response) => {
-          let promval = 0;
+
+          let sumval = 0;
+          this.vals = response.data;
+          if(this.vals.length == 0) {
+            forum.rating = 0
+          } else {
+            this.vals.forEach((rating) => {
+              sumval+=rating.rate;
+            });
+            forum.rating=sumval/this.vals.length;
+          }
+
+          /*let promval = 0;
           this.vals = response.data;
           if (this.vals.length === 0) {
             forum.rating = 0
@@ -319,7 +332,7 @@ export default {
             })
             promval /= this.vals.length;
             forum.rating = promval.toFixed(2);
-          }
+          }*/
         })
       })
       console.log(this.forums);
@@ -332,12 +345,12 @@ export default {
         this.profile = response.data
         this.name = response.data.name
         this.email = response.data.email
-        this.lastname = response.data.lastname
+        this.lastname = response.data.lastName
         this.biography = response.data.biography
         this.specialist = response.data.specialist
         this.residence = response.data.residence
         this.phone = response.data.phone
-        this.workplace = response.data.workplace
+        this.workplace = response.data.workPlace
         this.image = response.data.image
       })
     },
