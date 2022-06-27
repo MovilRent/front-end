@@ -1,6 +1,6 @@
 <template>
   <div>
-    <pv-card>
+    <pv-card class="mt-3">
       <template #title>Notifications</template>
       <template #content>
         <pv-data-table
@@ -29,8 +29,8 @@
               <div v-for="action in actionsCodesArrayFromStr(slotProps.data.actionsCodes)" :key="action">
                 <template v-if="action==1">
 
-                  <router-link  :to="'/profile/'+slotProps.data.referencesToUserId">
-                    <pv-button  label="View profile" style="margin: 0.7rem" class="p-button-outlined"></pv-button>
+                  <router-link  :to="'/profile/'+slotProps.data.referencesToUserId" style="text-decoration: none">
+                    <pv-button  label="View profile" @click="this.storage.set('profile', slotProps.data.referencesToUserId)" style="margin: 0.7rem" class="p-button-outlined"></pv-button>
                   </router-link>
                 </template>
                 <template v-else-if="action==3">
@@ -39,9 +39,6 @@
                   </router-link>
                 </template>
                 <template v-else>
-                  <router-link  to="/home">
-                    <pv-button  label="Send message" style="margin: 0.7rem" class="p-button-outlined"></pv-button>
-                  </router-link>
                 </template>
               </div>
             </template>
@@ -55,11 +52,13 @@
 <script>
 import { NotificationApiService } from "../../services/notification-api.service";
 import { UserApiService } from "../../services/user-api.service";
+import { StorageService } from "../../../core/services/storage.service";
 
 export default {
   name: "notifications-view",
   data() {
     return {
+      storage: null,
       notifications: [],
       displayableNotifications: [],
       notificationsApi: new NotificationApiService(),
@@ -71,6 +70,7 @@ export default {
     };
   },
   created() {
+    this.storage = new StorageService()
     this.getAllNotifications();
   },
   methods: {
