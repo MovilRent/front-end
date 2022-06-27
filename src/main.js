@@ -28,6 +28,8 @@ import Rating from "primevue/rating";
 import Image from "primevue/image";
 import Carousel from "primevue/carousel";
 import Listbox from "primevue/listbox";
+import SelectButton from "primevue/selectbutton";
+import InputNumber from "primevue/inputnumber";
 
 const app = createApp(App);
 
@@ -53,5 +55,7 @@ app.component("pv-rating", Rating);
 app.component("pv-image", Image);
 app.component("pv-carousel", Carousel);
 app.component("pv-list-box", Listbox);
+app.component("pv-select-button", SelectButton)
+app.component("pv-input-number", InputNumber)
 
 app.mount("#app");

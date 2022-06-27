@@ -166,6 +166,7 @@ import { FilterMatchMode } from "primevue/api";
 import { ForumApiService } from "../../services/forum-api.service";
 import { RatingApiService } from "../../services/rating-api.service";
 import { UserApiService } from "../../services/user-api.service";
+import { StorageService } from "../../../core/services/storage.service";
 
 export default {
   name: "entrances-new.component",
@@ -182,6 +183,7 @@ export default {
       submitted: false,
       forumsService: null,
       ratingService: null,
+      storage: null,
       usersService: null,
       fecha: null,
     };
@@ -191,6 +193,7 @@ export default {
     this.forumsService = new ForumApiService();
     this.ratingService = new RatingApiService();
     this.usersService = new UserApiService();
+    this.storage = new StorageService();
     this.forumsService.getAll().then((response) => {
       this.forums = response.data;
       this.forums.forEach((forum) => {
@@ -241,7 +244,7 @@ export default {
           "-" +
           this.fecha.getFullYear()),*/
         date: new Date(displayableForum.date),
-        userId: (displayableForum.userId = 1),
+        userId: (displayableForum.userId = parseInt(this.storage.get("usuario"))),
         //author: "Manuel Quispe Salazar",
       };
     },

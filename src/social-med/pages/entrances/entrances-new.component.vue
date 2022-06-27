@@ -247,6 +247,7 @@
 import { FilterMatchMode } from "primevue/api";
 import { ForumApiService } from "../../services/forum-api.service";
 import { RatingApiService } from "../../services/rating-api.service";
+import { StorageService } from "../../../core/services/storage.service";
 
 export default {
   name: "entrances-new.component",
@@ -262,15 +263,17 @@ export default {
       vasl: {},
       submitted: false,
       forumsService: null,
+      storage: null,
       ratingService: null,
       fecha: null,
     };
   },
   created() {
     this.fecha = new Date();
+    this.storage = new StorageService();
     this.forumsService = new ForumApiService();
     this.ratingService = new RatingApiService();
-    this.forumsService.getByUserId(1).then((response) => {
+    this.forumsService.getByUserId(parseInt(this.storage.get("usuario"))).then((response) => {
       this.forums = response.data;
       this.forums.forEach((forum) => {
         this.ratingService.getByForumId(forum.id).then((response) => {
@@ -315,7 +318,7 @@ export default {
           (this.fecha.getMonth() + 1) +
           "-" +
           this.fecha.getFullYear()),
-        userId: (displayableForum.userId = 1),
+        userId: (displayableForum.userId = parseInt(this.storage.get("usuario"))),
       };
     },
     initFilters() {
