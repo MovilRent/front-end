@@ -294,7 +294,7 @@ export default {
     this.recommendationApiService = new RecommendationApiService();
     this.storage = new StorageService()
     this.countRecommendations();
-    if(this.storage.get("profile") === "1") this.yourprofile = true
+    if(this.storage.get("profile") === this.storage.get("usuario")) this.yourprofile = true
 
     this.forumsService = new ForumApiService();
     this.ratingService = new RatingApiService();

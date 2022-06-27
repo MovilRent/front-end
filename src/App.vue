@@ -29,6 +29,8 @@ export default {
   created() {
     this.usuarioApiService = new UserApiService()
     this.storage = new StorageService()
+
+    if(this.storage.get("usuario") >= 1) this.iniciosesion = true
   },
   methods: {
     openDialog(){
@@ -127,6 +129,7 @@ export default {
           <pv-button
             icon="pi pi-user"
             :style="'backgroundColor: #9CD4E7; borderColor: #9CD4E7; margin-right: 0.5rem; color: #000000;'"
+            @click="storage.set('profile', storage.get('usuario'))"
           ></pv-button>
         </router-link>
         <router-link to="/contacts" style="text-decoration: none">

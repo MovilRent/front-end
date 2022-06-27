@@ -211,7 +211,7 @@ export default {
       return {
         id: displayableComment.id,
         forumId: this.$route.params.id,
-        userId: (displayableComment.userId = 1),
+        userId: (displayableComment.userId = parseInt(this.storage.get("usuario"))),
         content: (displayableComment.content),
         /*date: (displayableComment.date =
           this.fecha.getDate() +
@@ -227,7 +227,7 @@ export default {
       return {
         id: displayableRating.id,
         forumId: this.$route.params.id.valueOf(),
-        userId: 1,
+        userId: parseInt(this.storage.get("usuario")),
         rating: this.val,
       };
     },
