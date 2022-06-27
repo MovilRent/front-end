@@ -6,12 +6,8 @@
           <img :src="'../media/' + this.image" class="doctor-image"/>
           <h3>{{ this.name + " " + this.lastname }}</h3>
           <h5> {{ this.email }}</h5>
-          <h5>Phone number: </h5>
-          <h6>{{ this.phone }}</h6>
           <h5>Speciality:</h5>
           <h6>{{ this.specialist }}</h6>
-          <h5>Residence country:</h5>
-          <h6>{{ this.residence }}</h6>
           <h5>Work place:</h5>
           <h6>{{ this.workplace }}</h6>
           <h4>{{this.cRecommendations}} Recommendations</h4>
@@ -163,19 +159,6 @@
           <label for="content" :style="'margin-top:0.50rem'">Email:</label>
         </span>
       </div>
-      <div class="field">
-        <span class="p-float-label">
-          <pv-textarea
-            id="name"
-            v-model="profile.phone"
-            required="false"
-            :style="'margin-top:1rem'"
-            :autoResize="true"
-            rows="1"
-            cols="1"
-          />
-          <label for="content" :style="'margin-top:0.50rem'">Phone number:</label>
-        </span>
       </div>
       <div class="field">
         <span class="p-float-label">
@@ -194,20 +177,7 @@
           >Specialist is required.</small>
         </span>
       </div>
-      <div class="field">
-        <span class="p-float-label">
-          <pv-textarea
-            id="name"
-            v-model="profile.residence"
-            required="false"
-            :style="'margin-top:1rem'"
-            :autoResize="true"
-            rows="1"
-            cols="1"
-          />
-          <label for="content" :style="'margin-top:0.50rem'">Residence:</label>
-        </span>
-      </div>
+
       <div class="field">
         <span class="p-float-label">
           <pv-textarea
@@ -238,7 +208,6 @@
           <small class="p-error" v-if="submitted && !profile.biography"
           >Biography is required.</small>
         </span>
-    </div>
     </div>
     <template #footer>
       <pv-button
@@ -285,8 +254,6 @@ export default {
       workplace: "",
       biography: "",
       specialist: "",
-      residence: "",
-      phone: "",
       image: ""
     }
   },
@@ -335,8 +302,6 @@ export default {
         this.lastname = response.data.lastname
         this.biography = response.data.biography
         this.specialist = response.data.specialist
-        this.residence = response.data.residence
-        this.phone = response.data.phone
         this.workplace = response.data.workplace
         this.image = response.data.image
       })
@@ -391,8 +356,6 @@ export default {
           this.lastname = response.data.lastname
           this.biography = response.data.biography
           this.specialist = response.data.specialist
-          this.residence = response.data.residence
-          this.phone = response.data.phone
           this.workplace = response.data.workplace
           this.image = response.data.image
         })
