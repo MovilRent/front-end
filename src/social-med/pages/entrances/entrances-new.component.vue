@@ -130,7 +130,7 @@
     <pv-dialog
       v-model:visible="forumDialog"
       :style="{ width: '40vw' }"
-      header="Create entry"
+      header=""
       :modal="true"
       class="p-fluid"
     >
@@ -312,12 +312,7 @@ export default {
         id: displayableForum.id,
         title: displayableForum.title,
         content: displayableForum.content,
-        date: (displayableForum.date =
-          this.fecha.getDate() +
-          "-" +
-          (this.fecha.getMonth() + 1) +
-          "-" +
-          this.fecha.getFullYear()),
+        date: new Date(Date.now()),
         userId: (displayableForum.userId = parseInt(this.storage.get("usuario"))),
       };
     },
@@ -343,7 +338,7 @@ export default {
     },
     saveForum() {
       this.submitted = true;
-      if (this.forum.title.trim() && this.forum.description.trim()) {
+      if (this.forum.title.trim() && this.forum.content.trim()) {
         if (this.forum.id) {
           this.forum = this.getStorableForum(this.forum);
           this.forumsService

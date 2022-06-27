@@ -237,13 +237,7 @@ export default {
         id: displayableForum.id,
         title: displayableForum.title,
         content: displayableForum.content,
-        /*date: (displayableForum.date =
-          this.fecha.getDate() +
-          "-" +
-          (this.fecha.getMonth() + 1) +
-          "-" +
-          this.fecha.getFullYear()),*/
-        date: new Date(displayableForum.date),
+        date: new Date(new Date(Date.now())),
         userId: (displayableForum.userId = parseInt(this.storage.get("usuario"))),
         //author: "Manuel Quispe Salazar",
       };
@@ -266,6 +260,7 @@ export default {
       this.submitted = false;
     },
     getDisplayableForum(forum) {
+
       return forum;
     },
     saveForum() {
@@ -292,6 +287,9 @@ export default {
           this.forum = this.getStorableForum(this.forum);
           this.forumsService.create(this.forum).then((response) => {
             this.forum = this.getDisplayableForum(response.data);
+            this.usersService.getById(this.forum.userId).then((response) => {
+              this.forum.author = response.data.name + " " + response.data.lastName;
+            });
             this.forums.push(this.forum);
             this.$toast.add({
               severity: "success",

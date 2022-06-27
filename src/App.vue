@@ -45,8 +45,8 @@ export default {
     },
     iniciarSesion(){
       this.submittedLogin = true
-      this.usuarioApiService.getByEmailAndPassword(this.email, this.contrasena).then(response =>{
-        if(response.data.length === 0){
+      this.usuarioApiService.getByEmailAndPassword(this.usuario, this.contrasena).then(response =>{
+        if(response.data.id === 0){
           this.incorrecto = true
           this.$toast.add({
             severity: "error",
@@ -54,6 +54,7 @@ export default {
             detail: "Email and password do not match",
             life: 3000,
           });
+          return;
         }
         else{
           this.$toast.add({
@@ -129,14 +130,8 @@ export default {
           <pv-button
             icon="pi pi-user"
             :style="'backgroundColor: #9CD4E7; borderColor: #9CD4E7; margin-right: 0.5rem; color: #000000;'"
-            @click="storage.set('profile', storage.get('usuario'))"
+            @click="storage.set('profile', parseInt(storage.get('usuario')))"
           ></pv-button>
-        </router-link>
-        <router-link to="/contacts" style="text-decoration: none">
-          <pv-button
-            icon="pi pi-comment"
-            :style="'backgroundColor: #9CD4E7; borderColor: #9CD4E7; margin-right: 0.5rem; color: #000000;'"
-          />
         </router-link>
         <router-link to="/notifications" style="text-decoration: none">
           <pv-button
@@ -144,6 +139,7 @@ export default {
             :style="'backgroundColor: #9CD4E7; borderColor: #9CD4E7; margin-right: 0.5rem; color: #000000;'"
           />
         </router-link>
+        <router-link to="/home" style="text-decoration: none">
           <pv-button
             icon="pi pi-sign-out"
             label="Log out"
@@ -151,6 +147,7 @@ export default {
           this.storageService.set('usuario', -1)"
             :style="'backgroundColor: #9CD4E7; borderColor: #9CD4E7; margin-right: 0.5rem; color: #000000;'"
           />
+        </router-link>
       </div>
       <div v-else>
         <pv-button
