@@ -1,4 +1,5 @@
 <template>
+  <pv-toast />
   <div class="grid">
     <div class="col-12 p-fluid">
       <pv-card class="card">
@@ -101,6 +102,12 @@ export default {
         this.reportsApi.create(this.report)
         this.submitted = false;
         this.report = {}
+        this.$toast.add({
+          severity: "success",
+          summary: "Successful",
+          detail: "Response sended",
+          life: 3000,
+        });
       }
 
     },

@@ -40,7 +40,7 @@
       <pv-carousel :value="users" :numVisible="3" :numScroll="1" :responsiveOptions="responsiveOptions" class="custom-carousel" :circular="true" :autoplayInterval="5000">
         <template #item="slotProps">
           <div class="doctor-profile">
-              <img :src="'../media/' + slotProps.data.image" class="doctor-image"/>
+              <img :src=slotProps.data.image class="doctor-image"/>
               <h3 class="doctor-name">{{ slotProps.data.fullname }}</h3>
               <h4>{{ slotProps.data.specialist}}</h4>
               <h5 class="doctor-description">{{ slotProps.data.recommendation }} Recommendations</h5>
@@ -91,8 +91,9 @@ export default {
     this.ratingService = new RatingApiService();
     this.forumsService.getAll().then((response) => {
       this.forums = response.data;
-      console.log(response.data);
       this.forums.forEach( (forum) => {
+        let fecha = new Date(forum.date)
+        forum.date = `${fecha.getDay()}-${fecha.getMonth()}-${fecha.getFullYear()}`
         this.usersService.getById(forum.userId).then( (response) => {
           forum.author = response.data.name + " " + response.data.lastName;
         });
