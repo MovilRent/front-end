@@ -273,6 +273,8 @@ export default {
     this.forumsService.getByUserId(parseInt(this.storage.get("profile"))).then((response) => {
       this.forums = response.data;
       this.forums.forEach((forum) => {
+        let fecha = new Date(forum.date)
+        forum.date = `${fecha.getDay()}-${fecha.getMonth()}-${fecha.getFullYear()}`
         this.usersService.getById(forum.userId).then((response) => {
           forum.author = response.data.name + " " + response.data.lastName;
         });
