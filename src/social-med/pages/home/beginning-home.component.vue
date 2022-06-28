@@ -91,8 +91,9 @@ export default {
     this.ratingService = new RatingApiService();
     this.forumsService.getAll().then((response) => {
       this.forums = response.data;
-      console.log(response.data);
       this.forums.forEach( (forum) => {
+        let fecha = new Date(forum.date)
+        forum.date = `${fecha.getDay()}-${fecha.getMonth()}-${fecha.getFullYear()}`
         this.usersService.getById(forum.userId).then( (response) => {
           forum.author = response.data.name + " " + response.data.lastName;
         });

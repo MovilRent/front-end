@@ -197,6 +197,8 @@ export default {
     this.forumsService.getAll().then((response) => {
       this.forums = response.data;
       this.forums.forEach((forum) => {
+        let fecha = new Date(forum.date)
+        forum.date = `${fecha.getDay()}-${fecha.getMonth()}-${fecha.getFullYear()}`
         this.usersService.getById(forum.userId).then((response) => {
           forum.author = response.data.name + " " + response.data.lastName;
         });
@@ -272,7 +274,7 @@ export default {
             .update(this.forum.id, this.forum)
             .then((response) => {
               this.forums[this.findIndexById(response.data.id)] =
-                this.getDisplayableForum(response.data);
+                this.getDisplayableForum(response.data)
               this.$toast.add({
                 severity: "success",
                 summary: "Successful",
@@ -290,6 +292,8 @@ export default {
             this.usersService.getById(this.forum.userId).then((response) => {
               this.forum.author = response.data.name + " " + response.data.lastName;
             });
+            let fecha = new Date(this.forum.date)
+            this.forum.date = `${fecha.getDay()}-${fecha.getMonth()}-${fecha.getFullYear()}`
             this.forums.push(this.forum);
             this.$toast.add({
               severity: "success",
