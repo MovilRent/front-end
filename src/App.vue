@@ -152,7 +152,7 @@ export default {
       <div v-else>
         <pv-button
           icon="pi pi-user"
-          label="Iniciar sesión"
+          label="Sign in"
           @click="openDialog"
           :style="'backgroundColor: #9CD4E7; borderColor: #9CD4E7; margin-right: 0.5rem; color: #000000;'"
         />
