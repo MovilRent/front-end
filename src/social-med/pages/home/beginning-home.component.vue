@@ -40,7 +40,7 @@
       <pv-carousel :value="users" :numVisible="3" :numScroll="1" :responsiveOptions="responsiveOptions" class="custom-carousel" :circular="true" :autoplayInterval="5000">
         <template #item="slotProps">
           <div class="doctor-profile">
-              <img :src="'../media/' + slotProps.data.image" class="doctor-image"/>
+              <img :src=slotProps.data.image class="doctor-image"/>
               <h3 class="doctor-name">{{ slotProps.data.fullname }}</h3>
               <h4>{{ slotProps.data.specialist}}</h4>
               <h5 class="doctor-description">{{ slotProps.data.recommendation }} Recommendations</h5>

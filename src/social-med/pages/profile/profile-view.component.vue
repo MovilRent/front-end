@@ -3,7 +3,7 @@
     <div class="col-2">
       <pv-card class="card">
         <template #content>
-          <img :src="'../media/' + this.image" class="doctor-image"/>
+          <img :src=this.image class="doctor-image"/>
           <h3>{{ this.name + " " + this.lastName }}</h3>
           <h5> {{ this.email }}</h5>
           <h5>Speciality:</h5>
