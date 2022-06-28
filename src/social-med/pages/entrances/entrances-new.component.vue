@@ -130,7 +130,7 @@
     <pv-dialog
       v-model:visible="forumDialog"
       :style="{ width: '40vw' }"
-      header="Create entry"
+      header=""
       :modal="true"
       class="p-fluid"
     >
@@ -247,6 +247,7 @@
 import { FilterMatchMode } from "primevue/api";
 import { ForumApiService } from "../../services/forum-api.service";
 import { RatingApiService } from "../../services/rating-api.service";
+import { StorageService } from "../../../core/services/storage.service";
 
 export default {
   name: "entrances-new.component",
@@ -262,19 +263,33 @@ export default {
       vasl: {},
       submitted: false,
       forumsService: null,
+      storage: null,
       ratingService: null,
       fecha: null,
     };
   },
   created() {
     this.fecha = new Date();
+    this.storage = new StorageService();
     this.forumsService = new ForumApiService();
     this.ratingService = new RatingApiService();
-    this.forumsService.getByUserId(1).then((response) => {
+    this.forumsService.getByUserId(parseInt(this.storage.get("usuario"))).then((response) => {
       this.forums = response.data;
       this.forums.forEach((forum) => {
         this.ratingService.getByForumId(forum.id).then((response) => {
-          let promval = 0;
+          let sumval = 0;
+          this.vals = response.data;
+          if(this.vals.length == 0) {
+            forum.rating = 0
+          } else {
+            this.vals.forEach((rating) => {
+              sumval+=rating.rate;
+            });
+            forum.rating=sumval/this.vals.length;
+          }
+
+
+          /*let promval = 0;
           this.vals = response.data;
           if (this.vals.length === 0) {
             forum.rating = 0;
@@ -284,7 +299,7 @@ export default {
             });
             promval /= this.vals.length;
             forum.rating = promval.toFixed(2);
-          }
+          }*/
         });
       });
       console.log(this.forums);
@@ -297,13 +312,8 @@ export default {
         id: displayableForum.id,
         title: displayableForum.title,
         content: displayableForum.content,
-        date: (displayableForum.date =
-          this.fecha.getDate() +
-          "-" +
-          (this.fecha.getMonth() + 1) +
-          "-" +
-          this.fecha.getFullYear()),
-        userId: (displayableForum.userId = 1),
+        date: new Date(Date.now()),
+        userId: (displayableForum.userId = parseInt(this.storage.get("usuario"))),
       };
     },
     initFilters() {
@@ -328,7 +338,7 @@ export default {
     },
     saveForum() {
       this.submitted = true;
-      if (this.forum.title.trim() && this.forum.description.trim()) {
+      if (this.forum.title.trim() && this.forum.content.trim()) {
         if (this.forum.id) {
           this.forum = this.getStorableForum(this.forum);
           this.forumsService

@@ -166,6 +166,7 @@ import { FilterMatchMode } from "primevue/api";
 import { ForumApiService } from "../../services/forum-api.service";
 import { RatingApiService } from "../../services/rating-api.service";
 import { UserApiService } from "../../services/user-api.service";
+import { StorageService } from "../../../core/services/storage.service";
 
 export default {
   name: "entrances-new.component",
@@ -182,6 +183,7 @@ export default {
       submitted: false,
       forumsService: null,
       ratingService: null,
+      storage: null,
       usersService: null,
       fecha: null,
     };
@@ -191,14 +193,28 @@ export default {
     this.forumsService = new ForumApiService();
     this.ratingService = new RatingApiService();
     this.usersService = new UserApiService();
+    this.storage = new StorageService();
     this.forumsService.getAll().then((response) => {
       this.forums = response.data;
       this.forums.forEach((forum) => {
         this.usersService.getById(forum.userId).then((response) => {
-          forum.author = response.data.name + " " + response.data.lastname;
+          forum.author = response.data.name + " " + response.data.lastName;
         });
+        forum = this.getDisplayableForum(forum);
         this.ratingService.getByForumId(forum.id).then((response) => {
-          let promval = 0;
+
+          let sumval = 0;
+          this.vals = response.data;
+          if(this.vals.length == 0) {
+            forum.rating = 0
+          } else {
+            this.vals.forEach((rating) => {
+              sumval+=rating.rate;
+            });
+            forum.rating=sumval/this.vals.length;
+          }
+
+          /*let promval = 0;
           this.vals = response.data;
           if (this.vals.length == 0) {
             forum.rating = 0;
@@ -208,7 +224,7 @@ export default {
             });
             promval /= this.vals.length;
             forum.rating = promval.toFixed(2);
-          }
+          }*/
         });
       });
       console.log(this.forums);
@@ -221,14 +237,9 @@ export default {
         id: displayableForum.id,
         title: displayableForum.title,
         content: displayableForum.content,
-        date: (displayableForum.date =
-          this.fecha.getDate() +
-          "-" +
-          (this.fecha.getMonth() + 1) +
-          "-" +
-          this.fecha.getFullYear()),
-        userId: (displayableForum.userId = 1),
-        author: "Manuel Quispe Salazar",
+        date: new Date(new Date(Date.now())),
+        userId: (displayableForum.userId = parseInt(this.storage.get("usuario"))),
+        //author: "Manuel Quispe Salazar",
       };
     },
     initFilters() {
@@ -249,6 +260,7 @@ export default {
       this.submitted = false;
     },
     getDisplayableForum(forum) {
+
       return forum;
     },
     saveForum() {
@@ -271,9 +283,13 @@ export default {
             });
         } else {
           this.forum.id = 0;
+          this.forum.date=new Date();
           this.forum = this.getStorableForum(this.forum);
           this.forumsService.create(this.forum).then((response) => {
             this.forum = this.getDisplayableForum(response.data);
+            this.usersService.getById(this.forum.userId).then((response) => {
+              this.forum.author = response.data.name + " " + response.data.lastName;
+            });
             this.forums.push(this.forum);
             this.$toast.add({
               severity: "success",

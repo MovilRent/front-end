@@ -1,3 +1,4 @@
+
 <template>
   <pv-card class="card">
     <template #content>
@@ -27,6 +28,7 @@
     <pv-data-table :value="comments" responsiveLayout="scroll">
       <pv-column field="author" header="Author"></pv-column>
       <pv-column field="content" header="Comment" style="text-align: justify"/>
+      <pv-column field="date" header="Date" style="text-align: justify"/>
     </pv-data-table>
     </template>
   </pv-card>
@@ -102,7 +104,7 @@ export default {
       vals: {},
       promval: 0,
       commentDialog: false,
-      comments: {},
+      comments: [],
       comment: {},
       errors: {},
       isValDisabled: false,
@@ -134,7 +136,7 @@ export default {
   methods: {
     getEntryAuthor(id) {
       this.usersApi.getById(id).then((response) => {
-        this.author = response.data.name + " " + response.data.lastname;
+        this.author = response.data.name + " " + response.data.lastName;
       });
     },
     getCommentsToPost() {
@@ -144,7 +146,7 @@ export default {
           this.comments = response.data;
           this.comments.forEach((comment) => {
             this.usersApi.getById(comment.userId).then((response) => {
-              comment.author = response.data.name + " " + response.data.lastname;
+              comment.author = response.data.name + " " + response.data.lastName;
             });
           })
           console.log(response.data);
@@ -173,7 +175,7 @@ export default {
     },
     getAverageValoration() {
       this.ratingApi.getByForumId(this.$route.params.id).then((response) => {
-        this.promval = 0;
+        /*this.promval = 0;
         this.vals = response.data;
         if (this.vals.length !== 0) {
           this.vals.forEach((val) => {
@@ -181,8 +183,18 @@ export default {
           })
           this.promval /= this.vals.length;
           this.promval.toFixed(2);
+        }*/
+        let sumval = 0;
+        this.vals = response.data;
+        if(this.vals.length == 0) {
+          this.promval = 0
+        } else {
+          this.vals.forEach((rating) => {
+            sumval+=rating.rate;
+          });
+          this.promval=sumval/this.vals.length;
         }
-      })
+      });
       this.ratingApi.getByForumUserId(this.$route.params.id, 1).then((response) => {
         console.log(response)
         if (response.data.length > 0) {
@@ -199,14 +211,15 @@ export default {
       return {
         id: displayableComment.id,
         forumId: this.$route.params.id,
-        userId: (displayableComment.userId = 1),
+        userId: (displayableComment.userId = parseInt(this.storage.get("usuario"))),
         content: (displayableComment.content),
-        date: (displayableComment.date =
+        /*date: (displayableComment.date =
           this.fecha.getDate() +
           "-" +
           (this.fecha.getMonth() + 1) +
           "-" +
-          this.fecha.getFullYear()),
+          this.fecha.getFullYear()),*/
+        date: new Date(),
       };
 
     },
@@ -214,7 +227,7 @@ export default {
       return {
         id: displayableRating.id,
         forumId: this.$route.params.id.valueOf(),
-        userId: 1,
+        userId: parseInt(this.storage.get("usuario")),
         rating: this.val,
       };
     },
