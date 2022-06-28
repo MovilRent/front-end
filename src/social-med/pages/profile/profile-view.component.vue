@@ -4,16 +4,12 @@
       <pv-card class="card">
         <template #content>
           <img :src="'../media/' + this.image" class="doctor-image"/>
-          <h3>{{ this.name + " " + this.lastname }}</h3>
+          <h3>{{ this.name + " " + this.lastName }}</h3>
           <h5> {{ this.email }}</h5>
-          <h5>Phone number: </h5>
-          <h6>{{ this.phone }}</h6>
           <h5>Speciality:</h5>
           <h6>{{ this.specialist }}</h6>
-          <h5>Residence country:</h5>
-          <h6>{{ this.residence }}</h6>
           <h5>Work place:</h5>
-          <h6>{{ this.workplace }}</h6>
+          <h6>{{ this.workPlace }}</h6>
           <h4>{{this.cRecommendations}} Recommendations</h4>
           <template v-if="!yourprofile">
             <template v-if="recommended">
@@ -22,7 +18,6 @@
             <template v-else>
               <pv-button label="Recommend" @click="setRecommend" class="p-button-sm"/>
             </template>
-            <pv-button label="Send message" class="p-button-sm"/>
           </template>
           <template v-else>
               <pv-button label="Edit profile" @click="editProfile" class="p-button-sm"/>
@@ -123,12 +118,12 @@
             v-model="profile.name"
             required="true"
             :class="{ 'p-invalid': submitted && !profile.name }"
-            :style="'margin-top:1rem'"
+            class="mt-3"
             :autoResize="true"
             rows="1"
             cols="1"
           />
-          <label for="content" :style="'margin-top:0.50rem'">Name:</label>
+          <label for="content" class="mt-3">Name</label>
           <small class="p-error" v-if="submitted && !profile.name"
           >Name is required.</small>
         </span>
@@ -137,16 +132,16 @@
         <span class="p-float-label">
           <pv-textarea
             id="name"
-            v-model="profile.lastname"
+            v-model="profile.lastName"
             required="true"
-            :class="{ 'p-invalid': submitted && !profile.lastname }"
-            :style="'margin-top:1rem'"
+            :class="{ 'p-invalid': submitted && !profile.lastName }"
+            class="mt-3"
             :autoResize="true"
             rows="1"
             cols="1"
           />
-          <label for="content" :style="'margin-top:0.50rem'">Lastname:</label>
-          <small class="p-error" v-if="submitted && !profile.lastname"
+          <label for="content" class="mt-3">Lastname</label>
+          <small class="p-error" v-if="submitted && !profile.lastName"
           >Lastname is required.</small>
         </span>
       <div class="field">
@@ -155,28 +150,15 @@
             id="name"
             v-model="profile.email"
             required="false"
-            :style="'margin-top:1rem'"
+            class="mt-3"
             :autoResize="true"
             rows="1"
             cols="1"
           />
-          <label for="content" :style="'margin-top:0.50rem'">Email:</label>
+          <label for="content" class="mt-3">Email</label>
         </span>
       </div>
-      <div class="field">
-        <span class="p-float-label">
-          <pv-textarea
-            id="name"
-            v-model="profile.phone"
-            required="false"
-            :style="'margin-top:1rem'"
-            :autoResize="true"
-            rows="1"
-            cols="1"
-          />
-          <label for="content" :style="'margin-top:0.50rem'">Phone number:</label>
-        </span>
-      </div>
+
       <div class="field">
         <span class="p-float-label">
           <pv-textarea
@@ -184,12 +166,12 @@
             v-model="profile.specialist"
             required="true"
             :class="{ 'p-invalid': submitted && !profile.specialist }"
-            :style="'margin-top:1rem'"
+            class="mt-3"
             :autoResize="true"
             rows="1"
             cols="1"
           />
-          <label for="content" :style="'margin-top:0.50rem'">Specialist:</label>
+          <label for="content" class="mt-3">Specialist</label>
           <small class="p-error" v-if="submitted && !profile.specialist"
           >Specialist is required.</small>
         </span>
@@ -198,28 +180,14 @@
         <span class="p-float-label">
           <pv-textarea
             id="name"
-            v-model="profile.residence"
+            v-model="profile.workPlace"
             required="false"
-            :style="'margin-top:1rem'"
+            class="mt-3"
             :autoResize="true"
             rows="1"
             cols="1"
           />
-          <label for="content" :style="'margin-top:0.50rem'">Residence:</label>
-        </span>
-      </div>
-      <div class="field">
-        <span class="p-float-label">
-          <pv-textarea
-            id="name"
-            v-model="profile.workplace"
-            required="false"
-            :style="'margin-top:1rem'"
-            :autoResize="true"
-            rows="1"
-            cols="1"
-          />
-          <label for="content" :style="'margin-top:0.50rem'">Work place:</label>
+          <label for="content" class="mt-3">Work place</label>
         </span>
       </div>
       <div class="field">
@@ -229,12 +197,12 @@
             v-model="profile.biography"
             required="true"
             :class="{ 'p-invalid': submitted && !profile.biography }"
-            :style="'margin-top:1rem'"
+            class="mt-3"
             :autoResize="true"
             rows="5"
             cols="1"
           />
-          <label for="content" :style="'margin-top:0.50rem'">Biography:</label>
+          <label for="content" class="mt-3">Biography</label>
           <small class="p-error" v-if="submitted && !profile.biography"
           >Biography is required.</small>
         </span>
@@ -280,9 +248,9 @@ export default {
       submitted: false,
       editProfileDialog: false,
       name: "",
-      lastname: "",
+      lastName: "",
       email: "",
-      workplace: "",
+      workPlace: "",
       biography: "",
       specialist: "",
       residence: "",
@@ -294,7 +262,7 @@ export default {
     this.recommendationApiService = new RecommendationApiService();
     this.storage = new StorageService()
     this.countRecommendations();
-    if(this.storage.get("profile") === "1") this.yourprofile = true
+    if(this.storage.get("profile") === this.storage.get("usuario")) this.yourprofile = true
 
     this.forumsService = new ForumApiService();
     this.ratingService = new RatingApiService();
@@ -302,14 +270,26 @@ export default {
 
     this.setProfile();
 
-    this.forumsService.getByUserId(this.profile.id).then((response) => {
+    this.forumsService.getByUserId(parseInt(this.storage.get("profile"))).then((response) => {
       this.forums = response.data;
       this.forums.forEach((forum) => {
         this.usersService.getById(forum.userId).then((response) => {
-          forum.author = response.data.name + " " + response.data.lastname;
+          forum.author = response.data.name + " " + response.data.lastName;
         });
         this.ratingService.getByForumId(forum.id).then((response) => {
-          let promval = 0;
+
+          let sumval = 0;
+          this.vals = response.data;
+          if(this.vals.length == 0) {
+            forum.rating = 0
+          } else {
+            this.vals.forEach((rating) => {
+              sumval+=rating.rate;
+            });
+            forum.rating=sumval/this.vals.length;
+          }
+
+          /*let promval = 0;
           this.vals = response.data;
           if (this.vals.length === 0) {
             forum.rating = 0
@@ -319,7 +299,7 @@ export default {
             })
             promval /= this.vals.length;
             forum.rating = promval.toFixed(2);
-          }
+          }*/
         })
       })
       console.log(this.forums);
@@ -332,12 +312,12 @@ export default {
         this.profile = response.data
         this.name = response.data.name
         this.email = response.data.email
-        this.lastname = response.data.lastname
+        this.lastName = response.data.lastName
         this.biography = response.data.biography
         this.specialist = response.data.specialist
         this.residence = response.data.residence
         this.phone = response.data.phone
-        this.workplace = response.data.workplace
+        this.workPlace = response.data.workPlace
         this.image = response.data.image
       })
     },
@@ -383,17 +363,17 @@ export default {
     },
     updateProfile(){
       this.submitted = true;
-      if (this.profile.name.trim() && this.profile.lastname.trim() && this.profile.specialist.trim() && this.profile.biography.trim()) {
+      if (this.profile.name.trim() && this.profile.lastName.trim() && this.profile.specialist.trim() && this.profile.biography.trim()) {
         this.usersService.update(this.profile.id, this.profile).then((response) => {
           this.profile = response.data
           this.name = response.data.name
           this.email = response.data.email
-          this.lastname = response.data.lastname
+          this.lastName = response.data.lastName
           this.biography = response.data.biography
           this.specialist = response.data.specialist
           this.residence = response.data.residence
           this.phone = response.data.phone
-          this.workplace = response.data.workplace
+          this.workPlace = response.data.workPlace
           this.image = response.data.image
         })
         this.editProfileDialog = false;

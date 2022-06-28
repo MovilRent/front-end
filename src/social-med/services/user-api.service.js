@@ -20,6 +20,10 @@ export class UserApiService {
     return http.delete(`/users/${id}`);
   }
 
+  getByEmailAndPassword(email, password){
+    return http.get(`/users/=%${email}&&${password}`);
+  }
+
   findByName(name) {
     return http.get(`/users?name=${name}`);
   }
