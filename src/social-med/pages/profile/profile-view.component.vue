@@ -3,7 +3,7 @@
     <div class="col-2">
       <pv-card class="card">
         <template #content>
-          <img :src="'../media/' + this.image" class="doctor-image"/>
+          <img :src=this.image class="doctor-image"/>
           <h3>{{ this.name + " " + this.lastName }}</h3>
           <h5> {{ this.email }}</h5>
           <h5>Speciality:</h5>
@@ -273,6 +273,8 @@ export default {
     this.forumsService.getByUserId(parseInt(this.storage.get("profile"))).then((response) => {
       this.forums = response.data;
       this.forums.forEach((forum) => {
+        let fecha = new Date(forum.date)
+        forum.date = `${fecha.getDay()}-${fecha.getMonth()}-${fecha.getFullYear()}`
         this.usersService.getById(forum.userId).then((response) => {
           forum.author = response.data.name + " " + response.data.lastName;
         });

@@ -276,6 +276,8 @@ export default {
     this.forumsService.getByUserId(parseInt(this.storage.get("usuario"))).then((response) => {
       this.forums = response.data;
       this.forums.forEach((forum) => {
+        let fecha = new Date(forum.date)
+        forum.date = `${fecha.getDay()}-${fecha.getMonth()}-${fecha.getFullYear()}`
         this.ratingService.getByForumId(forum.id).then((response) => {
           let sumval = 0;
           this.vals = response.data;
@@ -359,6 +361,8 @@ export default {
           this.forum = this.getStorableForum(this.forum);
           this.forumsService.create(this.forum).then((response) => {
             this.forum = this.getDisplayableForum(response.data);
+            let fecha = new Date(this.forum.date)
+            this.forum.date = `${fecha.getDay()}-${fecha.getMonth()}-${fecha.getFullYear()}`
             this.forums.push(this.forum);
             this.$toast.add({
               severity: "success",
